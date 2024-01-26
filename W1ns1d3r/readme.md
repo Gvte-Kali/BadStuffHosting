@@ -34,3 +34,7 @@ This project is a BadUSB mix of some rubber ducky scripts
 - Need to open the file to put your Discord Webhook.
 - Put the file with your discord webhook into your Rubber Ducky or Flipper Zero.
 - Enjoy !
+
+
+## Releases
+- **Version [2.0] - 26/01/2024
