@@ -6,7 +6,7 @@ This project is a BadUSB mix of some rubber ducky scripts.
 
 ## Project Information
 
-- **Version:** [0.1]
+- **Version:** [2.0]
 
 - **Author:** [Gvte-kali](https://github.com/Gvte-Kali/BadStuffHosting)
 - **Credit:**
