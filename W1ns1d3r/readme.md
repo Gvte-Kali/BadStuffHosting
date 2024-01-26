@@ -2,8 +2,9 @@
 
 ## Description
 
-This project is a BadUSB mix of some rubber ducky scripts.
-What it does : 
+This project is a BadUSB mix of some rubber ducky scripts
+
+**What it does :** 
 - Get Antivirus software and version
 - Get the some User informations
 - Get some System informations
@@ -15,6 +16,7 @@ What it does :
 ## Project Information
 
 - **Version:** [2.0]
+- **Average Time :** 30 Secs
 - **Target:** Windows 10/11 (7/8 not tested)
 - **Supported Layout keyboard:** US/FR/DE
 - **Author:** [Gvte-kali](https://github.com/Gvte-Kali/BadStuffHosting)
@@ -30,5 +32,5 @@ What it does :
 ## How to use
 - Download (https://github.com/Gvte-Kali/BadStuffHosting/blob/main/W1ns1d3r/W1ns1d3r.txt)
 - Need to open the file to put your Discord Webhook.
-- Put the file with your discord webhook into your Flipper Zero
+- Put the file with your discord webhook into your Rubber Ducky or Flipper Zero.
 - Enjoy !
