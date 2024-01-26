@@ -37,4 +37,4 @@ This project is a BadUSB mix of some rubber ducky scripts
 
 
 ## Releases
-- **Version [2.0] - 26/01/2024
+- **Version [2.0]** - 26/01/2024
