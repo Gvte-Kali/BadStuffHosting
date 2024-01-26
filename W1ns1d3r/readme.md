@@ -38,3 +38,8 @@ This project is a BadUSB mix of some rubber ducky scripts
 
 ## Releases
 - **Version [2.0]** - 26/01/2024
+- **version [2.1]** - 27/01/2024
+    Changelog
+        - Changed the code to 2 payloads :
+            - Stage 1 = Web browser passowrds only
+            - Stage 2 = Anti-Spyware version, informations about user, computer, updates and wifi passwords
