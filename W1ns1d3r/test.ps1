@@ -23,12 +23,12 @@ $namepc = $env:computername
 $user = $env:UserName
 # Creates the files with the format i want
 $userInfo = "Computer Name : $namepc`r`nUser : $user`r`nDate : $date"
-# Writes the output of $Info1content to "Info1content.txt"
+# Writes the output of $userInfo to "userInfo.txt"
 $userInfo | Out-File -FilePath "C:\Temp\userInfo.txt" -Encoding utf8
 
 #2. Get Computer Informations
 #Create the file to store the info
-New-Item -Path "C:\Temp\ComputerInfo.txt" -ItemType File
+$computerInfo = Get-ComputerInfo | Out-String
 #Get info and then store it to the file
 Get-ComputerInfo | Out-File -FilePath "C:\Temp\ComputerInfo.txt" -Encoding utf8
 
