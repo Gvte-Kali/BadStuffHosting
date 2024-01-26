@@ -20,7 +20,7 @@ What it does :
 - **Credit:**
   - [![blobs0](https://img.shields.io/badge/blobs0-Ultimate%20Flipper%20Grabber-brightgreen)](https://github.com/blobs0/Ultimate-Flipper-Grabber)
   - [![I-am-jakoby](https://img.shields.io/badge/I--am--jakoby-Discord%20Webhooks%20Functions-blue)](https://github.com/I-am-jakoby)
-  - [![UNCOV3R3D](https://img.shields.io/badge/UNC0V3R3D)](https://github.com/UNC0V3R3D)
+  - [![UNCOV3R3D](https://img.shields.io/badge/UNCOV3R3D-Statut-orange)](https://github.com/UNC0V3R3D)
   - 7h30th3r0n3
   - moosehadley
 - **Target:** Windows 10/11 (7/8 not tested)
