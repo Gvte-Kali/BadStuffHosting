@@ -4,17 +4,6 @@
 
 This project is a BadUSB mix of some rubber ducky scripts.
 
-**What it does :** 
-- Get Antivirus software and version
-- Get the some User informations
-- Get some System informations
-- Get Wifi passwords
-- Get Web browser passwords
-- Uploads everything on a Discord webhook
-
-
-## Project Information
-
 - **Version:** [2.2]
 - **Average Time :** 30 Secs
 - **Target:** Windows 10/11 (7/8 not tested)
@@ -28,7 +17,36 @@ This project is a BadUSB mix of some rubber ducky scripts.
   - 7h30th3r0n3
   - moosehadley
 
+## Features 
 
+**W1ns1d3r_4dm1n:** 
+- Get administrative privileges on target if user is already admin.
+- Sets the working directory to C:\temp and adds an exception in Firewall.
+- The informations the script pulls :
+    - Stage 1 :
+        - Web browser passwords
+    - Stage 2 :
+        - Antivirus software and version
+        - User informations
+        - System informations
+        - Wifi passwords
+- Post everything in your discord webhook
+- Delete the C:\temp directory
+  
+**W1ns1d3r_n0_4dm1n:** 
+- Don't get the administrative privileges on target.
+- Sets the working directory to C:\temp.
+- The informations the script pulls :
+    - Stage 1 :
+        - Web browser passwords
+    - Stage 2 :
+        - Antivirus software and version
+        - User informations
+        - System informations
+        - Wifi passwords
+- Post everything in your discord webhook
+- Delete the C:\temp directory
+  
 ## How to use
 - Download the [.txt] file, put your webhook inside it. 
 - Put the modified file into your Rubber Ducky or Flipper Zero.
