@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is a BadUSB mix of some rubber ducky scripts
+This project is a BadUSB mix of some rubber ducky scripts.
 
 **What it does :** 
 - Get Antivirus software and version
@@ -15,7 +15,7 @@ This project is a BadUSB mix of some rubber ducky scripts
 
 ## Project Information
 
-- **Version:** [2.0]
+- **Version:** [2.2]
 - **Average Time :** 30 Secs
 - **Target:** Windows 10/11 (7/8 not tested)
 - **Supported Layout keyboard:** US/FR/DE
@@ -44,5 +44,8 @@ This project is a BadUSB mix of some rubber ducky scripts
     - Changed the code to 2 payloads:
       - **Stage 1:** Web browser passwords only
       - **Stage 2:** Anti-Spyware version, information about user, computer, updates, and WiFi passwords
-- **Version [2.2]** - *Currently in progress*
+- **Version [2.2]** - *27/01/2024*
+  - **Changelog:**
+    - Added the admin rights version of the badUSB
+- **Version [2.3]** - *Currently in progress
 
