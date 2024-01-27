@@ -30,9 +30,8 @@ This project is a BadUSB mix of some rubber ducky scripts.
 
 
 ## How to use
-- Download (https://github.com/Gvte-Kali/BadStuffHosting/blob/main/W1ns1d3r/W1ns1d3r.txt)
-- Need to open the file to put your Discord Webhook.
-- Put the file with your discord webhook into your Rubber Ducky or Flipper Zero.
+- Download the [.txt] file, put your webhook inside it. 
+- Put the modified file into your Rubber Ducky or Flipper Zero.
 - Enjoy !
 
 
