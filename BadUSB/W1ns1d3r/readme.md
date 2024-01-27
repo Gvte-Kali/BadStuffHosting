@@ -46,5 +46,8 @@ This project is a BadUSB mix of some rubber ducky scripts.
 - **Version [2.2]** - *27/01/2024*
   - **Changelog:**
     - Added the admin rights version of the badUSB
+    - Added the TempDir function to check if the C:\temp directory is already created.
+      - If C:\temp exists, simply change directory
+      - If C:\temp does not exist, create the directory and move into it
 - **Version [2.3]** - *Currently in progress*
 
