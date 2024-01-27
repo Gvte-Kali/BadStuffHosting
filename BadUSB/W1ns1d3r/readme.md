@@ -47,5 +47,5 @@ This project is a BadUSB mix of some rubber ducky scripts.
 - **Version [2.2]** - *27/01/2024*
   - **Changelog:**
     - Added the admin rights version of the badUSB
-- **Version [2.3]** - *Currently in progress
+- **Version [2.3]** - *Currently in progress*
 
