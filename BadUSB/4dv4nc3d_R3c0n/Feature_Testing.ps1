@@ -1,3 +1,4 @@
+<#
 # Function to handle the temporary directory
 function TempDir {
     # Check if the C:\temp directory exists
@@ -15,7 +16,7 @@ function TempDir {
         Set-Location -Path "C:\temp"
     }
 }
-
+#>
 # Function to delete the temporary directory
 function DelTempDir {
     cd C:\
