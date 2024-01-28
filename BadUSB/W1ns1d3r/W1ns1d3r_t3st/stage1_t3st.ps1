@@ -1,4 +1,4 @@
-## Function to handle the temporary directory
+# Function to handle the temporary directory
 function TempDir {
     # Check if the C:\temp directory exists
     if (-not (Test-Path -Path "C:\temp" -PathType Container)) {
