@@ -124,7 +124,7 @@ function DelTempDir {
 
 }
 
-#Call TempDir
+# Call TempDir
 TempDir
 
 # Call Exfiltration
