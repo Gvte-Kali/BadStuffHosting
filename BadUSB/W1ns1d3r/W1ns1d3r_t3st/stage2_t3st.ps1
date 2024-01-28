@@ -93,8 +93,9 @@ function SysInfo {
     $desktop = ([Environment]::GetFolderPath("Desktop"))
 
     # Get registry values
-    $ConsentPromptBehaviorAdmin_Value = Get-RegistryValue $Key $ConsentPromptBehaviorAdmin_Name 
-    $PromptOnSecureDesktop_Value = Get-RegistryValue $Key $PromptOnSecureDesktop_Name
+    $ConsentPromptBehaviorAdmin_Value = (Get-ItemProperty -LiteralPath "Registry::$Key" -Name $ConsentPromptBehaviorAdmin_Name).$ConsentPromptBehaviorAdmin_Name
+    $PromptOnSecureDesktop_Value = (Get-ItemProperty -LiteralPath "Registry::$Key" -Name $PromptOnSecureDesktop_Name).$PromptOnSecureDesktop_Name
+
 
     # Evaluate UAC settings
     If($ConsentPromptBehaviorAdmin_Value -Eq 0 -And $PromptOnSecureDesktop_Value -Eq 0){ $UAC = "Never notify" }
