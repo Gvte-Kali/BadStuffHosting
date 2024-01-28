@@ -165,15 +165,6 @@ function DelTempDir {
     if (Test-Path -Path "C:\temp" -PathType Container) {
         Remove-Item -Path "C:\temp" -Force -Recurse
         
-        # Delete run box history
-        reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
-
-        # Delete powershell history
-        Remove-Item (Get-PSreadlineOption).HistorySavePath
-
-        # Deletes contents of recycle bin
-        Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-
     }
 
 }
