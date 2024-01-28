@@ -97,6 +97,7 @@ function SysInfo {
     $PromptOnSecureDesktop_Value = (Get-ItemProperty -LiteralPath "Registry::$Key" -Name $PromptOnSecureDesktop_Name).$PromptOnSecureDesktop_Name
 
 
+
     # Evaluate UAC settings
     If($ConsentPromptBehaviorAdmin_Value -Eq 0 -And $PromptOnSecureDesktop_Value -Eq 0){ $UAC = "Never notify" }
     ElseIf($ConsentPromptBehaviorAdmin_Value -Eq 5 -And $PromptOnSecureDesktop_Value -Eq 0){ $UAC = "Notify me only when apps try to make changes to my computer (do not dim my desktop)" } 
