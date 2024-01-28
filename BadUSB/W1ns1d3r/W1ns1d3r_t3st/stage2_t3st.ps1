@@ -132,6 +132,3 @@ Exfiltration
 
 # Call DelTempDir
 DelTempDir
-
-#Debug : Waits for user input to close script
-Read-Host -Prompt "Appuie sur Entrée pour fermer le script."
