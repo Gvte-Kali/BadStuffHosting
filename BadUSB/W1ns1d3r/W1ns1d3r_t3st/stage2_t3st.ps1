@@ -21,7 +21,7 @@ function TempDir {
 }
 
 
-# MFunction to Upload to Discord
+#Function to Upload to Discord
 function Upload-Discord {
     [CmdletBinding()]
     param (
