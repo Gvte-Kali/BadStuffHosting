@@ -309,7 +309,7 @@ function NetworkInfo {
     } | select LocalAddress, RemoteAddress, State, AppliedSetting, OwningProcess, ProcessName | Sort-Object LocalAddress | Format-Table | Out-String -width 250 
 
     # Output to a text file
-    $HardwareInfoPath = Join-Path $env:TEMP "NetworkInfo.txt"
+    $networkInfoPath = Join-Path $env:TEMP "NetworkInfo.txt"
     @(
         "Geo-Location Information:",
         "    Latitude: $Lat",
@@ -325,10 +325,10 @@ function NetworkInfo {
         "$wifiProfiles",
         "Listeners / Active TCP Connections:",
         "$listener"
-    ) | Out-File -FilePath $HardwareInfoPath
+    ) | Out-File -FilePath $networkInfoPath
 
     # Return the output path
-    $HardwareInfoPath
+    $networkInfoPath
 }
 
 function HardwareInfo {
