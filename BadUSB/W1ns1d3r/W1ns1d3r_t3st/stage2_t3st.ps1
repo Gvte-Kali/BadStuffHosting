@@ -286,17 +286,6 @@ function NetworkInfo {
     # Get Network Interfaces
     $NetworkAdapters = Get-WmiObject Win32_NetworkAdapterConfiguration | where { $_.MACAddress -notlike $null } | select Index, Description, IPAddress, DefaultIPGateway, MACAddress | Format-Table Index, Description, IPAddress, DefaultIPGateway, MACAddress | Out-String -width 250
 
-    # Get WiFi profiles and passwords
-    $wifiProfiles = (netsh wlan show profiles) | Select-String "\:(.+)$" | % {
-        $name=$_.Matches.Groups[1].Value.Trim(); $_
-    } | % {
-        (netsh wlan show profile name="$name" key=clear) | Select-String "Key Content\W+\:(.+)$" | % {
-            $pass=$_.Matches.Groups[1].Value.Trim(); $_
-        } | % {
-            [PSCustomObject]@{ PROFILE_NAME=$name; PASSWORD=$pass }
-        } | Format-Table -AutoSize | Out-String
-    }
-
     # Get Listeners / ActiveTcpConnections
     $listener = Get-NetTCPConnection | select @{
         Name="LocalAddress";Expression={$_.LocalAddress + ":" + $_.LocalPort}
