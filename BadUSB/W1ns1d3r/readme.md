@@ -37,8 +37,6 @@ This project is a BadUSB mix of some rubber ducky scripts.
 - Don't get the administrative privileges on target.
 - Sets the working directory to C:\temp.
 - The informations the script pulls :
-    - Stage 1 :
-        - Web browser passwords
     - Stage 2 :
         - Antivirus software and version
         - Hardware informations
