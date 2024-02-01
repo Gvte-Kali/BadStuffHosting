@@ -91,4 +91,9 @@ This project is a BadUSB mix of some rubber ducky scripts.
       - Uploads the zip file to Discord
         
 - **Version [2.4]** - *currently in progress*
-
+    - To do :
+      - Try to go on DropBox or some Cloud-Based Storage with API --> Discord sometimes detects zip file as virus.
+      - Add the trash folder erasing
+      - Add the powershell history erasing
+      - Change versions to do : 1 - W1ns1d3r_f4st  |  2 - W1ns1d3r_St4gg3d  |  3 - W1ns1d3r_4dm1n
+      - On W1ns1d3r_4dm1n, try to add keylogger and reverse shell with persistence. ( metasploit meterpreter ? )
