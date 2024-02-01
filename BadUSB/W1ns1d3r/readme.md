@@ -68,7 +68,7 @@ This project is a BadUSB mix of some rubber ducky scripts.
       - If C:\temp exists, simply go to C:\temp
       - If C:\temp does not exist, create the directory and move into it
 - **Version [2.3]** - *01/02/2024*
-  -**Changelog:**
+  - **Changelog:**
     - Added function "*StorageAndTreeInfo*" :
       - Collects informations about hard drives
       - Does the command *tree $Env:userprofile /a /f* to get an idea of what's interesting into user's folder
