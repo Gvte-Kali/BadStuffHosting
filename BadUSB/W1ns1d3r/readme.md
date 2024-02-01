@@ -56,17 +56,20 @@ This project is a BadUSB mix of some rubber ducky scripts.
 # Releases
 
 - **Version [2.0]** - *26/01/2024*
+  
 - **Version [2.1]** - *27/01/2024*
   - **Changelog:**
     - Changed the code to 2 payloads:
       - **Stage 1:** Web browser passwords only
       - **Stage 2:** Anti-Spyware version, information about user, computer, updates, and WiFi passwords
+        
 - **Version [2.2]** - *27/01/2024*
   - **Changelog:**
     - Added the admin rights version of the badUSB
     - Added the TempDir function to check if the C:\temp directory is already created.
       - If C:\temp exists, simply go to C:\temp
       - If C:\temp does not exist, create the directory and move into it
+        
 - **Version [2.3]** - *01/02/2024*
   - **Changelog:**
     - Added function "*StorageAndTreeInfo*" :
@@ -88,5 +91,6 @@ This project is a BadUSB mix of some rubber ducky scripts.
     - Added function "*ZipAndUploadToDiscord*" :
       - Put all the content of "C:\temp" and zips it to "${username}_LOOT_${dateSansHeure}.zip"
       - Uploads the zip file to Discord
+        
 - **Version [2.4]** - *currently in progress*
 
