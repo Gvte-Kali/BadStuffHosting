@@ -257,7 +257,7 @@ function NetworkInfo {
     } | select LocalAddress, RemoteAddress, State, AppliedSetting, OwningProcess, ProcessName | Sort-Object LocalAddress | Format-Table | Out-String -width 250 
 
     # Output to a text file
-    $networkInfoPath = Join-Path $env:TEMP "n3tw0rk_1nf0.txt"
+    $networkInfoPath = Join-Path C:\temp "n3tw0rk_1nf0.txt"
     @(
         "Geo-Location Information:",
         "    Latitude: $Lat",
