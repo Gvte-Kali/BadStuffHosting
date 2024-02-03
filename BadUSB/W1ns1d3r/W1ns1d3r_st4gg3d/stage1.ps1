@@ -110,9 +110,6 @@ function Wait-FileCreation {
 # Call TempDir function
 TempDir
 
-# Call Get-Nirsoft function to download Nirsoft tools
-Get-Nirsoft
-
 # Attendre que le fichier soit créé
 if (Wait-FileCreation -Path $filePath) {
     # Le fichier a été créé, exécuter la commande
