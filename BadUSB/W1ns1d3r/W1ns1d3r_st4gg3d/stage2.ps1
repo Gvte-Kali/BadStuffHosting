@@ -110,7 +110,7 @@ function ZipFiles {
     Remove-Item -Path "C:\temp\7z" -Recurse -Force
     Remove-Item -Path "C:\temp\readme.txt" -Force
     Remove-Item -Path "C:\temp\wbpv.zip" -Force
-    Remove-Item -Path "C:\temp\WebBrowserPassView.cgf" -Force
+    Remove-Item -Path "C:\temp\WebBrowserPassView.cfg" -Force
     Remove-Item -Path "C:\temp\WebBrowserPassView.chm" -Force
     Remove-Item -Path "C:\temp\WebBrowserPassView.exe" -Force
     
