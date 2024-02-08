@@ -139,10 +139,10 @@ function UploadTrello {
     $attachmentUrl = "https://api.trello.com/1/cards/$cardId/attachments"
 
     # Charger le fichier zip
-    $fileContent = [System.IO.File]::ReadAllBytes($zipFilePath)
+    $fileContent = Get-Content $zipFilePath -Raw
 
     # Envoi de la requête POST avec le fichier zip comme pièce jointe
-    $response = Invoke-RestMethod -Uri $attachmentUrl -Method Post -InFile $zipFileName -ContentType 'multipart/form-data' -Headers @{
+    $response = Invoke-RestMethod -Uri $attachmentUrl -Method Post -InFile $zipFilePath -ContentType 'multipart/form-data' -Headers @{
         "key" = $key
         "token" = $token
     }
@@ -150,6 +150,7 @@ function UploadTrello {
     # Afficher la réponse
     $response
 }
+
 
 
 
