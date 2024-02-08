@@ -116,14 +116,27 @@ $data = @{
 # Convertir les données JSON en chaîne
 $jsonData = $data | ConvertTo-Json
 
-# Créer un objet FormData pour l'envoi de fichiers
-$formData = @{
-    "data" = $jsonData
-    "file" = Get-Item -Path $zipFilePath
+# Envoi de la requête POST pour créer la carte et récupérer son ID
+$response = Invoke-RestMethod -Uri $url -Method Post -ContentType 'application/json' -Body $jsonData -UseBasicParsing
+
+# Récupérer l'ID de la carte créée
+$cardId = $response.id
+
+# URL de l'API Trello pour ajouter une pièce jointe à la carte
+$attachmentUrl = "https://api.trello.com/1/cards/$cardId/attachments"
+
+# Charger le fichier zip
+$fileContent = [System.IO.File]::ReadAllBytes($zipFilePath)
+
+# Construire le corps de la requête
+$body = @{
+    "key" = $key
+    "token" = $token
+    "file" = $fileContent
 }
 
-# Envoi de la requête POST multipart/form-data avec Invoke-RestMethod
-$response = Invoke-RestMethod -Uri $url -Method Post -Form $formData -UseBasicParsing
+# Envoi de la requête POST pour ajouter le fichier zip comme pièce jointe à la carte
+$response = Invoke-WebRequest -Uri $attachmentUrl -Method Post -Body $body
 
 
 
