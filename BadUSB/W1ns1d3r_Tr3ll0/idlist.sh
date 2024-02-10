@@ -3,7 +3,7 @@
 # 1. Prompt the user for the Trello board URL
 read -p "Please enter your Trello board URL: " trelloUrl
 
-# 2. Extract the "O7mSeCJk" part from the entered URL
+# 2. Extract the "xxxxxxxx" part from the entered URL
 boardId=$(echo "$trelloUrl" | sed 's/.*\/b\/\([^/]*\)\/.*/\1/')
 
 # 3. Prompt the user for the Trello API key
