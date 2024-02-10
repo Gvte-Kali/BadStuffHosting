@@ -11,7 +11,9 @@ This project is a BadUSB mix of some rubber ducky scripts.
 - **Target:** Windows 10/11 (7/8 not tested)
 - **Supported Layout keyboard:** US/FR/DE
 - **Author:** [b1g_ph4rm4](https://github.com/Gvte-Kali/BadStuffHosting)
-*______________________________________________________________________________________________
+
+
+______________________________________________________________________________________________
 
  888      d888                             888          d8888                            d8888  
  888     d8888                             888         d8P888                           d8P888  
