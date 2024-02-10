@@ -1,4 +1,4 @@
-# W1ns1d3r BadUSB
+# W1ns1d3r_Tr3ll0 BadUSB
 
 ## Description
 
