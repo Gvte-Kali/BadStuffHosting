@@ -19,31 +19,11 @@ This project is a BadUSB mix of some rubber ducky scripts.
 
 ## Features 
 
-**W1ns1d3r_4dm1n:** 
-- Get administrative privileges on target if user is already admin.
-- Sets the working directory to C:\temp and adds an exception in Firewall.
-- The informations the script pulls :
-    - Stage 1 :
-        - Web browser passwords
-    - Stage 2 :
-        - Antivirus software and version
-        - User informations
-        - System informations
-        - Wifi passwords
-- Post everything in your discord webhook
-- Delete the C:\temp directory
-  
 **W1ns1d3r** 
-- Don't get the administrative privileges on target.
-- Sets the working directory to C:\temp.
-- The informations the script pulls :
-    - Stage 2 :
-        - Antivirus software and version
-        - Hardware informations
-        - System informations
-        - Wifi passwords
-- Post everything in your discord webhook
-- Delete the C:\temp directory
+- Uses Discord or Dropbox Webhook
+  
+**W1ns1d3r_Tr3ll0** 
+- Uses Trello API
   
 ## How to use
 - Download the [.txt] file, put your webhook inside it. 
