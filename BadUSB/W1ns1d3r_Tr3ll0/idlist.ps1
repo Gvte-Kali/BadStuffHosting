@@ -2,7 +2,7 @@
 Write-Host -NoNewline "Please enter your Trello board URL: "
 $trelloUrl = Read-Host
 
-# Extract the "O7mSeCJk" part from the entered URL
+# Extract the "xxxxxxxx" part from the entered URL
 $boardId = $trelloUrl -replace '.*\/b\/([^/]+)\/.*', '$1'
 
 # Prompt the user for the Trello API key
