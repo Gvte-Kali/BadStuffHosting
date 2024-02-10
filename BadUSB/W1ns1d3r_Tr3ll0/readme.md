@@ -50,7 +50,7 @@ ________________________________________________________________________________
 - Post everything in your discord webhook
 - Notes : The program works on the C:\temp directory and deletes it when the files are uploaded.
   
-**W1ns1d3r_F4st_Tr3ll0** 
+**W1ns1d3r_f4st_Tr3ll0** 
 - Don't get the administrative privileges on target.
 - Sets the working directory to C:\temp.
 - The informations the script pulls :
