@@ -67,6 +67,7 @@ ________________________________________________________________________________
   - **The ID of the list you want to post into --> Step 1.6**
   - **An API Key --> Step 1.4.3**
   - **A Token --> Step 1.4.5**
+  - **Host your file on internet --> Step 3**
 
 - **Setup Guide :**
   - **1 - Creating account and setup informations**
@@ -95,6 +96,7 @@ ________________________________________________________________________________
       - $idList = "THE_ID_LIST"
       - $key = "YOUR_API_KEY_FROM"
       - $token = "YOUR_TOKEN_FROM"
+
   - **3 - You need to host your file where it can be read in raw**
       - 3.1 - Easiest way, you can host it on github, and the, via the "RAW" button, you can view the raw file.
         - 3.1.1 - Replace the link to raw file with the link in the [.txt] file ( you can use shorturl to get a shorter link )
