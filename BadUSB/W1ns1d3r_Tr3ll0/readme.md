@@ -12,7 +12,7 @@ This project is a BadUSB mix of some rubber ducky scripts.
 - **Supported Layout keyboard:** US/FR/DE
 - **Author:** [b1g_ph4rm4](https://github.com/Gvte-Kali/BadStuffHosting)
 
-
+```
 ______________________________________________________________________________________________
 
  888      d888                             888          d8888                            d8888  
@@ -26,8 +26,9 @@ ________________________________________________________________________________
                      888          888                                                           
                 Y8b d88P          888                                                           
                  "Y88P"           888                                                           
- ______________________________________________________________________________________________*
-  
+ ______________________________________________________________________________________________
+```
+
 - **Credits:**
   - [![blobs0](https://img.shields.io/badge/blobs0-Ultimate%20Flipper%20Grabber-brightgreen)](https://github.com/blobs0/Ultimate-Flipper-Grabber)
   - [![I-am-jakoby](https://img.shields.io/badge/I--am--jakoby-Discord%20Webhooks%20Functions-blue)](https://github.com/I-am-jakoby)
