@@ -98,7 +98,6 @@ ________________________________________________________________________________
       - 2.2.3 - ```$token=''``` your Token **Step 1.4.5**
 
     - **3 - Put the modified [.txt] file into your Rubber Ducky or Flipper Zero**
-      - Instructions of 
 
     - **4 - Enjoy !**
 
