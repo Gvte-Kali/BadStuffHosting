@@ -518,4 +518,3 @@ Exfiltration
 
 # Call DelTempDir
 DelTempDir
-pause
