@@ -47,7 +47,7 @@ ________________________________________________________________________________
         - User informations
         - System informations
         - Wifi passwords
-- Post everything in your discord webhook
+- Post everything on your Trello webhook
 - Notes : The program works on the C:\temp directory and deletes it when the files are uploaded.
   
 **W1ns1d3r_f4st_Tr3ll0** 
@@ -59,7 +59,7 @@ ________________________________________________________________________________
         - Hardware informations
         - System informations
         - Wifi passwords
-- Post everything in your discord webhook
+- Post everything on your Trello webhook
 - Notes : The program works on the C:\temp directory and deletes it when the files are uploaded.
   
 ## How to use
