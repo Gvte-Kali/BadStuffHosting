@@ -50,6 +50,8 @@ function OpenNotepad {
         $notepad.Kill()
     }
 }
+}
+
 
 
 function CreateWarningSlideshow {
