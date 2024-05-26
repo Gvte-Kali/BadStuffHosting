@@ -58,11 +58,12 @@ function CreateWarningSlideshow {
         "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/4.jpg"
     )
 
-    # Télécharger les images dans le dossier "WARNING"
+    # Télécharger les images dans le dossier "WARNING" avec l'extension correcte
     $downloadedImages = @()
     foreach ($url in $imageURLs) {
         $filename = [System.IO.Path]::GetFileName($url)
-        $destinationPath = Join-Path $warningFolderPath $filename
+        $extension = [System.IO.Path]::GetExtension($url)
+        $destinationPath = Join-Path $warningFolderPath "$filename$extension"
         Invoke-WebRequest -Uri $url -OutFile $destinationPath
         $downloadedImages += $destinationPath
     }
