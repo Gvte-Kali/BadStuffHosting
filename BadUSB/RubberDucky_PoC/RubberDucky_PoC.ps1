@@ -115,6 +115,7 @@ public class Wallpaper {
         Start-Sleep -Seconds 2
     }
 }
+}
 
 
 # Ouvre un nouveau mail via Outlook
