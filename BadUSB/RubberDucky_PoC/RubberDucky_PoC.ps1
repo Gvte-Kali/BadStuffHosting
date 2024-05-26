@@ -104,8 +104,17 @@ function DownloadsTree {
     $desktopPath = [Environment]::GetFolderPath('Desktop')
     $outputFilePath = Join-Path $desktopPath "Confidential.txt"
 
-    # Exécuter la commande 'tree' et rediriger la sortie vers Confidential.txt
-    cmd.exe /c "tree /F /A `$downloadsPath > `$outputFilePath"
+    # Vérifier si le dossier Téléchargements existe
+    if (-not (Test-Path $downloadsPath)) {
+        Write-Host "Le dossier Téléchargements n'existe pas : $downloadsPath"
+        return
+    }
+
+    # Récupérer la liste des fichiers et des dossiers dans Téléchargements
+    $treeOutput = Get-ChildItem -Path $downloadsPath -Recurse | Format-Wide -Column 1 | Out-String
+
+    # Écrire la sortie dans Confidential.txt
+    Set-Content -Path $outputFilePath -Value $treeOutput
 
 }
 
