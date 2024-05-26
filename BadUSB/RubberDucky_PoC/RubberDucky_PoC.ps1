@@ -52,10 +52,10 @@ function CreateWarningSlideshow {
 
     # URLs des images pour le diaporama
     $imageURLs = @(
-        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/1.jpeg",
-        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/2.jpg",
-        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/3.jpg",
-        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/4.jpg"
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/1.jpeg",
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/2.jpg",
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/3.jpg",
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/4.jpg"
     )
 
     # Télécharger les images dans le dossier "WARNING" avec l'extension correcte
