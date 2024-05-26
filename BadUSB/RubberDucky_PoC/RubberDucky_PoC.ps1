@@ -1,7 +1,7 @@
 function Payload_Launch {
 
-    OpenNotepad
     CreateWarningSlideshow
+    OpenNotepad
 
 }
 
