@@ -3,6 +3,7 @@ function Payload_Launch {
     OpenNotepad
     DownloadsTree
     OutlookNewMail
+    FileShow
     CreateWarningSlideshow
 
 }
@@ -138,5 +139,42 @@ They don't know I am here :)
     Start-Sleep -Seconds 8
     $olApp.Quit()
 }
+
+function FileShow {
+    # Chemin du bureau
+    $desktopPath = [Environment]::GetFolderPath('Desktop')
+
+    # Créer 5 nouveaux dossiers et 5 nouveaux fichiers textes
+    1..5 | ForEach-Object {
+        # Nom du dossier et du fichier texte
+        $folderName = "Folder_$_"
+        $fileName = "File_$_"
+
+        # Chemin complet du dossier et du fichier texte
+        $folderPath = Join-Path $desktopPath $folderName
+        $filePath = Join-Path $desktopPath "$fileName.txt"
+
+        # Créer le dossier et le fichier texte
+        New-Item -Path $folderPath -ItemType Directory | Out-Null
+        New-Item -Path $filePath -ItemType File | Out-Null
+    }
+
+    # Attendre 5 secondes
+    Start-Sleep -Seconds 5
+
+    # Supprimer les dossiers et fichiers textes créés
+    1..5 | ForEach-Object {
+        $folderName = "Folder_$_"
+        $fileName = "File_$_.txt"
+
+        $folderPath = Join-Path $desktopPath $folderName
+        $filePath = Join-Path $desktopPath $fileName
+
+        Remove-Item -Path $folderPath -Recurse -Force
+        Remove-Item -Path $filePath -Force
+    }
+}
+
+
 
 Payload_Launch
