@@ -144,8 +144,8 @@ function FileShow {
     # Chemin du bureau
     $desktopPath = [Environment]::GetFolderPath('Desktop')
 
-    # Créer 5 nouveaux dossiers et 5 nouveaux fichiers textes
-    1..5 | ForEach-Object {
+    # Créer 10 nouveaux dossiers et 10 nouveaux fichiers textes
+    1..10 | ForEach-Object {
         # Nom du dossier et du fichier texte
         $folderName = "Folder_$_"
         $fileName = "File_$_"
