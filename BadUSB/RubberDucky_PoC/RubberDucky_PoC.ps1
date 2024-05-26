@@ -68,24 +68,40 @@ function CreateWarningSlideshow {
     }
 
     # Créer le fichier de configuration du diaporama avec un intervalle de 2 secondes pour chaque image
-$slideshowConfig = @"
+    $slideshowConfig = @"
 [Slideshow]
 Interval=2
 [Path]
 ${desktopPath}
 "@
 
-# Durée totale du diaporama en secondes (2 secondes par image, 4 images)
-$totalDuration = 2 * $imageURLs.Count  # 2 secondes par image * nombre d'images
+    $slideshowConfigPath = Join-Path $warningFolderPath "slideshow.ini"
+    Set-Content -Path $slideshowConfigPath -Value $slideshowConfig
 
-# Mettre en place le diaporama comme fond d'écran
-for ($i = 0; $i -lt (120 / $totalDuration); $i++) {  # Loop pendant 2 minutes (120 secondes)
-    foreach ($image in $downloadedImages) {
-        [Wallpaper]::SystemParametersInfo(0x0014, 0, $image, 0x0001 -bor 0x0002)
-        Start-Sleep -Seconds 2
+    # Mettre en place le diaporama comme fond d'écran
+    Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+
+public class Wallpaper {
+    [DllImport("user32.dll", CharSet=CharSet.Auto)]
+    public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+}
+"@
+
+    # Durée totale du diaporama en secondes (2 secondes par image, 4 images)
+    $totalDuration = 2 * $downloadedImages.Count  # 2 secondes par image * nombre d'images
+
+    # Loop pendant 2 minutes (120 secondes)
+    $endTime = [DateTime]::Now.AddMinutes(2)
+    while ([DateTime]::Now -lt $endTime) {
+        foreach ($image in $downloadedImages) {
+            [Wallpaper]::SystemParametersInfo(0x0014, 0, $image, 0x0001 -bor 0x0002)
+            Start-Sleep -Seconds 2
+        }
     }
 }
-}
+
 
 # Ouvre un nouveau mail via Outlook
 function OutlookNewMail {
