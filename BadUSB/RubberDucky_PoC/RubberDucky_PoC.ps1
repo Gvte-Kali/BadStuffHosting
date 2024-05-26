@@ -72,17 +72,6 @@ function CreateWarningSlideshow {
         $downloadedImages += $destinationPath
     }
 
-    # Créer le fichier de configuration du diaporama avec un intervalle de 2 secondes pour chaque image
-    $slideshowConfig = @"
-[Slideshow]
-Interval=2
-[Path]
-${desktopPath}
-"@
-
-    $slideshowConfigPath = Join-Path $warningFolderPath "slideshow.ini"
-    Set-Content -Path $slideshowConfigPath -Value $slideshowConfig
-
     # Mettre en place le diaporama comme fond d'écran
     Add-Type -TypeDefinition @"
 using System;
@@ -95,18 +84,18 @@ public class Wallpaper {
 "@
 
     # Durée totale du diaporama en secondes (2 secondes par image, 4 images)
-    $totalDuration = 2 * $downloadedImages.Count  # 2 secs per picture * pictures number
+    $displayDuration = 2  # 2 seconds per image
 
-    # Loop for 1 minute (60 secondes)
-    $endTime = [DateTime]::Now.AddMinutes(1)
+    # Loop pendant 8 secondes (8 seconds total)
+    $endTime = [DateTime]::Now.AddSeconds(8)
     while ([DateTime]::Now -lt $endTime) {
         foreach ($image in $downloadedImages) {
             [Wallpaper]::SystemParametersInfo(0x0014, 0, $image, 0x0001 -bor 0x0002)
-            Start-Sleep -Seconds 2
+            Start-Sleep -Seconds $displayDuration
         }
     }
 
-    # Putting original Wallpaper as wallpaper again
+    # Remettre le fond d'écran original
     [Wallpaper]::SystemParametersInfo(0x0014, 0, $backupWallpaperPath, 0x0001 -bor 0x0002)
 }
 
