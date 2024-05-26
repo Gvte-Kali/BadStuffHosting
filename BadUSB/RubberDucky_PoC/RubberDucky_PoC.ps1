@@ -97,24 +97,11 @@ public class Wallpaper {
 
 
 function DownloadsTree {
-    # Chemin du dossier Téléchargements
-    $downloadsPath = [Environment]::GetFolderPath('UserProfile') + "\Téléchargements"
+    # Exécuter la commande 'cd Téléchargements'
+    Set-Location ([Environment]::GetFolderPath('UserProfile') + "\Téléchargements")
 
-    # Chemin du fichier Confidential.txt sur le bureau
-    $desktopPath = [Environment]::GetFolderPath('Desktop')
-    $outputFilePath = Join-Path $desktopPath "Confidential.txt"
-
-    # Vérifier si le dossier Téléchargements existe
-    if (-not (Test-Path $downloadsPath)) {
-        Write-Host "Le dossier Téléchargements n'existe pas : $downloadsPath"
-        return
-    }
-
-    # Récupérer la liste des fichiers et des dossiers dans Téléchargements
-    $treeOutput = Get-ChildItem -Path $downloadsPath -Recurse | Format-Wide -Column 1 | Out-String
-
-    # Écrire la sortie dans Confidential.txt
-    Set-Content -Path $outputFilePath -Value $treeOutput
+    # Exécuter la commande 'tree' et rediriger la sortie vers Confidential.txt sur le bureau
+    tree | Out-File ([Environment]::GetFolderPath('Desktop') + "\Confidential.txt")
 
 }
 
