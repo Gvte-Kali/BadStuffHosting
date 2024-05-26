@@ -1,7 +1,7 @@
 function Payload_Launch {
 
     OpenNotepad
-    #CreateWarningSlideshow
+    CreateWarningSlideshow
 
 }
 
@@ -52,10 +52,10 @@ function CreateWarningSlideshow {
 
     # URLs des images pour le diaporama
     $imageURLs = @(
-        "https://wallpapergod.com/images/hd/hacker-1920X1080-wallpaper-hnae561v4cbp8cvu.jpeg",
-        "https://images3.alphacoders.com/853/85329.jpg",
-        "https://wallpapers.com/images/hd/hacking-background-bryw246r4lx5pyue.jpg",
-        "https://images.pexels.com/photos/97077/pexels-photo-97077.jpeg?cs=srgb&dl=pexels-negativespace-97077.jpg&fm=jpg"
+        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/1.jpeg",
+        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/2.jpg",
+        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/3.jpg",
+        "https://github.com/Gvte-Kali/BadStuffHosting/blob/main/BadUSB/RubberDucky_PoC/4.jpg"
     )
 
     # Télécharger les images dans le dossier "WARNING"
@@ -67,30 +67,24 @@ function CreateWarningSlideshow {
         $downloadedImages += $destinationPath
     }
 
-    # Créer le fichier de configuration du diaporama
-    $slideshowConfig = @"
+    # Créer le fichier de configuration du diaporama avec un intervalle de 2 secondes pour chaque image
+$slideshowConfig = @"
 [Slideshow]
 Interval=2
 [Path]
 ${desktopPath}
 "@
-    $slideshowConfigPath = Join-Path $warningFolderPath "slideshow.ini"
-    Set-Content -Path $slideshowConfigPath -Value $slideshowConfig
 
-    # Mettre en place le diaporama comme fond d'écran
-    Add-Type -TypeDefinition @"
-using System;
-using System.Runtime.InteropServices;
+# Durée totale du diaporama en secondes (2 secondes par image, 4 images)
+$totalDuration = 2 * $imageURLs.Count  # 2 secondes par image * nombre d'images
 
-public class Wallpaper {
-    [DllImport("user32.dll", CharSet=CharSet.Auto)]
-    public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-}
-"@
+# Mettre en place le diaporama comme fond d'écran
+for ($i = 0; $i -lt (120 / $totalDuration); $i++) {  # Loop pendant 2 minutes (120 secondes)
     foreach ($image in $downloadedImages) {
         [Wallpaper]::SystemParametersInfo(0x0014, 0, $image, 0x0001 -bor 0x0002)
         Start-Sleep -Seconds 2
     }
+}
 }
 
 # Ouvre un nouveau mail via Outlook
