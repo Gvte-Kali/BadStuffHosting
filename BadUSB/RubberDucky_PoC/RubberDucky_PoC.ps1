@@ -14,7 +14,14 @@ function OpenNotepad {
     $wshell = New-Object -ComObject wscript.shell
     $wshell.AppActivate('Notepad')
     Start-Sleep -Seconds 1
-    $wshell.SendKeys("Bonjour,`r`nVoici une demonstration de ce qu'une cle USB infectee peut faire :")
+    $wshell.SendKeys("
+ _                _            _ 
+| |              | |          | |
+| |__   __ _  ___| | _____  __| |
+| '_ \ / _` |/ __| |/ / _ \/ _` |
+| | | | (_| | (__|   <  __/ (_| |
+|_| |_|\__,_|\___|_|\_\___|\__,_|
+  `r`n")
     Start-Sleep -Seconds 5
 
     # Fermer le Bloc-notes directement via le processus
