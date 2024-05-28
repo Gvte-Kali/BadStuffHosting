@@ -109,6 +109,9 @@ public class Wallpaper {
     
     # Remettre le fond d'écran original
     [Wallpaper]::SystemParametersInfo(0x0014, 0, $backupWallpaperPath, 0x0001 -bor 0x0002)
+    
+    # Supprimer le dossier WARNING
+    Remove-Item -Path $warningFolderPath -Recurse -Force
 }
 
 
@@ -189,11 +192,6 @@ function DeleteTemp {
     $desktopPath = [Environment]::GetFolderPath('Desktop')
     $warningFolderPath = Join-Path $desktopPath "WARNING"
     $confidentialFilePath = Join-Path $desktopPath "Confidential.txt"
-
-    # Supprimer le dossier "WARNING" s'il existe
-    if (Test-Path $warningFolderPath) {
-        Remove-Item -Path $warningFolderPath -Recurse -Force
-    }
 
     # Supprimer le fichier "Confidential.txt" s'il existe
     if (Test-Path $confidentialFilePath) {
