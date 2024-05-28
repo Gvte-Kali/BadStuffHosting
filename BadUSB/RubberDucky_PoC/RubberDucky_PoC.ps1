@@ -37,6 +37,7 @@ function OpenNotepad {
 
 function OpenNotepadEnd {
     # Open Notepad
+    Start-Sleep -Seconds 1
     Start-Process notepad
     Start-Sleep -Seconds 2
     
