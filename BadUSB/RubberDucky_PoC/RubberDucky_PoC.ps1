@@ -175,17 +175,9 @@ function FileShow {
     # Attendre 5 secondes
     Start-Sleep -Seconds 5
 
-    # Supprimer les dossiers et fichiers textes créés
-    1..10 | ForEach-Object {
-        $folderName = "Folder_$_"
-        $fileName = "File_$_.txt"
-
-        $folderPath = Join-Path $desktopPath $folderName
-        $filePath = Join-Path $desktopPath $fileName
-
-        Remove-Item -Path $folderPath -Recurse -Force
-        Remove-Item -Path $filePath -Force
-    }
+    # Supprimer tous les dossiers commençant par "Folder_" et les fichiers commençant par "File_"
+    Get-ChildItem -Path $desktopPath -Filter "Folder_*" -Directory | Remove-Item -Recurse -Force
+    Get-ChildItem -Path $desktopPath -Filter "File_*.txt" -File | Remove-Item -Force
 }
 
 function DeleteTemp {
