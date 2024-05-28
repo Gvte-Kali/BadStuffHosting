@@ -6,8 +6,6 @@ function Payload_Launch {
     OutlookNewMail
     FileShow
     DeleteTemp
-    Start-Sleep -Seconds 1
-    CmdEnd
 
 }
 
@@ -200,31 +198,5 @@ function DeleteTemp {
     }
 }
 
-function CmdEnd {
-    # ASCII art
-    $art = @"
- ####### #     # #######          ####### #     # ######           ### 
-    #    #     # #                #       ##    # #     #          ### 
-    #    #     # #                #       # #   # #     #          ### 
-    #    ####### #####            #####   #  #  # #     #          ### 
-    #    #     # #                #       #   # # #     #              
-    #    #     # #                #       #    ## #     #          ### 
-    #    #     # #######          ####### #     # ######           ###
-"@
-
-    # Afficher l'ASCII art avec des retours à la ligne
-    Write-Host $art
-
-    # Attendre l'appui sur une touche pour fermer la fenêtre
-    Write-Host "Appuyez sur une touche pour fermer la fenêtre de commande..."
-    $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-
-    # Si la commande n'est pas affichée, créer un fichier texte sur le bureau
-    if (-not $host.Name) {
-        $desktopPath = [Environment]::GetFolderPath('Desktop')
-        $filePath = Join-Path $desktopPath "Cmd_Window_problem.txt"
-        Set-Content -Path $filePath -Value "Cmd window not displayed"
-    }
-}
 
 Payload_Launch
