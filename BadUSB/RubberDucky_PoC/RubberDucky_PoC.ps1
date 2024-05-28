@@ -6,7 +6,7 @@ function Payload_Launch {
     OutlookNewMail
     FileShow
     DeleteTemp
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 1
     CmdEnd
 
 }
@@ -19,13 +19,13 @@ function OpenNotepad {
     # Écrire le texte spécifié
     $wshell = New-Object -ComObject wscript.shell
     $wshell.AppActivate('Notepad')
-    $wshell.SendKeys("##     ##    ###     ######  ##    ## ######## ########  ")
-    $wshell.SendKeys("##     ##   ## ##   ##    ## ##   ##  ##       ##     ## ")
-    $wshell.SendKeys("##     ##  ##   ##  ##       ##  ##   ##       ##     ## ")
-    $wshell.SendKeys("######### ##     ## ##       #####    ######   ##     ## ")
-    $wshell.SendKeys("##     ## ######### ##       ##  ##   ##       ##     ## ")
-    $wshell.SendKeys("##     ## ##     ## ##    ## ##   ##  ##       ##     ## ")
-    $wshell.SendKeys("##     ## ##     ##  ######  ##    ## ######## ########  ")
+    $wshell.SendKeys("##     ##    ###     ######  ##    ## ######## ########`r`n")
+    $wshell.SendKeys("##     ##   ## ##   ##    ## ##   ##  ##       ##     ##`r`n")
+    $wshell.SendKeys("##     ##  ##   ##  ##       ##  ##   ##       ##     ##`r`n")
+    $wshell.SendKeys("######### ##     ## ##       #####    ######   ##     ##`r`n")
+    $wshell.SendKeys("##     ## ######### ##       ##  ##   ##       ##     ##`r`n")
+    $wshell.SendKeys("##     ## ##     ## ##    ## ##   ##  ##       ##     ##`r`n")
+    $wshell.SendKeys("##     ## ##     ##  ######  ##    ## ######## ########`r`n")
     Start-Sleep -Seconds 3
 
     # Fermer le Bloc-notes directement via le processus
@@ -201,13 +201,9 @@ function DeleteTemp {
 }
 
 function CmdEnd {
-    # Obtenir la largeur et la hauteur de la fenêtre de la console
-    $width = $host.UI.RawUI.WindowSize.Width
-    $height = $host.UI.RawUI.WindowSize.Height
-
     # ASCII art
     $art = @"
-    ####### #     # #######          ####### #     # ######           ### 
+ ####### #     # #######          ####### #     # ######           ### 
     #    #     # #                #       ##    # #     #          ### 
     #    #     # #                #       # #   # #     #          ### 
     #    ####### #####            #####   #  #  # #     #          ### 
@@ -216,14 +212,19 @@ function CmdEnd {
     #    #     # #######          ####### #     # ######           ###
 "@
 
-    # Afficher l'ASCII art
-    $lines = $art -split "`n"
-    $padding = " " * (($width - ($lines[0].Length + 1)) / 2)
-    $lines | ForEach-Object { Write-Host ($padding + $_) }
+    # Afficher l'ASCII art avec des retours à la ligne
+    Write-Host $art
 
     # Attendre l'appui sur une touche pour fermer la fenêtre
     Write-Host "Appuyez sur une touche pour fermer la fenêtre de commande..."
     $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+    # Si la commande n'est pas affichée, créer un fichier texte sur le bureau
+    if (-not $host.Name) {
+        $desktopPath = [Environment]::GetFolderPath('Desktop')
+        $filePath = Join-Path $desktopPath "Cmd_Window_problem.txt"
+        Set-Content -Path $filePath -Value "Cmd window not displayed"
+    }
 }
 
 Payload_Launch
