@@ -6,6 +6,7 @@ function Payload_Launch {
     OutlookNewMail
     FileShow
     DeleteTemp
+    OpenNotepadEnd
 
 }
 
@@ -33,6 +34,33 @@ function OpenNotepad {
         $notepad.Kill()
     }
 }
+
+function OpenNotepadEnd {
+    # Open Notepad
+    Start-Process notepad
+    Start-Sleep -Seconds 2
+    
+    # Writes the specified text
+    $wshell = New-Object -ComObject wscript.shell
+    $wshell.AppActivate('Notepad')
+    $wshell.SendKeys("
+######## ##     ## ########                   ######## ##    ## ########     
+   ##    ##     ## ##                         ##       ###   ## ##     ##    
+   ##    ##     ## ##                         ##       ####  ## ##     ##    
+   ##    ######### ######                     ######   ## ## ## ##     ##    
+   ##    ##     ## ##                         ##       ##  #### ##     ##    
+   ##    ##     ## ##                         ##       ##   ### ##     ##    
+   ##    ##     ## ########                   ######## ##    ## ########     
+                                                                             
+  `r`n")
+    Start-Sleep -Seconds 2
+    # Fermer le Bloc-notes directement via le processus
+    $notepad = Get-Process notepad -ErrorAction SilentlyContinue
+    if ($notepad) {
+        $notepad.Kill()
+    }
+}
+
 function CreateWarningSlideshow {
     # Prendre le nom d'utilisateur et le stocker
     $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
