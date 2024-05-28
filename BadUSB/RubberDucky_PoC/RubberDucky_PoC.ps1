@@ -5,6 +5,7 @@ function Payload_Launch {
     DownloadsTree
     OutlookNewMail
     FileShow
+    DeleteTemp
 
 }
 
@@ -108,12 +109,14 @@ public class Wallpaper {
 
 
 function DownloadsTree {
-    # Exécuter la commande 'cd Téléchargements'
-    Set-Location ([Environment]::GetFolderPath('UserProfile') + "\Téléchargements")
+    # Définir le chemin du dossier Téléchargements
+    $downloadsPath = ([Environment]::GetFolderPath('UserProfile') + "\Téléchargements")
 
-    # Exécuter la commande 'tree' et rediriger la sortie vers Confidential.txt sur le bureau
-    tree | Out-File ([Environment]::GetFolderPath('Desktop') + "\Confidential.txt")
+    # Changer de répertoire vers le dossier Téléchargements
+    Set-Location $downloadsPath
 
+    # Exécuter la commande 'tree' dans le dossier Téléchargements et rediriger la sortie vers Confidential.txt sur le bureau
+    tree $downloadsPath | Out-File ([Environment]::GetFolderPath('Desktop') + "\Confidential.txt")
 }
 
 function OutlookNewMail {
@@ -185,6 +188,21 @@ function FileShow {
     }
 }
 
+function DeleteTemp {
+    # Chemin du dossier "WARNING" sur le bureau
+    $desktopPath = [Environment]::GetFolderPath('Desktop')
+    $warningFolderPath = Join-Path $desktopPath "WARNING"
+    $confidentialFilePath = Join-Path $desktopPath "Confidential.txt"
 
+    # Supprimer le dossier "WARNING" s'il existe
+    if (Test-Path $warningFolderPath) {
+        Remove-Item -Path $warningFolderPath -Recurse -Force
+    }
+
+    # Supprimer le fichier "Confidential.txt" s'il existe
+    if (Test-Path $confidentialFilePath) {
+        Remove-Item -Path $confidentialFilePath -Force
+    }
+}
 
 Payload_Launch
