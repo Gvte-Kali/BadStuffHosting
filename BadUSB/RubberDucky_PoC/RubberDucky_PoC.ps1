@@ -176,7 +176,7 @@ function FileShow {
     Start-Sleep -Seconds 5
 
     # Supprimer les dossiers et fichiers textes créés
-    1..5 | ForEach-Object {
+    1..10 | ForEach-Object {
         $folderName = "Folder_$_"
         $fileName = "File_$_.txt"
 
