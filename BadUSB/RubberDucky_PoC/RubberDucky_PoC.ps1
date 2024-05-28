@@ -10,22 +10,24 @@ function Payload_Launch {
 }
 
 function OpenNotepad {
-    # ASCII art
-    $asciiArt = @"
-##     ##    ###     ######  ##    ## ######## ########        #### 
-##     ##   ## ##   ##    ## ##   ##  ##       ##     ##       #### 
-##     ##  ##   ##  ##       ##  ##   ##       ##     ##       #### 
-######### ##     ## ##       #####    ######   ##     ##        ##  
-##     ## ######### ##       ##  ##   ##       ##     ##            
-##     ## ##     ## ##    ## ##   ##  ##       ##     ##       #### 
-##     ## ##     ##  ######  ##    ## ######## ########        #### 
-"@
-
-    # Ouvrir Notepad et écrire l'ASCII art
+    # Open Notepad
     Start-Process notepad
+    Start-Sleep -Seconds 2
+    
+    # Writes the specified text
+    $wshell = New-Object -ComObject wscript.shell
+    $wshell.AppActivate('Notepad')
     Start-Sleep -Seconds 1
-    Add-Type -AssemblyName System.Windows.Forms
-    [System.Windows.Forms.SendKeys]::SendWait($asciiArt)
+    $wshell.SendKeys("
+##     ##    ###     ######  ##    ## ######## ########        ####
+##     ##   ## ##   ##    ## ##   ##  ##       ##     ##       ####
+##     ##  ##   ##  ##       ##  ##   ##       ##     ##       ####
+######### ##     ## ##       #####    ######   ##     ##        ## 
+##     ## ######### ##       ##  ##   ##       ##     ##            
+##     ## ##     ## ##    ## ##   ##  ##       ##     ##       ####
+##     ## ##     ##  ######  ##    ## ######## ########        ####
+  `r`n")
+    Start-Sleep -Seconds 3
 
     # Fermer le Bloc-notes directement via le processus
     $notepad = Get-Process notepad -ErrorAction SilentlyContinue
