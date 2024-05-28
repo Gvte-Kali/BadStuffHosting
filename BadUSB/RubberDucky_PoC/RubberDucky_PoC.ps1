@@ -11,23 +11,22 @@ function Payload_Launch {
 }
 
 function OpenNotepad {
-    # Open Notepad
+    # Ouvrir Notepad
     Start-Process notepad
     Start-Sleep -Seconds 2
     
-    # Writes the specified text
+    # Écrire le texte spécifié
     $wshell = New-Object -ComObject wscript.shell
     $wshell.AppActivate('Notepad')
-    $wshell.SendKeys("
-##     ##    ###     ######  ##    ## ######## ########  
-##     ##   ## ##   ##    ## ##   ##  ##       ##     ## 
-##     ##  ##   ##  ##       ##  ##   ##       ##     ## 
-######### ##     ## ##       #####    ######   ##     ## 
-##     ## ######### ##       ##  ##   ##       ##     ## 
-##     ## ##     ## ##    ## ##   ##  ##       ##     ## 
-##     ## ##     ##  ######  ##    ## ######## ########  
-  `r`n")
+    $wshell.SendKeys("##     ##    ###     ######  ##    ## ######## ########  `r`n")
+    $wshell.SendKeys("##     ##   ## ##   ##    ## ##   ##  ##       ##     ## `r`n")
+    $wshell.SendKeys("##     ##  ##   ##  ##       ##  ##   ##       ##     ## `r`n")
+    $wshell.SendKeys("######### ##     ## ##       #####    ######   ##     ## `r`n")
+    $wshell.SendKeys("##     ## ######### ##       ##  ##   ##       ##     ## `r`n")
+    $wshell.SendKeys("##     ## ##     ## ##    ## ##   ##  ##       ##     ## `r`n")
+    $wshell.SendKeys("##     ## ##     ##  ######  ##    ## ######## ########  `r`n")
     Start-Sleep -Seconds 3
+
     # Fermer le Bloc-notes directement via le processus
     $notepad = Get-Process notepad -ErrorAction SilentlyContinue
     if ($notepad) {
@@ -36,25 +35,23 @@ function OpenNotepad {
 }
 
 function OpenNotepadEnd {
-    # Open Notepad
+    # Attendre avant d'ouvrir Notepad
     Start-Sleep -Seconds 1
     Start-Process notepad
     Start-Sleep -Seconds 2
     
-    # Writes the specified text
+    # Écrire le texte spécifié
     $wshell = New-Object -ComObject wscript.shell
     $wshell.AppActivate('Notepad')
-    $wshell.SendKeys("
-######## ##     ## ########                   ######## ##    ## ########     
-   ##    ##     ## ##                         ##       ###   ## ##     ##    
-   ##    ##     ## ##                         ##       ####  ## ##     ##    
-   ##    ######### ######                     ######   ## ## ## ##     ##    
-   ##    ##     ## ##                         ##       ##  #### ##     ##    
-   ##    ##     ## ##                         ##       ##   ### ##     ##    
-   ##    ##     ## ########                   ######## ##    ## ########     
-                                                                             
-  `r`n")
+    $wshell.SendKeys("######## ##     ## ########                   ######## ##    ## ########     `r`n")
+    $wshell.SendKeys("   ##    ##     ## ##                         ##       ###   ## ##     ##    `r`n")
+    $wshell.SendKeys("   ##    ##     ## ##                         ##       ####  ## ##     ##    `r`n")
+    $wshell.SendKeys("   ##    ######### ######                     ######   ## ## ## ##     ##    `r`n")
+    $wshell.SendKeys("   ##    ##     ## ##                         ##       ##  #### ##     ##    `r`n")
+    $wshell.SendKeys("   ##    ##     ## ##                         ##       ##   ### ##     ##    `r`n")
+    $wshell.SendKeys("   ##    ##     ## ########                   ######## ##    ## ########     `r`n")
     Start-Sleep -Seconds 2
+
     # Fermer le Bloc-notes directement via le processus
     $notepad = Get-Process notepad -ErrorAction SilentlyContinue
     if ($notepad) {
