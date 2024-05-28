@@ -6,8 +6,8 @@ function Payload_Launch {
     OutlookNewMail
     FileShow
     DeleteTemp
-    Start-Sleep -Seconds 3
-    OpenNotepadEnd
+    Start-Sleep -Seconds 2
+    CmdEnd
 
 }
 
@@ -19,13 +19,13 @@ function OpenNotepad {
     # Écrire le texte spécifié
     $wshell = New-Object -ComObject wscript.shell
     $wshell.AppActivate('Notepad')
-    $wshell.SendKeys("##     ##    ###     ######  ##    ## ######## ########  `r`n")
-    $wshell.SendKeys("##     ##   ## ##   ##    ## ##   ##  ##       ##     ## `r`n")
-    $wshell.SendKeys("##     ##  ##   ##  ##       ##  ##   ##       ##     ## `r`n")
-    $wshell.SendKeys("######### ##     ## ##       #####    ######   ##     ## `r`n")
-    $wshell.SendKeys("##     ## ######### ##       ##  ##   ##       ##     ## `r`n")
-    $wshell.SendKeys("##     ## ##     ## ##    ## ##   ##  ##       ##     ## `r`n")
-    $wshell.SendKeys("##     ## ##     ##  ######  ##    ## ######## ########  `r`n")
+    $wshell.SendKeys("##     ##    ###     ######  ##    ## ######## ########  ")
+    $wshell.SendKeys("##     ##   ## ##   ##    ## ##   ##  ##       ##     ## ")
+    $wshell.SendKeys("##     ##  ##   ##  ##       ##  ##   ##       ##     ## ")
+    $wshell.SendKeys("######### ##     ## ##       #####    ######   ##     ## ")
+    $wshell.SendKeys("##     ## ######### ##       ##  ##   ##       ##     ## ")
+    $wshell.SendKeys("##     ## ##     ## ##    ## ##   ##  ##       ##     ## ")
+    $wshell.SendKeys("##     ## ##     ##  ######  ##    ## ######## ########  ")
     Start-Sleep -Seconds 3
 
     # Fermer le Bloc-notes directement via le processus
@@ -35,45 +35,6 @@ function OpenNotepad {
     }
 }
 
-function OpenNotepadEnd {
-    # Attendre avant d'ouvrir Notepad
-    Start-Sleep -Seconds 1
-    Start-Process notepad
-    Start-Sleep -Seconds 2
-    
-    # Écrire le texte spécifié
-    $wshell = New-Object -ComObject wscript.shell
-    $wshell.AppActivate('Notepad')
-    if ($wshell.AppActivate('Notepad')) {
-        $wshell.SendKeys("######## ##     ## ########                   ######## ##    ## ########     `r`n")
-        $wshell.SendKeys("   ##    ##     ## ##                         ##       ###   ## ##     ##    `r`n")
-        $wshell.SendKeys("   ##    ##     ## ##                         ##       ####  ## ##     ##    `r`n")
-        $wshell.SendKeys("   ##    ######### ######                     ######   ## ## ## ##     ##    `r`n")
-        $wshell.SendKeys("   ##    ##     ## ##                         ##       ##  #### ##     ##    `r`n")
-        $wshell.SendKeys("   ##    ##     ## ##                         ##       ##   ### ##     ##    `r`n")
-        $wshell.SendKeys("   ##    ##     ## ########                   ######## ##    ## ########     `r`n")
-    } else {
-        Start-Sleep -Seconds 2  # Attendre avant de retenter
-        if ($wshell.AppActivate('Notepad')) {
-            $wshell.SendKeys("######## ##     ## ########                   ######## ##    ## ########     `r`n")
-            $wshell.SendKeys("   ##    ##     ## ##                         ##       ###   ## ##     ##    `r`n")
-            $wshell.SendKeys("   ##    ##     ## ##                         ##       ####  ## ##     ##    `r`n")
-            $wshell.SendKeys("   ##    ######### ######                     ######   ## ## ## ##     ##    `r`n")
-            $wshell.SendKeys("   ##    ##     ## ##                         ##       ##  #### ##     ##    `r`n")
-            $wshell.SendKeys("   ##    ##     ## ##                         ##       ##   ### ##     ##    `r`n")
-            $wshell.SendKeys("   ##    ##     ## ########                   ######## ##    ## ########     `r`n")
-        } else {
-            Write-Host "Unable to activate Notepad window"
-        }
-    }
-    Start-Sleep -Seconds 2
-
-    # Fermer le Bloc-notes directement via le processus
-    $notepad = Get-Process notepad -ErrorAction SilentlyContinue
-    if ($notepad) {
-        $notepad.Kill()
-    }
-}
 
 function CreateWarningSlideshow {
     # Prendre le nom d'utilisateur et le stocker
@@ -237,6 +198,32 @@ function DeleteTemp {
     if (Test-Path $confidentialFilePath) {
         Remove-Item -Path $confidentialFilePath -Force
     }
+}
+
+function CmdEnd {
+    # Obtenir la largeur et la hauteur de la fenêtre de la console
+    $width = $host.UI.RawUI.WindowSize.Width
+    $height = $host.UI.RawUI.WindowSize.Height
+
+    # ASCII art
+    $art = @"
+    ####### #     # #######          ####### #     # ######           ### 
+    #    #     # #                #       ##    # #     #          ### 
+    #    #     # #                #       # #   # #     #          ### 
+    #    ####### #####            #####   #  #  # #     #          ### 
+    #    #     # #                #       #   # # #     #              
+    #    #     # #                #       #    ## #     #          ### 
+    #    #     # #######          ####### #     # ######           ###
+"@
+
+    # Afficher l'ASCII art
+    $lines = $art -split "`n"
+    $padding = " " * (($width - ($lines[0].Length + 1)) / 2)
+    $lines | ForEach-Object { Write-Host ($padding + $_) }
+
+    # Attendre l'appui sur une touche pour fermer la fenêtre
+    Write-Host "Appuyez sur une touche pour fermer la fenêtre de commande..."
+    $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 
 Payload_Launch
