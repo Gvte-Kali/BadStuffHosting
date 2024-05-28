@@ -6,6 +6,7 @@ function Payload_Launch {
     OutlookNewMail
     FileShow
     DeleteTemp
+    Start-Sleep -Seconds 3
     OpenNotepadEnd
 
 }
@@ -43,13 +44,28 @@ function OpenNotepadEnd {
     # Écrire le texte spécifié
     $wshell = New-Object -ComObject wscript.shell
     $wshell.AppActivate('Notepad')
-    $wshell.SendKeys("######## ##     ## ########                   ######## ##    ## ########     `r`n")
-    $wshell.SendKeys("   ##    ##     ## ##                         ##       ###   ## ##     ##    `r`n")
-    $wshell.SendKeys("   ##    ##     ## ##                         ##       ####  ## ##     ##    `r`n")
-    $wshell.SendKeys("   ##    ######### ######                     ######   ## ## ## ##     ##    `r`n")
-    $wshell.SendKeys("   ##    ##     ## ##                         ##       ##  #### ##     ##    `r`n")
-    $wshell.SendKeys("   ##    ##     ## ##                         ##       ##   ### ##     ##    `r`n")
-    $wshell.SendKeys("   ##    ##     ## ########                   ######## ##    ## ########     `r`n")
+    if ($wshell.AppActivate('Notepad')) {
+        $wshell.SendKeys("######## ##     ## ########                   ######## ##    ## ########     `r`n")
+        $wshell.SendKeys("   ##    ##     ## ##                         ##       ###   ## ##     ##    `r`n")
+        $wshell.SendKeys("   ##    ##     ## ##                         ##       ####  ## ##     ##    `r`n")
+        $wshell.SendKeys("   ##    ######### ######                     ######   ## ## ## ##     ##    `r`n")
+        $wshell.SendKeys("   ##    ##     ## ##                         ##       ##  #### ##     ##    `r`n")
+        $wshell.SendKeys("   ##    ##     ## ##                         ##       ##   ### ##     ##    `r`n")
+        $wshell.SendKeys("   ##    ##     ## ########                   ######## ##    ## ########     `r`n")
+    } else {
+        Start-Sleep -Seconds 2  # Attendre avant de retenter
+        if ($wshell.AppActivate('Notepad')) {
+            $wshell.SendKeys("######## ##     ## ########                   ######## ##    ## ########     `r`n")
+            $wshell.SendKeys("   ##    ##     ## ##                         ##       ###   ## ##     ##    `r`n")
+            $wshell.SendKeys("   ##    ##     ## ##                         ##       ####  ## ##     ##    `r`n")
+            $wshell.SendKeys("   ##    ######### ######                     ######   ## ## ## ##     ##    `r`n")
+            $wshell.SendKeys("   ##    ##     ## ##                         ##       ##  #### ##     ##    `r`n")
+            $wshell.SendKeys("   ##    ##     ## ##                         ##       ##   ### ##     ##    `r`n")
+            $wshell.SendKeys("   ##    ##     ## ########                   ######## ##    ## ########     `r`n")
+        } else {
+            Write-Host "Unable to activate Notepad window"
+        }
+    }
     Start-Sleep -Seconds 2
 
     # Fermer le Bloc-notes directement via le processus
