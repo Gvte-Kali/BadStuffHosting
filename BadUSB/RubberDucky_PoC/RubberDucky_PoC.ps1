@@ -112,6 +112,8 @@ public class Wallpaper {
     
     # Supprimer le dossier WARNING
     Remove-Item -Path $warningFolderPath -Recurse -Force
+
+    Start-Sleep -Seconds 1
 }
 
 
