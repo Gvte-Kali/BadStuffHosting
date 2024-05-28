@@ -92,7 +92,7 @@ public class Wallpaper {
     
     # Durée totale du diaporama en secondes (0.5 secondes par image)
     $interval = 0.5
-    $totalDuration = 8
+    $totalDuration = 5
     $iterations = [Math]::Ceiling($totalDuration / $interval)
     
     # Loop for the total duration
