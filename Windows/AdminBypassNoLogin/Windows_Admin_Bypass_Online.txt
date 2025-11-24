@@ -1,6 +1,28 @@
 REM ================================================================
 REM Flipper Zero BadUSB - Narrator Exploit (Multi-method + Simple Cleanup)
 REM ================================================================
+REM author : b1g_ph4rm4                  |
+REM _____________________________________|
+REM             ,        ,               |
+REM            /(        )`              |
+REM            \ \___   / |              |
+REM            /- _  `-/  '              |
+REM           (/\/ \ \   /\              |
+REM           / /   | `                  |
+REM           O O   ) /    |             |
+REM           `-^--'`<     '             |
+REM          (_.)  _  )   /              |
+REM           `.___/`    /               |
+REM             `-----' /                |
+REM <----.     __ / __   \               |
+REM <----|====O)))==) \) /====           |
+REM <----'    `--' `.__,' \              |
+REM             |        |               |
+REM              \       /               |
+REM        ______( (_  / \______         |
+REM      ,'  ,-----'   |        \        |
+REM      `--{__________)        \/       |
+REM _____________________________________|
 
 DELAY 2000
 STRING cls
@@ -76,3 +98,4 @@ DELAY 100
 REM Execute the wrapper
 STRING C:\run.bat
 ENTER
+
