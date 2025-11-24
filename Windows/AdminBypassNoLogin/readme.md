@@ -1,5 +1,8 @@
 # Windows Password Reset via Narrator Exploit
 
+*** TXT FILE IS BADUSB FILE ***
+--> Automatic use for Phase 3 and 4
+
 **Phase 1: Access Recovery Mode**
 
 From the Windows login screen:
@@ -117,5 +120,6 @@ If "Access Denied" errors:
 
 You need to be in recovery Command Prompt (not logged in Windows)
 Try disabling Windows Defender/AV from recovery mode first
+
 
 
