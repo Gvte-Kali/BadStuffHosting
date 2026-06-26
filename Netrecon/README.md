@@ -24,34 +24,47 @@
 
 ## 📦 Installation
 
-### One-liner (Debian/Parrot OS/Kali)
-\`\`\`bash
-sudo apt update && sudo apt install -y tcpdump arp-scan nmap bind9-host && wget https://raw.githubusercontent.com/kali-gvte/netrecon/main/netrecon.sh && chmod +x netrecon.sh
-\`\`\`
+### Automatic Installation (Recommended)
+
+Run the following command to automatically install NetRecon and add it to your PATH:
+
+```bash
+wget https://raw.githubusercontent.com/Gvte-Kali/BadStuffHosting/main/Netrecon/install.sh && chmod +x install.sh && sudo ./install.sh
+```
 
 ### Manual Installation
+
 1. Install dependencies:
-   \`\`\`bash
+   ```bash
    sudo apt update
    sudo apt install -y tcpdump arp-scan nmap bind9-host
-   \`\`\`
-2. Download the script:
-   \`\`\`bash
-   wget https://raw.githubusercontent.com/kali-gvte/netrecon/main/netrecon.sh
-   \`\`\`
-3. Make it executable:
-   \`\`\`bash
+   ```
+
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/Gvte-Kali/BadStuffHosting.git
+   cd BadStuffHosting/Netrecon
+   ```
+
+3. Make the script executable:
+   ```bash
    chmod +x netrecon.sh
-   \`\`\`
+   ```
+
+4. Add to your PATH (optional):
+   ```bash
+   echo 'export PATH="$PATH:/path/to/BadStuffHosting/Netrecon"' >> ~/.bashrc
+   source ~/.bashrc
+   ```
 
 ---
 
 ## 🚀 Usage
 
 ### Basic Usage
-\`\`\`bash
-sudo ./netrecon.sh
-\`\`\`
+```bash
+sudo netrecon.sh
+```
 
 ### Workflow
 1. **Select Interface**: Choose the network interface to use (e.g., `eth0`).
@@ -105,12 +118,12 @@ sudo ./netrecon.sh
 
 ### Connection drops after running?
 The script restores your original MAC on exit. If issues persist, manually restart your network interface:
-\`\`\`bash
+```bash
 sudo ip link set <interface> down && sudo ip link set <interface> up
-\`\`\`
+```
 
 ### Missing dependencies?
-Run the one-liner installation command above.
+Run the automatic installation script above.
 
 ---
 
@@ -132,3 +145,4 @@ Pull requests are welcome! Focus on:
 - **Tested on Parrot OS**, but should work on most Linux distributions.
 - **Requires root privileges** to change MAC addresses and capture traffic.
 - For **best results on a switch**, use **ARP scan mode (A)** or **MAC spoof mode (S)**.
+- **Repository**: [NetRecon on GitHub](https://github.com/Gvte-Kali/BadStuffHosting/tree/main/Netrecon)
